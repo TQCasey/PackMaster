@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Texas Hold\'em</string>
+    <string name="facebook_app_id" translatable="false">247337319380989</string>
+    <string name="facebook_ads_id" translatable="false">247337319380989</string>
+    <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string> 
+    <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string> 
+    <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6vG9yizD36+4a4RMJ89HrY86MuV0ygPE8q2BMfyobJ7dCv5gwGJyQqWltp1giFlOAWTyS2IlJxewyk0+UXji8xC0k9kAToj5bXt2sLs/fbvyj684/WJUs8UvthWBWGwYwkEL29nuqbtrFHxP4Bp2RnOq8gFRfXdL2spaD2Pm6xQte/NpnSxHNGTFHmX3RR4Wg3VKB8oG4702ZGUt5y3W+2uwKwYqIdHdcK5uZfYF3uYhC464So/zroHGqj1NdQo0kWQS5/CyH2GBgZL/jRoPlCkCyGCvfzPRJ1D5u9bplrJhoUzcjPPL1MYtUoS6f9pKB56lhLIMT/JMYdjtq9oCZQIDAQAB</string> 
+    <string name="SENDER_ID" translatable="false">887692418916</string>
+    <string name="ACTION_ON_REGISTERED" translatable="false">com.zhijian.texas3.ON_REGISTERED</string>
+    <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+    <string name="admob_unit_id" translatable="false">ca-app-pub-7908513253977535/6321587738</string>
+    <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~3108266885</string>
+    <string name="help">Bantuan</string>
+    <string name="string_help_text">Jika ingin buka, silahkan membuka otoritas dengan mengklik pengaturan lalu otoritas. Klik 2x untuk kembali</string>
+    <string name="quit">Pengaturan</string>
+    <string name="settings">Keluar</string>
+    <string name="fb_instream_place_id">247337319380989_417757655672287</string>
+    <string name="fb_reward_place_id">247337319380989_417757089005677</string>
+    <string name="adjust_appid" translatable="false">c6c8kv1idam8</string>
+    <string name="tradPlus_adUnitId" translatable="false">DDB48D25A64FCE419DC007212BE6B5D0</string>
+    <string name="tradPlus_appId" translatable="false">B8D123EDE2F235B37591367DADD1BA2F</string>
+
+    <string name="disable_tradeplus" translatable="false">no</string>
+</resources>

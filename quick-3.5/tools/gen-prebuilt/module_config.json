@@ -1,0 +1,21 @@
+{
+    "freetype" : {
+        "is_compiled" : false,
+        "from_dir" : "external/freetype2",
+        "target_dir" : "external/freetype2",
+        "android_lib_name" : "cocos_freetype2_static",
+        "is_optional" : false,
+        "exclude" : [
+            "include/ios/*",
+            "include/linux/*",
+            "include/wp8/*",
+            "include/winrt/*",
+            "include/mac/*",
+            "prebuilt/ios/*",
+            "prebuilt/linux/*",
+            "prebuilt/wp8/*",
+            "prebuilt/winrt/*",
+            "prebuilt/mac/*"
+        ]
+    }
+}

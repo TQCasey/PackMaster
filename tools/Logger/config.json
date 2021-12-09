@@ -1,0 +1,9 @@
+{
+	"base_dir" : "D:/client/domino/client/",
+	"sub_dirs" : [
+		"base/src",
+		"base/res",
+		"hall/src",
+		"hall/res"
+	]
+}

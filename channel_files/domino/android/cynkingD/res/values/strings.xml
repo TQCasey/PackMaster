@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name" translatable="false">Domino 99</string>
+  <!-- cynking1:1051333554898444, youmi:1108604572519476  cynking2:1543672592605437 主版本1，click1，click2 是一个，cynking-->
+  <string name="facebook_app_id" translatable="false">1051333554898444 </string>
+  <string name="facebook_ads_id" translatable="false">1051333554898444 </string>
+  <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string>
+  <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string>
+  <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAthV0SB9jlg8ju4Op06/lQz5tlaHNmHASpkBJ7Kg3YKozOg/c/+1j5Sggiu9Pf92vMVxQCiBKNJIxXWSautEqMTphPbrQwPKINXP+88Qez258NQj0iupSBpTnaTFdWr5CYDjGMfU+dFSedDxaXMVU9ZR+fFN5zjVTP6DZYY1ZnjEyayRc5oW6zmTkUyBi57+9Vf+tKdWRoRrugf6sJSt5nkMEUuM/Xf0XdUskSpvHaiEXvkA9zICl9t7Jf/Ybfw+RsVDSJGd2O8fXfXVJJuO5sy78sxf7FDWIYmNldyb0I9QqIBE7aXM4mqumEg0Klkl1bpkeGXWxJKbyJrIsmFUbbQIDAQAB</string>
+  <string name="SENDER_ID" translatable="false">887692418916</string>
+  <string name="ACTION_ON_REGISTERED" translatable="false">com.binggo.domino.ON_REGISTERED</string>
+  <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+  <string name="admob_unit_id" translatable="false">ca-app-pub-7908513253977535/2221163414</string>
+  <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~3732775383</string>
+  <string name="help">Bantuan</string>
+  <string name="string_help_text">Jika ingin buka, silahkan membuka otoritas dengan mengklik pengaturan lalu otoritas. Klik 2x untuk kembali</string>
+  <string name="quit">Pengaturan</string>
+  <string name="settings">Keluar</string>
+  <string name="fb_instream_place_id">1051333554898444_2473808779317574</string>
+  <string name="fb_reward_place_id">1051333554898444_2473791482652637</string>
+  <string name="adjust_appid" translatable="false">wr4s4lki9n9c</string>
+  <string name="tradPlus_adUnitId" translatable="false">3F9ED6D47E202C86A5A0DEB86E255B85</string>
+  <string name="tradPlus_appId" translatable="false">CFAA69272DB173535CF6DE46738C8C7C</string>
+
+    <string name="disable_tradeplus" translatable="false">no</string>
+</resources>

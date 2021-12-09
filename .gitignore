@@ -1,0 +1,6 @@
+*.pyc
+pid.txt
+settings.json
+.idea/
+tools/Logger/config/
+__pycache__

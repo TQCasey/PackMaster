@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "887692418916",
+    "firebase_url": "https://domino99-9518.firebaseio.com",
+    "project_id": "domino99-9518",
+    "storage_bucket": "domino99-9518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:0d7504c2f99cdeeb",
+        "android_client_info": {
+          "package_name": "com.binggo.gaple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "887692418916-er7b1rlnj7smsjgm08g8di23t74dqunl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "228932844975",
+    "firebase_url": "https://ukingd-289cb.firebaseio.com",
+    "project_id": "ukingd-289cb",
+    "storage_bucket": "ukingd-289cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228932844975:android:35f41eb1c6c490ed",
+        "android_client_info": {
+          "package_name": "com.Uking.thai.fk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWOoPWJc99JJmLpVfEP83QahMZ9UAzfbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228932844975-9dmnbudvp1n6n2i8cg5qhh1tl6c0nctj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-6764497874857592~3377046923"
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,1 @@
+..\PackManV3\venv\Scripts\python3.exe ..\PackManV3\boot.py

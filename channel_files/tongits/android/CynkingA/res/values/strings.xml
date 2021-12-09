@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Tongits</string>
+    <string name="facebook_app_id" translatable="false">2626397450739389</string>
+    <string name="facebook_ads_id" translatable="false">1015910851904798</string>
+    <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string>
+    <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string>
+    <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0wuGdMxHHar8tmyNvIg/gNswUhWQ/p0nP4he2BuV+Gs0PUObPWx7ac2/VYcQ4b1BFDcfbpjf/h5vJ7mhCRpMR+nfUO3sqRKGr284uTvGEbeU0lgm7XVKn8agDb/gcJJyEA1a9Zf30cHT1uiFhNu8ZpufDXn0pNWHmRRa3SwqW5l5VpPfaiolpepnAK3lByMa2mC426SUjuY/OiT1uxDnYNYd2fKGhxtxtDr27AcdrQkH7340PvMJWUH5WWl/rnuRtt/j3+FLBlawm04QDgqBu3DYnIHJxbutpJEYD8EEhTTdQr/rgMpNDlPjHUuny3oRznpGqtIHOVBdGQtkkWWMQwIDAQAB</string>
+    <string name="SENDER_ID" translatable="false">887692418916</string>
+    <string name="ACTION_ON_REGISTERED" translatable="false">com.cynking.tongits.ON_REGISTERED</string>
+    <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+    <string name="admob_unit_id" translatable="false">ca-app-pub-7908513253977535/7526858191</string>
+    <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~1289602964</string>
+    <string name="help">Bantuan</string>
+    <string name="string_help_text">If you want to set the privacy settings, click "Settings" to open "Permissions" and click twice to exit.</string>
+    <string name="quit">Exit</string>
+  <string name="settings">Setting</string>
+    <string name="fb_instream_place_id">1015910851904798_1244430525719495</string>
+    <string name="fb_reward_place_id">2626397450739389_2707722549273545</string>
+    <string name="adjust_appid">s9g2tcs7bw1s</string>
+
+      <string name="tradPlus_adUnitId">C7CFDB55B6F8CF5B5919D3CBFC41CDDF</string>
+  <string name="tradPlus_appId">793803DE2B4646DA4207588384D82EC5</string>
+
+    <string name="disable_tradeplus" translatable="false">yes</string>
+</resources>

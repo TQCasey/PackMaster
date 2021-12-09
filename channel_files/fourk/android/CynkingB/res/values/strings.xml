@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name" translatable="false">ไพ่แคง</string>
+  <!-- cynking1:1051333554898444, youmi:1108604572519476  cynking2:1543672592605437 主版本1，click1，click2 是一个，cynking-->
+  <string name="facebook_app_id" translatable="false">921059574770341</string>
+  <string name="facebook_ads_id" translatable="false">524272441101407</string>
+  <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string>
+  <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string>
+  <string name="line_app_id" translatable="false">1597641828</string>
+  <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApUhXQdi4wD9oUMrkVPRZYpQvMzqkD5JpHem24T3WMOLr7u4/kFtLuwxJIn6SdzcX7E+G1QHroyxOVqNMcpNtJc55m9iN7wZEL+EovlOVgE4RqcPxp9IAQcpQHLl9/oCfzIExebC639oG3xH7X9iueh+p/4DLeW+5sNWNcDE3OENPtwCnstAyVZ9VwUASd0zgDbki1aAmNthjtKBZh2umZgguIgM2Q6WBxxfL2GR8v3p1c3+VbW7OCldcU0z/p74duqzuHr4O4+Ec+hL0sZQeNlUcylUdQtx/QSy/m1cPB4uxNza8TaAEyGW8slDkpNBwBPfIb2yJS8SFHN4YGGcCbQIDAQAB</string>
+  <string name="SENDER_ID" translatable="false">228932844975</string>
+  <string name="ACTION_ON_REGISTERED" translatable="false">com.Uking.thai.fk.ON_REGISTERED</string>
+  <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+  <string name="admob_unit_id" translatable="false">ca-app-pub-6764497874857592/4470636749</string>
+  <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~6171269528</string>
+  <string name="fb_instream_place_id" translatable="false">921059574770341_1108129996063297</string>
+  <string name="fb_reward_place_id" translatable="false">921059574770341_1107465649463065</string>
+  <string name="help">ช่วยเหลือ</string>
+  <string name="string_help_text">ถ้าหากต้องการตั้งค่าความเป็นส่วนตัวกรุณากดที่ "การตั้งค่า"กด"การอนุญาต" เพื่อเปิดคลิก 2 ครั้งและทำการออก</string>
+  <string name="quit">ออก</string>
+  <string name="settings">ตั้งค่า</string>
+  <string name="adjust_appid" translatable="false">jo58bfeuvg8w</string>
+  <string name="tradPlus_adUnitId">C7CFDB55B6F8CF5B5919D3CBFC41CDDF</string>
+  <string name="tradPlus_appId">793803DE2B4646DA4207588384D82EC5</string>
+
+    <string name="disable_tradeplus" translatable="false">no</string>
+
+</resources>

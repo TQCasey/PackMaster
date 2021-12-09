@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1040</width>
+    <height>642</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>日志Logger</string>
+  </property>
+  <widget class="QPushButton" name="btn_start">
+   <property name="geometry">
+    <rect>
+     <x>175</x>
+     <y>5</y>
+     <width>81</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>启动</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser_log">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>86</y>
+     <width>1041</width>
+     <height>561</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+    </font>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::WheelFocus</enum>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_address">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>45</y>
+     <width>161</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_grade">
+   <property name="geometry">
+    <rect>
+     <x>175</x>
+     <y>45</y>
+     <width>81</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <item>
+    <property name="text">
+     <string>Verbose</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Error</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLineEdit" name="edit_filter">
+   <property name="geometry">
+    <rect>
+     <x>304</x>
+     <y>46</y>
+     <width>731</width>
+     <height>33</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="frame">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_clear">
+   <property name="geometry">
+    <rect>
+     <x>332</x>
+     <y>5</y>
+     <width>60</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>清除</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_game">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>161</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_subdir">
+   <property name="geometry">
+    <rect>
+     <x>264</x>
+     <y>5</y>
+     <width>60</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>子目录</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_ontop">
+   <property name="geometry">
+    <rect>
+     <x>401</x>
+     <y>5</y>
+     <width>60</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>置顶</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_proxy">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>5</y>
+     <width>71</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>本地模式：局域网修改调试，显示日志；
+代理模式：抓取玩家游戏日志，
+文件修改推送！</string>
+   </property>
+   <property name="text">
+    <string>本地模式</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="edit_fill">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>45</y>
+     <width>770</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="comboBox_search_type">
+   <property name="geometry">
+    <rect>
+     <x>265</x>
+     <y>45</y>
+     <width>33</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>15</width>
+     <height>15</height>
+    </size>
+   </property>
+   <property name="frame">
+    <bool>false</bool>
+   </property>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>search_ico.png</normaloff>search_ico.png</iconset>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>filter_ico.png</normaloff>filter_ico.png</iconset>
+    </property>
+   </item>
+  </widget>
+  <widget class="QPushButton" name="btn_restart">
+   <property name="geometry">
+    <rect>
+     <x>550</x>
+     <y>5</y>
+     <width>71</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>重启游戏</string>
+   </property>
+   <property name="text">
+    <string>重启游戏</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_meminfo">
+   <property name="geometry">
+    <rect>
+     <x>630</x>
+     <y>5</y>
+     <width>71</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>内存信息</string>
+   </property>
+   <property name="text">
+    <string>内存信息</string>
+   </property>
+  </widget>
+  <zorder>edit_fill</zorder>
+  <zorder>btn_start</zorder>
+  <zorder>textBrowser_log</zorder>
+  <zorder>comboBox_address</zorder>
+  <zorder>comboBox_grade</zorder>
+  <zorder>edit_filter</zorder>
+  <zorder>btn_clear</zorder>
+  <zorder>comboBox_game</zorder>
+  <zorder>btn_subdir</zorder>
+  <zorder>btn_ontop</zorder>
+  <zorder>btn_proxy</zorder>
+  <zorder>comboBox_search_type</zorder>
+  <zorder>btn_restart</zorder>
+  <zorder>btn_meminfo</zorder>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

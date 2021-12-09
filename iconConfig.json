@@ -1,0 +1,398 @@
+{
+    "Android": {
+        "res": {
+            "drawable-ldpi": [
+                {
+                    "width": 36,
+                    "height": 36,
+                    "filename": "icon.png"
+                }
+            ],
+            "drawable-mdpi": [
+                {
+                    "width": 48,
+                    "height": 48,
+                    "filename": "icon.png"
+                }
+            ],
+            "drawable-hdpi": [
+                {
+                    "width": 72,
+                    "height": 72,
+                    "filename": "icon.png"
+                }
+            ],
+            "drawable-xhdpi": [
+                {
+                    "width": 96,
+                    "height": 96,
+                    "filename": "icon.png"
+                }
+            ],
+            "drawable-xxhdpi": [
+                {
+                    "width": 512,
+                    "height": 512,
+                    "filename": "icon.png"
+                }
+            ]
+        }
+    },
+
+    "iOS": {
+        "AppIcon.appiconset": [
+            {
+                "width": 40,
+                "height": 40,
+                "filename": "icon-20@2x.png"
+            },
+            {
+                "width": 40,
+                "height": 40,
+                "filename": "icon-20@2x-ipad.png"
+            },
+            {
+                "width": 60,
+                "height": 60,
+                "filename": "icon-20@3x.png"
+            },
+            {
+                "width": 20,
+                "height": 20,
+                "filename": "icon-20-ipad.png"
+            },
+            {
+                "width": 29,
+                "height": 29,
+                "filename": "icon-29.png"
+            },
+            {
+                "width": 58,
+                "height": 58,
+                "filename": "icon-29@2x.png"
+            },
+            {
+                "width": 58,
+                "height": 58,
+                "filename": "icon-29@2x-ipad.png"
+            },
+            {
+                "width": 87,
+                "height": 87,
+                "filename": "icon-29@3x.png"
+            },
+            {
+                "width": 29,
+                "height": 29,
+                "filename": "icon-29-ipad.png"
+            },
+            {
+                "width": 40,
+                "height": 40,
+                "filename": "icon-40.png"
+            },
+            {
+                "width": 80,
+                "height": 80,
+                "filename": "icon-40@2x.png"
+            },
+            {
+                "width": 120,
+                "height": 120,
+                "filename": "icon-40@3x.png"
+            },
+            {
+                "width": 50,
+                "height": 50,
+                "filename": "icon-50.png"
+            },
+            {
+                "width": 100,
+                "height": 100,
+                "filename": "icon-50@2x.png"
+            },
+            {
+                "width": 57,
+                "height": 57,
+                "filename": "icon-57.png"
+            },
+            {
+                "width": 114,
+                "height": 114,
+                "filename": "icon-57@2x.png"
+            },
+            {
+                "width": 120,
+                "height": 120,
+                "filename": "icon-60@2x.png"
+            },
+            {
+                "width": 180,
+                "height": 180,
+                "filename": "icon-60@3x.png"
+            },
+            {
+                "width": 72,
+                "height": 72,
+                "filename": "icon-72.png"
+            },
+            {
+                "width": 144,
+                "height": 144,
+                "filename": "icon-72@2x.png"
+            },
+            {
+                "width": 76,
+                "height": 76,
+                "filename": "icon-76.png"
+            },
+            {
+                "width": 152,
+                "height": 152,
+                "filename": "icon-76@2x.png"
+            },
+            {
+                "width": 167,
+                "height": 167,
+                "filename": "icon-83.5@2x.png"
+            },
+            {
+                "width": 1024,
+                "height": 1024,
+                "filename": "icon-1024.png"
+            }
+        ],
+
+        "ios": [
+            {
+                "width": 29,
+                "height": 29,
+                "filename": "icon-29.png"
+            },
+            {
+                "width": 40,
+                "height": 40,
+                "filename": "icon-40.png"
+            },
+            {
+                "width": 50,
+                "height": 50,
+                "filename": "icon-50.png"
+            },
+            {
+                "width": 57,
+                "height": 57,
+                "filename": "icon-57.png"
+            },
+            {
+                "width": 58,
+                "height": 58,
+                "filename": "icon-58.png"
+            },
+            {
+                "width": 72,
+                "height": 72,
+                "filename": "icon-72.png"
+            },
+            {
+                "width": 76,
+                "height": 76,
+                "filename": "icon-76.png"
+            },
+            {
+                "width": 80,
+                "height": 80,
+                "filename": "icon-80.png"
+            },
+            {
+                "width": 100,
+                "height": 100,
+                "filename": "icon-100.png"
+            },
+            {
+                "width": 114,
+                "height": 114,
+                "filename": "icon-114.png"
+            },
+            {
+                "width": 120,
+                "height": 120,
+                "filename": "icon-120.png"
+            },
+            {
+                "width": 144,
+                "height": 144,
+                "filename": "icon-144.png"
+            },
+            {
+                "width": 152,
+                "height": 152,
+                "filename": "icon-152.png"
+            },
+            {
+                "width": 1024,
+                "height": 1024,
+                "filename": "icon-1024.png"
+            }
+        ]
+    },
+    
+"Contents": {
+    "images": [
+        {
+            "size": "20x20",
+            "idiom": "iphone",
+            "filename": "icon-20@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "20x20",
+            "idiom": "iphone",
+            "filename": "icon-20@3x.png",
+            "scale": "3x"
+        },
+        {
+            "size": "29x29",
+            "idiom": "iphone",
+            "filename": "icon-29.png",
+            "scale": "1x"
+        },
+        {
+            "size": "29x29",
+            "idiom": "iphone",
+            "filename": "icon-29@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "29x29",
+            "idiom": "iphone",
+            "filename": "icon-29@3x.png",
+            "scale": "3x"
+        },
+        {
+            "size": "40x40",
+            "idiom": "iphone",
+            "filename": "icon-40@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "40x40",
+            "idiom": "iphone",
+            "filename": "icon-40@3x.png",
+            "scale": "3x"
+        },
+        {
+            "size": "57x57",
+            "idiom": "iphone",
+            "filename": "icon-57.png",
+            "scale": "1x"
+        },
+        {
+            "size": "57x57",
+            "idiom": "iphone",
+            "filename": "icon-57@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "60x60",
+            "idiom": "iphone",
+            "filename": "icon-60@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "60x60",
+            "idiom": "iphone",
+            "filename": "icon-60@3x.png",
+            "scale": "3x"
+        },
+        {
+            "size": "20x20",
+            "idiom": "ipad",
+            "filename": "icon-20-ipad.png",
+            "scale": "1x"
+        },
+        {
+            "size": "20x20",
+            "idiom": "ipad",
+            "filename": "icon-20@2x-ipad.png",
+            "scale": "2x"
+        },
+        {
+            "size": "29x29",
+            "idiom": "ipad",
+            "filename": "icon-29-ipad.png",
+            "scale": "1x"
+        },
+        {
+            "size": "29x29",
+            "idiom": "ipad",
+            "filename": "icon-29@2x-ipad.png",
+            "scale": "2x"
+        },
+        {
+            "size": "40x40",
+            "idiom": "ipad",
+            "filename": "icon-40.png",
+            "scale": "1x"
+        },
+        {
+            "size": "40x40",
+            "idiom": "ipad",
+            "filename": "icon-40@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "50x50",
+            "idiom": "ipad",
+            "filename": "icon-50.png",
+            "scale": "1x"
+        },
+        {
+            "size": "50x50",
+            "idiom": "ipad",
+            "filename": "icon-50@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "72x72",
+            "idiom": "ipad",
+            "filename": "icon-72.png",
+            "scale": "1x"
+        },
+        {
+            "size": "72x72",
+            "idiom": "ipad",
+            "filename": "icon-72@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "76x76",
+            "idiom": "ipad",
+            "filename": "icon-76.png",
+            "scale": "1x"
+        },
+        {
+            "size": "76x76",
+            "idiom": "ipad",
+            "filename": "icon-76@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "83.5x83.5",
+            "idiom": "ipad",
+            "filename": "icon-83.5@2x.png",
+            "scale": "2x"
+        },
+        {
+            "size": "1024x1024",
+            "idiom": "ios-marketing",
+            "filename": "icon-1024.png",
+            "scale": "1x"
+        }
+    ],
+    "info": {
+        "version": 1,
+        "author": "zhi.jian.wang.luo"
+    }
+}
+}

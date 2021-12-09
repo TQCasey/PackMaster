@@ -1,0 +1,35 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "74a1a304-cf1b-2e4f-9982-06c234bbef67++721",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++6310" : {
+
+    },
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++721" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++6310" : 9223372036854775807,
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++721" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "489F4636-73A5-48B3-ADB4-BD5856C7412F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++6310" : "domino\/frameworks\/cocos2d-x\/extensions\/GUI\/CCScrollView\/",
+    "74a1a304-cf1b-2e4f-9982-06c234bbef67++721" : "domino\/frameworks\/cocos2d-x\/cocos\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "domino1282250",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "frameworks\/runtime-src\/proj.ios_mac\/domino1282250.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/zhijiannetwork.6655.la:5563\/svn\/domino99",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74a1a304-cf1b-2e4f-9982-06c234bbef67++6310"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/192.168.1.107:5563\/svn\/domino99",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "74a1a304-cf1b-2e4f-9982-06c234bbef67++721"
+    }
+  ]
+}

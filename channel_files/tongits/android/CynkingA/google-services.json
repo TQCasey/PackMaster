@@ -1,0 +1,744 @@
+{
+  "project_info": {
+    "project_number": "887692418916",
+    "firebase_url": "https://domino99-9518.firebaseio.com",
+    "project_id": "domino99-9518",
+    "storage_bucket": "domino99-9518.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:6c1eb3c2f7c4e5db",
+        "android_client_info": {
+          "package_name": "com.binggo.domino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~3732775383"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:0d7504c2f99cdeeb",
+        "android_client_info": {
+          "package_name": "com.binggo.gaple"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~7992364844"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:91c883f15d0a4c0d",
+        "android_client_info": {
+          "package_name": "com.binggo.gaple.nearme.gamecenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:b8432b16fa639d57",
+        "android_client_info": {
+          "package_name": "com.cynking.tongits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~1289602964"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:70fda2b8f564098c",
+        "android_client_info": {
+          "package_name": "com.cynking.ceme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-thbfj30lnef2683iq0nh219k909snria.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynking.ceme",
+            "certificate_hash": "57aecde1f18b0f5538590b285df3060196e91d17"
+          }
+        },
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~3476782604"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:483d139e6a4a0b1c",
+        "android_client_info": {
+          "package_name": "com.cynking.domino.nearme.gamecenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:f1e691d2a64a0aae",
+        "android_client_info": {
+          "package_name": "com.cynking.gapleh5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:ffc66da22d55e4d8",
+        "android_client_info": {
+          "package_name": "com.cynking.sicbo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-rjkllfsoebe480tvfi6p2k7eurj00t80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynking.sicbo",
+            "certificate_hash": "57aecde1f18b0f5538590b285df3060196e91d17"
+          }
+        },
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~9822699101"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:0073bbd54e42cc04",
+        "android_client_info": {
+          "package_name": "com.cynking.thai.texas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:3c8c469387f18b0e44a471",
+        "android_client_info": {
+          "package_name": "com.cynking.tongits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:eebd92237246a3df",
+        "android_client_info": {
+          "package_name": "com.cynkingame.domino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-1sj7ourrcev3o8ferr5e31ack47g7cnu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cynkingame.domino",
+            "certificate_hash": "57aecde1f18b0f5538590b285df3060196e91d17"
+          }
+        },
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~1365199551"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:05b876f7dd6e5ad2",
+        "android_client_info": {
+          "package_name": "com.domino.nearme.gamecenter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:8bfe01823d5c2b03",
+        "android_client_info": {
+          "package_name": "com.fingers.th.fk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:f207c5fa704db0ab",
+        "android_client_info": {
+          "package_name": "com.fingers.thai.dummy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:2776685e9f1b2a4944a471",
+        "android_client_info": {
+          "package_name": "com.texas.total"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:6eaf82cd8f5d2254",
+        "android_client_info": {
+          "package_name": "com.xiamen.domino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:76d576f3b812e514",
+        "android_client_info": {
+          "package_name": "com.zhijian.baccarat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-hbsq2v282c5nb7ovhjilgobfhpm9tl3v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zhijian.baccarat",
+            "certificate_hash": "57aecde1f18b0f5538590b285df3060196e91d17"
+          }
+        },
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~8700339066"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:cbfd5cab8d77423b",
+        "android_client_info": {
+          "package_name": "com.zhijian.domino"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-0n3tev26726u4d8ksrm2u49qapss4omf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.zhijian.domino",
+            "certificate_hash": "57aecde1f18b0f5538590b285df3060196e91d17"
+          }
+        },
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~9985500579"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887692418916:android:d5993676b04de484",
+        "android_client_info": {
+          "package_name": "com.zhijian.texas3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPCRYW9FAApKpFYkwcpmGXiF9QH1EGzco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887692418916-f1vqkjr3thql09rik78jadtckmkoud1q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "887692418916-gl0dbpqolviopuoj0cujjqas85q2p6on.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.texas.total"
+              }
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7908513253977535~3108266885"
+    }
+  ],
+  "configuration_version": "1"
+}

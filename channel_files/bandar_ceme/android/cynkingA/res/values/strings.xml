@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Bandar Ceme</string>
+    <string name="facebook_app_id" translatable="false">202056913805237</string>
+    <string name="facebook_ads_id" translatable="false">202056913805237</string>
+    <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string>
+    <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string>
+    <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxp9BlyGK431lKYP+UDvPqYN4ldhzoM7S33JH31k0DFLoiwiLdxZEoxA+xbBHSCVh98OuVwm2zf9/HYLHG1SxNDZi2iQBKagYA1Mqs64pNH9CZbBBdXC42iWZe2PDiIXfsXl3k9mWP5kb/HaTGP11FQym9bY66OiA68JNlYGo6on2emWoGMrNddOUk6gg+vHxpo0DOZfYDajSql0E7c3Dzwo+a4v0q/OzrW4sFq+1nwALrfby01B7ijkQzZLYRtiRWLQRk4Ij/8Gbv7wnSMf8R4C4p/Bc0KLIoOUUnORB3UDA1RU2NWdLtXc7+hZ8ju3FCvp7wbhP9oErbYC7JXrbiQIDAQAB</string>
+    <string name="SENDER_ID" translatable="false">887692418916</string>
+    <string name="ACTION_ON_REGISTERED" translatable="false">com.cynking.ceme.ON_REGISTERED</string>
+    <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+    <string name="admob_unit_id" translatable="false">ca-app-pub-7908513253977535/1156890961</string>
+    <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~3476782604</string>
+    <string name="help">Bantuan</string>
+    <string name="string_help_text">Jika ingin buka, silahkan membuka otoritas dengan mengklik pengaturan lalu otoritas. Klik 2x untuk kembali</string>
+    <string name="quit">Pengaturan</string>
+    <string name="settings">Keluar</string>
+    <string name="fb_instream_place_id">202056913805237_335631137114480</string>
+    <string name="fb_reward_place_id">202056913805237_335629480447979</string>
+    <string name="adjust_appid" translatable="false">bppgw2ngoqo0</string>
+    <string name="tradPlus_adUnitId" translatable="false">811324B5406A71A70AC7D6A8E37AA39E</string>
+    <string name="tradPlus_appId" translatable="false">F8CBA9C21ACA41B2E7FFD8BC800F23BB</string>
+
+    <string name="disable_tradeplus" translatable="false">no</string>
+</resources>

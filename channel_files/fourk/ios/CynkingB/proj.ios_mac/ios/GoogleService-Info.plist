@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>887692418916-n4fm690357jiagbvt6r0a6o5gt3amblj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.887692418916-n4fm690357jiagbvt6r0a6o5gt3amblj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>887692418916-hbsq2v282c5nb7ovhjilgobfhpm9tl3v.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBbin6am6zgYSL1_3T4ZWYGZJvZ-D-gbYM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>887692418916</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.cynking.th.fk</string>
+	<key>PROJECT_ID</key>
+	<string>domino99-9518</string>
+	<key>STORAGE_BUCKET</key>
+	<string>domino99-9518.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true></true>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:887692418916:ios:34178a78e25fb5f5</string>
+	<key>DATABASE_URL</key>
+	<string>https://domino99-9518.firebaseio.com</string>
+</dict>
+</plist>
