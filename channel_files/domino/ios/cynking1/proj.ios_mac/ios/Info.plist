@@ -63,9 +63,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>22110</string>
+	<string>22112</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookAppID</key>
 	<string>1051333554898444</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookDisplayName</key>
 	<string>Domino QiuQiu:Domino99•KiuKiu. </string>
 	<key>GADApplicationIdentifier</key>
@@ -748,11 +752,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-
-	<key>FacebookAutoLogAppEventsEnabled</key>
- <string>TRUE</string>
- <key>FacebookAdvertiserIDCollectionEnabled</key>
- <string>TRUE</string>
- 
 </dict>
 </plist>

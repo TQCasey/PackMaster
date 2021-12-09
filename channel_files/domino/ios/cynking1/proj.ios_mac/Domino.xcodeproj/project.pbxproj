@@ -134,8 +134,6 @@
 		C07828FA18B4D72E00BD2287 /* SimulatorApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = C07828F718B4D72E00BD2287 /* SimulatorApp.mm */; };
 		C94F71B4275E0DC700722494 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71B2275E0DC700722494 /* libMobClickLibrary.a */; };
 		C94F71B6275E0DE600722494 /* LineSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71B5275E0DE600722494 /* LineSDK.framework */; };
-		C94F71B9275E0DF700722494 /* libKochavaTrackeriOS in Resources */ = {isa = PBXBuildFile; fileRef = C94F71B7275E0DF700722494 /* libKochavaTrackeriOS */; };
-		C94F71BA275E0DF700722494 /* libKochavaCoreiOS in Resources */ = {isa = PBXBuildFile; fileRef = C94F71B8275E0DF700722494 /* libKochavaCoreiOS */; };
 		C94F71CC275E0E2A00722494 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71C8275E0E2A00722494 /* FBSDKLoginKit.framework */; };
 		C94F71CD275E0E2A00722494 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */; };
 		C94F71CE275E0E2A00722494 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71CA275E0E2A00722494 /* FBSDKCoreKit.framework */; };
@@ -497,8 +495,6 @@
 		C94F71B2275E0DC700722494 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = sdk/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
 		C94F71B3275E0DC700722494 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = sdk/umeng/MobClick.h; sourceTree = "<group>"; };
 		C94F71B5275E0DE600722494 /* LineSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LineSDK.framework; path = sdk/line/LineSDK.framework; sourceTree = "<group>"; };
-		C94F71B7275E0DF700722494 /* libKochavaTrackeriOS */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libKochavaTrackeriOS; path = sdk/kochava/libKochavaTrackeriOS; sourceTree = "<group>"; };
-		C94F71B8275E0DF700722494 /* libKochavaCoreiOS */ = {isa = PBXFileReference; lastKnownFileType = folder; name = libKochavaCoreiOS; path = sdk/kochava/libKochavaCoreiOS; sourceTree = "<group>"; };
 		C94F71C8275E0E2A00722494 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = sdk/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = sdk/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		C94F71CA275E0E2A00722494 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = sdk/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
@@ -1021,7 +1017,6 @@
 				C94F71A8275E0D6200722494 /* umeng */,
 				C94F71A7275E0D5A00722494 /* tradplus */,
 				C94F71A6275E0D5300722494 /* line */,
-				C94F71A5275E0D4B00722494 /* kochava */,
 				C94F71A3275E0D3F00722494 /* facebook */,
 				C94F71A2275E0D3800722494 /* bugly */,
 				C94F71A1275E0D3200722494 /* audio */,
@@ -1074,15 +1069,6 @@
 				C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */,
 			);
 			name = facebook;
-			sourceTree = "<group>";
-		};
-		C94F71A5275E0D4B00722494 /* kochava */ = {
-			isa = PBXGroup;
-			children = (
-				C94F71B8275E0DF700722494 /* libKochavaCoreiOS */,
-				C94F71B7275E0DF700722494 /* libKochavaTrackeriOS */,
-			);
-			name = kochava;
 			sourceTree = "<group>";
 		};
 		C94F71A6275E0D5300722494 /* line */ = {
@@ -1548,7 +1534,6 @@
 				C94F7202275E0F4000722494 /* BUAdSDK.bundle in Resources */,
 				5499F9E024E40D79004FA68B /* start_video.mp4 in Resources */,
 				BFE5D7521C927DD6005BD079 /* Icon-72.png in Resources */,
-				C94F71B9275E0DF700722494 /* libKochavaTrackeriOS in Resources */,
 				BFE5D7531C927DD6005BD079 /* Icon-76.png in Resources */,
 				BFE5D7441C927DCB005BD079 /* Default-568h@2x.png in Resources */,
 				54660394237AE71900BE1691 /* domino_loading_chips.png in Resources */,
@@ -1557,7 +1542,6 @@
 				BFE5D7451C927DCB005BD079 /* Default.png in Resources */,
 				BFE5D7461C927DCB005BD079 /* Default@2x.png in Resources */,
 				BFE5D7421C927DC4005BD079 /* Default-667h@2x.png in Resources */,
-				C94F71BA275E0DF700722494 /* libKochavaCoreiOS in Resources */,
 				BFE5D7431C927DC4005BD079 /* Default-736h@3x.png in Resources */,
 				5466038F237AE71900BE1691 /* domino_loading_light.png in Resources */,
 				5466038E237AE71900BE1691 /* webview_back_nor.png in Resources */,
