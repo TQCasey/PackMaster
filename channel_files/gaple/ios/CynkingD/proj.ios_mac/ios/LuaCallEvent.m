@@ -678,9 +678,13 @@
     [appDelegate setAdMobFunc :info];
 }
 
-+(int) hasAdLoaded:(NSDictionary*) info{
-    AppController *appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
-    return [appDelegate hasAdLoaded :info];
++(int) hasAdLoaded:(NSDictionary *)info {
+//    AppController *appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
+//    return [appDelegate hasAdLoaded :info];
+
+    // always be true
+
+    return YES;
 }
 
 +(void) showRewardAd: (NSDictionary*) info {

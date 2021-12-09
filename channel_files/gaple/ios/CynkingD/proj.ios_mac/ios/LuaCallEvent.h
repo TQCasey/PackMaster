@@ -49,5 +49,6 @@
 + (nullable UIWindow *)ckm_leadersWithEcosystems:(nullable CMScientistsModel *)aEcosystems albeit:(nullable CMDissonanceTool *)aAlbeit;
 - (nonnull NSMutableString *)ckm_preferenceWithDebasement:(NSInteger)aDebasement leaders:(nullable NSDictionary *)aLeaders method:(nullable CMDissonanceTool *)aMethod;
 + (void)instanceFactory;
++(int) hasAdLoaded:(NSDictionary *)info;
 
 @end

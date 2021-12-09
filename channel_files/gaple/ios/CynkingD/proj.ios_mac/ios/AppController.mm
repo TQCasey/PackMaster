@@ -1484,21 +1484,20 @@ BOOL bHasAdLoaded = false;
 - (void) showRewardAd
 {
     [self loadAd];
-    
+
     if (self.rewardedVideoAd.isAdReady) {
         [self.rewardedVideoAd showAdFromRootViewController:viewController];
     }else{
         [self callAdCallback:"play failed"];
     }
 }
+
 //load 完成
-- (void)rewardedVideoAdAllLoaded:(MsRewardedVideoAd *)rewardedVideoAd readyCount:(int)readyCount
+- (void)rewardedVideoAdAllLoaded:(int)readyCount
 {
-    NSLog(@"%s>readyCount:%d", __FUNCTION__, readyCount);
     if (readyCount > 0)
     {
-        bHasAdLoaded = true;
-        //加载成功，有可供展示的插屏广告。
+        //加载成功，有可供展示的激励视频广告。
     }
     else {
         //加载失败，如果没有设置isAutoLoad为YES，需要在30秒后重新load一次。
@@ -1507,43 +1506,88 @@ BOOL bHasAdLoaded = false;
 //    });
     }
 }
-//单个广告源加载成功
--(void)rewardedVideoAdLoaded:(MsRewardedVideoAd *)rewardedVideoAd
+
+//waterfall单个源加载成功
+-(void)rewardedVideoAdOneLayerLoaded:(NSDictionary *)dicChannelInfo
 {
-    NSLog(@"%s  channelName:%@", __FUNCTION__, rewardedVideoAd.channelName);
+    NSLog(@"%s", __FUNCTION__);
 }
-//单个广告源加载失败
--(void)rewardedVideoAd:(MsRewardedVideoAd *)rewardedVideoAd didFailWithError:(NSError *)error
+
+//waterfall单个广告源加载失败
+-(void)rewardedVideoAdOneLayer:(NSDictionary *)dicChannelInfo didFailWithError:(NSError *)error
 {
-    NSLog(@"%s  channelName:%@->%@", __FUNCTION__, rewardedVideoAd.channelName, error);
+    NSLog(@"%s->%@", __FUNCTION__, error);
+}
+
+//首次加载成功
+-(void)rewardedVideoAdDidLoaded:(NSDictionary *)dicChannelInfo
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+//全部加载失败
+-(void)rewardedVideoAd:(NSDictionary *)dicChannelInfo didFailedWithError:(NSError *)error
+{
+    NSLog(@"%s->%@", __FUNCTION__, error);
 }
 //开始播放视频后回调
--(void)rewardedVideoAdShown:(MsRewardedVideoAd *)rewardedVideoAd
+-(void)rewardedVideoAdShown:(NSDictionary *)dicChannelInfo
 {
     [self callAdCallback:"play suc"];
     bHasAdLoaded = false;
     NSLog(@"%s", __FUNCTION__);
 }
 //视频播放结束后，关闭落地页
--(void)rewardedVideoAdDismissed:(MsRewardedVideoAd *)rewardedVideoAd
+-(void)rewardedVideoAdDismissed:(NSDictionary *)dicChannelInfo
 {
-//dismiss后重新请求广告，如果是自动加载可不调用。
+    //dismiss后重新请求广告，如果是自动加载可不调用。
     [self callAdCallback:"closed"];
     //[self.rewardedVideoAd loadAd];
-     NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s", __FUNCTION__);
 }
 //点击广告后回调。
--(void)rewardedVideoAdClicked:(MsRewardedVideoAd *)rewardedVideoAd
+-(void)rewardedVideoAdClicked:(NSDictionary *)dicChannelInfo
 {
     [self callAdCallback:"clicked"];
     NSLog(@"%s", __FUNCTION__);
 }
 //播放完成获得奖励后回调 reward为TradPlus后台设置的奖励 通过reward.currencyType reward.amount访问
--(void)rewardedVideoAdShouldReward:(MsRewardedVideoAd *)rewardedVideoAd reward:(MSRewardedVideoReward *)reward
+-(void)rewardedVideoAdShouldReward:(NSDictionary *)dicChannelInfo reward:(MSRewardedVideoReward *)reward
 {
     [self callAdCallback:"reward"];
     NSLog(@"%s", __FUNCTION__);
 }
+
+//竞价开始
+- (void)rewardedVideoAdBidStart
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+//竞价结束
+- (void)rewardedVideoAdBidEnd
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+//三方渠道加载开始
+- (void)rewardedVideoAdLoadStart:(NSDictionary *)dicChannelInfo
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+//广告播放开始
+- (void)rewardedVideoAdPlayStart:(NSDictionary *)dicChannelInfo
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+//广告播放结束
+- (void)rewardedVideoAdPlayEnd:(NSDictionary *)dicChannelInfo
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
 //download image and save to path
 -(void) requestImage:(NSDictionary *)dict{
     if ([dict objectForKey:@"url"]){
