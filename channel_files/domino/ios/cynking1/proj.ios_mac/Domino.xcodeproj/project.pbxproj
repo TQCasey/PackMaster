@@ -134,10 +134,6 @@
 		C07828FA18B4D72E00BD2287 /* SimulatorApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = C07828F718B4D72E00BD2287 /* SimulatorApp.mm */; };
 		C94F71B4275E0DC700722494 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71B2275E0DC700722494 /* libMobClickLibrary.a */; };
 		C94F71B6275E0DE600722494 /* LineSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71B5275E0DE600722494 /* LineSDK.framework */; };
-		C94F71CC275E0E2A00722494 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71C8275E0E2A00722494 /* FBSDKLoginKit.framework */; };
-		C94F71CD275E0E2A00722494 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */; };
-		C94F71CE275E0E2A00722494 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71CA275E0E2A00722494 /* FBSDKCoreKit.framework */; };
-		C94F71CF275E0E2A00722494 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71CB275E0E2A00722494 /* Bolts.framework */; };
 		C94F71D2275E0E3E00722494 /* libBuglyAgent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71D0275E0E3E00722494 /* libBuglyAgent.a */; };
 		C94F71D3275E0E3F00722494 /* Bugly.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71D1275E0E3E00722494 /* Bugly.framework */; };
 		C94F71D5275E0E4E00722494 /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F71D4275E0E4E00722494 /* lame.framework */; };
@@ -161,10 +157,6 @@
 		C94F7209275E0F4D00722494 /* MoPubAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7206275E0F4D00722494 /* MoPubAdapter.framework */; };
 		C94F720A275E0F4D00722494 /* MoPubSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7207275E0F4D00722494 /* MoPubSDK.framework */; platformFilter = ios; };
 		C94F720B275E0F4D00722494 /* OMSDK_Mopub.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7208275E0F4D00722494 /* OMSDK_Mopub.framework */; platformFilter = ios; };
-		C94F7210275E0F5A00722494 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F720C275E0F5A00722494 /* FBSDKShareKit.framework */; };
-		C94F7211275E0F5A00722494 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F720D275E0F5A00722494 /* Bolts.framework */; };
-		C94F7212275E0F5A00722494 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F720E275E0F5A00722494 /* FBSDKLoginKit.framework */; };
-		C94F7213275E0F5A00722494 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F720F275E0F5A00722494 /* FBSDKCoreKit.framework */; };
 		C94F721B275E0F6B00722494 /* AdMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7214275E0F6B00722494 /* AdMobAdapter.framework */; };
 		C94F721C275E0F6B00722494 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7215275E0F6B00722494 /* GoogleMobileAds.framework */; };
 		C94F721D275E0F6B00722494 /* UserMessagingPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7216275E0F6B00722494 /* UserMessagingPlatform.framework */; };
@@ -177,6 +169,18 @@
 		C94F7231275E191500722494 /* OMSDK_Mopub.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7208275E0F4D00722494 /* OMSDK_Mopub.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C94F7233275E196F00722494 /* libc++abi.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C94F7232275E196F00722494 /* libc++abi.tbd */; };
 		C94F7237275E19F700722494 /* MakeCard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C94F7235275E19F700722494 /* MakeCard.cpp */; };
+		C9A2B5F927634B210007C3F9 /* FBAEMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F427634B210007C3F9 /* FBAEMKit.framework */; platformFilter = ios; };
+		C9A2B5FA27634B210007C3F9 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F527634B210007C3F9 /* FBSDKCoreKit.framework */; platformFilter = ios; };
+		C9A2B5FB27634B210007C3F9 /* FBSDKCoreKit_Basics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F627634B210007C3F9 /* FBSDKCoreKit_Basics.framework */; platformFilter = ios; };
+		C9A2B5FC27634B210007C3F9 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F727634B210007C3F9 /* FBSDKLoginKit.framework */; platformFilter = ios; };
+		C9A2B5FD27634B210007C3F9 /* FBSDKShareKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F827634B210007C3F9 /* FBSDKShareKit.framework */; platformFilter = ios; };
+		C9A2B60027634B940007C3F9 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5FE27634B940007C3F9 /* FBAudienceNetwork.framework */; };
+		C9A2B60127634B940007C3F9 /* FacebookAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5FF27634B940007C3F9 /* FacebookAdapter.framework */; };
+		C9A2B60227634BA60007C3F9 /* FBSDKCoreKit_Basics.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F627634B210007C3F9 /* FBSDKCoreKit_Basics.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9A2B60327634BA60007C3F9 /* FBSDKCoreKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F527634B210007C3F9 /* FBSDKCoreKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9A2B60427634BA60007C3F9 /* FBSDKLoginKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F727634B210007C3F9 /* FBSDKLoginKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9A2B60527634BA60007C3F9 /* FBSDKShareKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F827634B210007C3F9 /* FBSDKShareKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C9A2B60627634BAB0007C3F9 /* FBAEMKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9A2B5F427634B210007C3F9 /* FBAEMKit.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C9E6518D275F163900C3222C /* FileDownLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = C9364C07275E309300B31E89 /* FileDownLoader.mm */; };
 		DA9E7D881AB1ABCC004B27C8 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA9E7D871AB1ABCC004B27C8 /* Security.framework */; };
 		DABC98DE1A820D1800BF5CC4 /* libquick_libs MAC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DABC98DA1A82028A00BF5CC4 /* libquick_libs MAC.a */; };
@@ -314,6 +318,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C9A2B60627634BAB0007C3F9 /* FBAEMKit.framework in Embed Frameworks */,
+				C9A2B60227634BA60007C3F9 /* FBSDKCoreKit_Basics.framework in Embed Frameworks */,
+				C9A2B60327634BA60007C3F9 /* FBSDKCoreKit.framework in Embed Frameworks */,
+				C9A2B60427634BA60007C3F9 /* FBSDKLoginKit.framework in Embed Frameworks */,
+				C9A2B60527634BA60007C3F9 /* FBSDKShareKit.framework in Embed Frameworks */,
 				C94F7231275E191500722494 /* OMSDK_Mopub.framework in Embed Frameworks */,
 				C94F7230275E190F00722494 /* MoPubSDK.framework in Embed Frameworks */,
 			);
@@ -495,10 +504,6 @@
 		C94F71B2275E0DC700722494 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = sdk/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
 		C94F71B3275E0DC700722494 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = sdk/umeng/MobClick.h; sourceTree = "<group>"; };
 		C94F71B5275E0DE600722494 /* LineSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LineSDK.framework; path = sdk/line/LineSDK.framework; sourceTree = "<group>"; };
-		C94F71C8275E0E2A00722494 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = sdk/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = sdk/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		C94F71CA275E0E2A00722494 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = sdk/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		C94F71CB275E0E2A00722494 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = sdk/facebook/Bolts.framework; sourceTree = "<group>"; };
 		C94F71D0275E0E3E00722494 /* libBuglyAgent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBuglyAgent.a; path = sdk/bugly/libBuglyAgent.a; sourceTree = "<group>"; };
 		C94F71D1275E0E3E00722494 /* Bugly.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bugly.framework; path = sdk/bugly/Bugly.framework; sourceTree = "<group>"; };
 		C94F71D4275E0E4E00722494 /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = lame.framework; path = sdk/audio/lame.framework; sourceTree = "<group>"; };
@@ -522,10 +527,6 @@
 		C94F7206275E0F4D00722494 /* MoPubAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MoPubAdapter.framework; path = sdk/tradplus/MoPub/MoPubAdapter.framework; sourceTree = "<group>"; };
 		C94F7207275E0F4D00722494 /* MoPubSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MoPubSDK.framework; path = sdk/tradplus/MoPub/MoPubSDK.framework; sourceTree = "<group>"; };
 		C94F7208275E0F4D00722494 /* OMSDK_Mopub.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OMSDK_Mopub.framework; path = sdk/tradplus/MoPub/OMSDK_Mopub.framework; sourceTree = "<group>"; };
-		C94F720C275E0F5A00722494 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = sdk/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
-		C94F720D275E0F5A00722494 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = sdk/facebook/Bolts.framework; sourceTree = "<group>"; };
-		C94F720E275E0F5A00722494 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = sdk/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
-		C94F720F275E0F5A00722494 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = sdk/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		C94F7214275E0F6B00722494 /* AdMobAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdMobAdapter.framework; path = sdk/tradplus/AdMob/AdMobAdapter.framework; sourceTree = "<group>"; };
 		C94F7215275E0F6B00722494 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = sdk/tradplus/AdMob/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		C94F7216275E0F6B00722494 /* UserMessagingPlatform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserMessagingPlatform.framework; path = sdk/tradplus/AdMob/UserMessagingPlatform.framework; sourceTree = "<group>"; };
@@ -537,6 +538,13 @@
 		C94F7232275E196F00722494 /* libc++abi.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++abi.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS15.0.sdk/usr/lib/libc++abi.tbd"; sourceTree = DEVELOPER_DIR; };
 		C94F7235275E19F700722494 /* MakeCard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MakeCard.cpp; path = ../Classes/cynkingEx/makecard/MakeCard.cpp; sourceTree = "<group>"; };
 		C94F7236275E19F700722494 /* MakeCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MakeCard.h; path = ../Classes/cynkingEx/makecard/MakeCard.h; sourceTree = "<group>"; };
+		C9A2B5F427634B210007C3F9 /* FBAEMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBAEMKit.framework; path = sdk/facebook/FBAEMKit.framework; sourceTree = "<group>"; };
+		C9A2B5F527634B210007C3F9 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = sdk/facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		C9A2B5F627634B210007C3F9 /* FBSDKCoreKit_Basics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit_Basics.framework; path = sdk/facebook/FBSDKCoreKit_Basics.framework; sourceTree = "<group>"; };
+		C9A2B5F727634B210007C3F9 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = sdk/facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		C9A2B5F827634B210007C3F9 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = sdk/facebook/FBSDKShareKit.framework; sourceTree = "<group>"; };
+		C9A2B5FE27634B940007C3F9 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBAudienceNetwork.framework; path = sdk/tradplus/Facebook/FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		C9A2B5FF27634B940007C3F9 /* FacebookAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookAdapter.framework; path = sdk/tradplus/Facebook/FacebookAdapter.framework; sourceTree = "<group>"; };
 		D6B061341803AC000077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		DA9E7D871AB1ABCC004B27C8 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		DABC98D41A82028A00BF5CC4 /* quick_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = quick_libs.xcodeproj; path = "../../../frameworks/cocos2d-x/cocos/quick_libs/proj.ios_mac/quick_libs.xcodeproj"; sourceTree = "<group>"; };
@@ -588,15 +596,14 @@
 				C94F720B275E0F4D00722494 /* OMSDK_Mopub.framework in Frameworks */,
 				54C68C62262ACB8F0058C6A1 /* libsqlite3.tbd in Frameworks */,
 				54C68C5F262ACB7E0058C6A1 /* libresolv.tbd in Frameworks */,
-				C94F71CD275E0E2A00722494 /* FBSDKShareKit.framework in Frameworks */,
 				C94F7221275E0F6B00722494 /* GoogleUtilities.framework in Frameworks */,
 				C94F721B275E0F6B00722494 /* AdMobAdapter.framework in Frameworks */,
 				54C68C5C262ACB6A0058C6A1 /* libbz2.tbd in Frameworks */,
 				C94F71F8275E0F2C00722494 /* TPADXAdapter.framework in Frameworks */,
+				C9A2B60127634B940007C3F9 /* FacebookAdapter.framework in Frameworks */,
 				C94F720A275E0F4D00722494 /* MoPubSDK.framework in Frameworks */,
 				54C68C59262ACB530058C6A1 /* libz.tbd in Frameworks */,
 				54C68C56262ACB2A0058C6A1 /* libresolv.9.tbd in Frameworks */,
-				C94F7210275E0F5A00722494 /* FBSDKShareKit.framework in Frameworks */,
 				C94F71F5275E0F1E00722494 /* TPCrossAdapter.framework in Frameworks */,
 				545756F624E531C600D8FFC4 /* VideoToolbox.framework in Frameworks */,
 				545756F424E51C1100D8FFC4 /* libxml2.tbd in Frameworks */,
@@ -604,20 +611,17 @@
 				545756F024E51AEF00D8FFC4 /* Photos.framework in Frameworks */,
 				545756EE24E51ADE00D8FFC4 /* AVKit.framework in Frameworks */,
 				5499F9B024E27D53004FA68B /* AuthenticationServices.framework in Frameworks */,
-				C94F7212275E0F5A00722494 /* FBSDKLoginKit.framework in Frameworks */,
-				C94F71CF275E0E2A00722494 /* Bolts.framework in Frameworks */,
 				546603A5237BBEB600BE1691 /* GameController.framework in Frameworks */,
 				5466039E237AEE3D00BE1691 /* MediaPlayer.framework in Frameworks */,
 				54660396237AEA0600BE1691 /* CoreMotion.framework in Frameworks */,
-				C94F71CC275E0E2A00722494 /* FBSDKLoginKit.framework in Frameworks */,
 				54673495236D4B3700748C93 /* WebKit.framework in Frameworks */,
-				C94F7213275E0F5A00722494 /* FBSDKCoreKit.framework in Frameworks */,
 				5447D59022C4F26C004BF3B7 /* iAd.framework in Frameworks */,
 				C94F7203275E0F4000722494 /* BUVAAuxiliary.framework in Frameworks */,
 				C94F7209275E0F4D00722494 /* MoPubAdapter.framework in Frameworks */,
 				C94F7205275E0F4000722494 /* BUCNAuxiliary.framework in Frameworks */,
 				5447D58E22C4EA47004BF3B7 /* AdSupport.framework in Frameworks */,
 				3D044AD81FEA4D9C000A2972 /* Security.framework in Frameworks */,
+				C9A2B5FD27634B210007C3F9 /* FBSDKShareKit.framework in Frameworks */,
 				C94F71E7275E0EAF00722494 /* VungleSDK.framework in Frameworks */,
 				3D2AABF31EE57E030069BE0B /* MessageUI.framework in Frameworks */,
 				3D1C36F31EA776F900534806 /* libcurl.a in Frameworks */,
@@ -625,28 +629,30 @@
 				BF4E913C1D892E9400A4C1FD /* MessageUI.framework in Frameworks */,
 				BF16C9211C9671CB0077DC9B /* SystemConfiguration.framework in Frameworks */,
 				C94F71D3275E0E3F00722494 /* Bugly.framework in Frameworks */,
-				C94F7211275E0F5A00722494 /* Bolts.framework in Frameworks */,
 				BF39D4691C8FDC4F00636ED6 /* StoreKit.framework in Frameworks */,
 				BF39D4651C8FC9DE00636ED6 /* CoreTelephony.framework in Frameworks */,
 				C94F71B4275E0DC700722494 /* libMobClickLibrary.a in Frameworks */,
 				BF1E054B1C8EBE6800FFF348 /* libz.tbd in Frameworks */,
 				9FF504871A5E88CE00AFDA55 /* libsimulator iOS.a in Frameworks */,
-				C94F71CE275E0E2A00722494 /* FBSDKCoreKit.framework in Frameworks */,
 				C94F721D275E0F6B00722494 /* UserMessagingPlatform.framework in Frameworks */,
 				5200BECA1A53D9A500AC45E4 /* Security.framework in Frameworks */,
 				C94F7200275E0F4000722494 /* BUAdSDK.framework in Frameworks */,
+				C9A2B5FB27634B210007C3F9 /* FBSDKCoreKit_Basics.framework in Frameworks */,
 				C94F721C275E0F6B00722494 /* GoogleMobileAds.framework in Frameworks */,
 				15427CD5198F222200DC375D /* libluacocos2d iOS.a in Frameworks */,
 				DABC994F1A82143400BF5CC4 /* libquick_libs IOS.a in Frameworks */,
 				DABC99511A8214A100BF5CC4 /* SystemConfiguration.framework in Frameworks */,
 				C94F71EB275E0EE400722494 /* UnityAdapter.framework in Frameworks */,
+				C9A2B60027634B940007C3F9 /* FBAudienceNetwork.framework in Frameworks */,
 				C94F71EA275E0EE400722494 /* UnityAds.framework in Frameworks */,
 				C94F721E275E0F6B00722494 /* PromisesObjC.framework in Frameworks */,
 				15427CD3198F221400DC375D /* libcocos2d iOS.a in Frameworks */,
 				1AF4C403178663F200122817 /* libz.dylib in Frameworks */,
 				50805AAF17EBBEAA004CFAD3 /* UIKit.framework in Frameworks */,
 				5023817A17EBBE8300990C9B /* OpenGLES.framework in Frameworks */,
+				C9A2B5F927634B210007C3F9 /* FBAEMKit.framework in Frameworks */,
 				F293B3CD15EB7BE500256477 /* QuartzCore.framework in Frameworks */,
+				C9A2B5FC27634B210007C3F9 /* FBSDKLoginKit.framework in Frameworks */,
 				C94F7204275E0F4000722494 /* PangleAdapter.framework in Frameworks */,
 				F293B3D115EB7BE500256477 /* OpenAL.framework in Frameworks */,
 				C94F71D5275E0E4E00722494 /* lame.framework in Frameworks */,
@@ -659,6 +665,7 @@
 				F293B3D515EB7BE500256477 /* AVFoundation.framework in Frameworks */,
 				C94F71D2275E0E3E00722494 /* libBuglyAgent.a in Frameworks */,
 				C94F71EE275E0EF400722494 /* TradPlusAds.framework in Frameworks */,
+				C9A2B5FA27634B210007C3F9 /* FBSDKCoreKit.framework in Frameworks */,
 				F293B3D915EB7BE500256477 /* Foundation.framework in Frameworks */,
 				C94F71E6275E0EAF00722494 /* VungleAdapter.framework in Frameworks */,
 				F293B3DB15EB7BE500256477 /* CoreGraphics.framework in Frameworks */,
@@ -1063,10 +1070,11 @@
 		C94F71A3275E0D3F00722494 /* facebook */ = {
 			isa = PBXGroup;
 			children = (
-				C94F71CB275E0E2A00722494 /* Bolts.framework */,
-				C94F71CA275E0E2A00722494 /* FBSDKCoreKit.framework */,
-				C94F71C8275E0E2A00722494 /* FBSDKLoginKit.framework */,
-				C94F71C9275E0E2A00722494 /* FBSDKShareKit.framework */,
+				C9A2B5F427634B210007C3F9 /* FBAEMKit.framework */,
+				C9A2B5F627634B210007C3F9 /* FBSDKCoreKit_Basics.framework */,
+				C9A2B5F527634B210007C3F9 /* FBSDKCoreKit.framework */,
+				C9A2B5F727634B210007C3F9 /* FBSDKLoginKit.framework */,
+				C9A2B5F827634B210007C3F9 /* FBSDKShareKit.framework */,
 			);
 			name = facebook;
 			sourceTree = "<group>";
@@ -1121,10 +1129,8 @@
 		C94F71AA275E0D7500722494 /* facebook */ = {
 			isa = PBXGroup;
 			children = (
-				C94F720D275E0F5A00722494 /* Bolts.framework */,
-				C94F720F275E0F5A00722494 /* FBSDKCoreKit.framework */,
-				C94F720E275E0F5A00722494 /* FBSDKLoginKit.framework */,
-				C94F720C275E0F5A00722494 /* FBSDKShareKit.framework */,
+				C9A2B5FF27634B940007C3F9 /* FacebookAdapter.framework */,
+				C9A2B5FE27634B940007C3F9 /* FBAudienceNetwork.framework */,
 			);
 			name = facebook;
 			sourceTree = "<group>";
