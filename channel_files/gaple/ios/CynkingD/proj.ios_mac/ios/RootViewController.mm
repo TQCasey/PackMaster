@@ -769,6 +769,7 @@ API_AVAILABLE(ios(13.0)){
 //    NSLog (@"=====> linkUrl = %@",linkUrl);
 //    NSLog (@"=====> content = %@",content);
     
+    /*
     FBSDKShareDialog* dialog = [[FBSDKShareDialog alloc] init];
     
     if ([dialog canShow]) {
@@ -796,6 +797,7 @@ API_AVAILABLE(ios(13.0)){
         
         [dialog show];
     }
+     */
 }
 
 -(void)gameInviteRequestCallback:(int)luaFuncId retStr:(NSString *)retStr {

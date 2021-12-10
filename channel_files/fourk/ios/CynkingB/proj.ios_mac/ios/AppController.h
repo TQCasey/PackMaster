@@ -24,7 +24,7 @@
  ****************************************************************************/
 #import "pic.h"
 #import <MessageUI/MessageUI.h>
-#import "Firebase.h"
+//#import "Firebase.h"
 #import <AVKit/AVKit.h>
 #import <TradPlusAds/MsRewardedVideoAd.h>
 

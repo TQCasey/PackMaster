@@ -18,24 +18,12 @@
 
 #import <Foundation/Foundation.h>
 
-#import "FBSDKGraphRequestConnection.h"
+#import "FBSDKGraphRequestProtocol.h"
+#import "FBSDKGraphRequestHTTPMethod.h"
+
+@protocol FBSDKGraphRequestConnecting;
 
 NS_ASSUME_NONNULL_BEGIN
-
-@class FBSDKAccessToken;
-
-/// typedef for FBSDKHTTPMethod
-typedef NSString *const FBSDKHTTPMethod NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(HTTPMethod);
-
-/// GET Request
-FOUNDATION_EXPORT FBSDKHTTPMethod FBSDKHTTPMethodGET NS_SWIFT_NAME(get);
-
-/// POST Request
-FOUNDATION_EXPORT FBSDKHTTPMethod FBSDKHTTPMethodPOST NS_SWIFT_NAME(post);
-
-/// DELETE Request
-FOUNDATION_EXPORT FBSDKHTTPMethod FBSDKHTTPMethodDELETE NS_SWIFT_NAME(delete);
-
 /**
   Represents a request to the Facebook Graph API.
 
@@ -56,7 +44,7 @@ FOUNDATION_EXPORT FBSDKHTTPMethod FBSDKHTTPMethodDELETE NS_SWIFT_NAME(delete);
  @see FBSDKGraphErrorRecoveryProcessor
  */
 NS_SWIFT_NAME(GraphRequest)
-@interface FBSDKGraphRequest : NSObject
+@interface FBSDKGraphRequest : NSObject <FBSDKGraphRequest>
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -109,6 +97,15 @@ NS_SWIFT_NAME(GraphRequest)
 NS_DESIGNATED_INITIALIZER;
 
 /**
+  Initializes a new instance.
+ @param graphPath the graph path (e.g., @"me").
+ @param parameters the optional parameters dictionary.
+ @param requestFlags  flags that indicate how a graph request should be treated in various scenarios
+ */
+- (instancetype)initWithGraphPath:(NSString *)graphPath
+                       parameters:(nullable NSDictionary<NSString *, id> *)parameters
+                            flags:(FBSDKGraphRequestFlags)requestFlags;
+/**
   The request parameters.
  */
 @property (nonatomic, copy) NSDictionary<NSString *, id> *parameters;
@@ -151,7 +148,14 @@ NS_SWIFT_NAME(setGraphErrorRecovery(disabled:));
   Starts a connection to the Graph API.
  @param handler The handler block to call when the request completes.
  */
-- (FBSDKGraphRequestConnection *)startWithCompletionHandler:(nullable FBSDKGraphRequestBlock)handler;
+- (id<FBSDKGraphRequestConnecting>)startWithCompletionHandler:(nullable FBSDKGraphRequestBlock)handler
+DEPRECATED_MSG_ATTRIBUTE("This method is deprecated and will be removed in the next major release. Please use `startWithCompletion:` instead`");
+
+/**
+  Starts a connection to the Graph API.
+ @param completion The handler block to call when the request completes.
+ */
+- (id<FBSDKGraphRequestConnecting>)startWithCompletion:(nullable FBSDKGraphRequestCompletion)completion;
 
 @end
 
