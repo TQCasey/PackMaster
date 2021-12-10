@@ -18,52 +18,21 @@
 
 #import <UIKit/UIKit.h>
 
+#import "FBSDKLoggingBehavior.h"
+#import "FBSDKSettingsProtocol.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-/*
- * Constants defining logging behavior.  Use with <[FBSDKSettings setLoggingBehavior]>.
- */
-
-/// typedef for FBSDKAppEventName
-typedef NSString *const FBSDKLoggingBehavior NS_TYPED_EXTENSIBLE_ENUM NS_SWIFT_NAME(LoggingBehavior);
-
-/** Include access token in logging. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorAccessTokens;
-
-/** Log performance characteristics */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorPerformanceCharacteristics;
-
-/** Log FBSDKAppEvents interactions */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorAppEvents;
-
-/** Log Informational occurrences */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorInformational;
-
-/** Log cache errors. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorCacheErrors;
-
-/** Log errors from SDK UI controls */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorUIControlErrors;
-
-/** Log debug warnings from API response, i.e. when friends fields requested, but user_friends permission isn't granted. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorGraphAPIDebugWarning;
-
-/** Log warnings from API response, i.e. when requested feature will be deprecated in next version of API.
- Info is the lowest level of severity, using it will result in logging all previously mentioned levels.
- */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorGraphAPIDebugInfo;
-
-/** Log errors from SDK network requests */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorNetworkRequests;
-
-/** Log errors likely to be preventable by the developer. This is in the default set of enabled logging behaviors. */
-FOUNDATION_EXPORT FBSDKLoggingBehavior FBSDKLoggingBehaviorDeveloperErrors;
-
 NS_SWIFT_NAME(Settings)
-@interface FBSDKSettings : NSObject
+@interface FBSDKSettings : NSObject<FBSDKSettings>
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
+
+/**
+ The shared settings instance. Prefer this and the exposed instance methods over the class variants.
+ */
+@property (class, nonatomic, readonly) FBSDKSettings *sharedSettings;
 
 /**
  Retrieve the current iOS SDK version.
@@ -86,13 +55,6 @@ NS_SWIFT_NAME(Settings)
 NS_SWIFT_NAME(jpegCompressionQuality);
 
 /**
- Controls sdk auto initailization.
- If not explicitly set, the default is true
- */
-@property (class, nonatomic, assign, getter=isAutoInitEnabled) BOOL autoInitEnabled
-DEPRECATED_MSG_ATTRIBUTE("Auto-initialization will be removed in the next major version release.");
-
-/**
  Controls the auto logging of basic app events, such as activateApp and deactivateApp.
  If not explicitly set, the default is true
  */
@@ -111,11 +73,24 @@ DEPRECATED_MSG_ATTRIBUTE("Auto-initialization will be removed in the next major 
 @property (class, nonatomic, assign, getter=isAdvertiserIDCollectionEnabled) BOOL advertiserIDCollectionEnabled;
 
 /**
+ Controls the SKAdNetwork report
+ If not explicitly set, the default is true
+ */
+@property (class, nonatomic, assign, getter=isSKAdNetworkReportEnabled) BOOL SKAdNetworkReportEnabled;
+
+/**
  Whether data such as that generated through FBSDKAppEvents and sent to Facebook
  should be restricted from being used for other than analytics and conversions.
  Defaults to NO. This value is stored on the device and persists across app launches.
  */
 @property (class, nonatomic, assign, getter=shouldLimitEventAndDataUsage) BOOL limitEventAndDataUsage;
+
+/**
+ Whether in memory cached values should be used for expensive metadata fields, such as
+ carrier and advertiser ID, that are fetched on many applicationDidBecomeActive notifications.
+ Defaults to NO. This value is stored on the device and persists across app launches.
+ */
+@property (class, nonatomic, assign, getter=shouldUseCachedValuesForExpensiveMetadata) BOOL shouldUseCachedValuesForExpensiveMetadata;
 
 /**
  A convenient way to toggle error recovery for all FBSDKGraphRequest instances created after this is set.
@@ -176,15 +151,14 @@ DEPRECATED_MSG_ATTRIBUTE("Auto-initialization will be removed in the next major 
 
  The default is a set consisting of FBSDKLoggingBehaviorDeveloperErrors
  */
-@property (class, nonatomic, copy) NSSet<FBSDKLoggingBehavior> *loggingBehaviors
-NS_REFINED_FOR_SWIFT;
+@property (class, nonatomic, copy) NSSet<FBSDKLoggingBehavior> *loggingBehaviors;
 
 /**
-  Overrides the default Graph API version to use with `FBSDKGraphRequests`. This overrides `FBSDK_TARGET_PLATFORM_VERSION`.
+  Overrides the default Graph API version to use with `FBSDKGraphRequests`. This overrides `FBSDK_DEFAULT_GRAPH_API_VERSION`.
 
  The string should be of the form `@"v2.7"`.
 
- Defaults to `FBSDK_TARGET_PLATFORM_VERSION`.
+ Defaults to `FBSDK_DEFAULT_GRAPH_API_VERSION`.
 */
 @property (class, nonatomic, copy, null_resettable) NSString *graphAPIVersion;
 
@@ -196,7 +170,7 @@ NS_REFINED_FOR_SWIFT;
 
 /**
 Set the advertiser_tracking_enabled flag. It only works in iOS14 and above.
- 
+
 @param advertiserTrackingEnabled the value of the flag
 @return Whether the the value is set successfully. It will always return NO in iOS 13 and below.
  */

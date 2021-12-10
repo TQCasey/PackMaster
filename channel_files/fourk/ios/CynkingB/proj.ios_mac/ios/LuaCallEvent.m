@@ -621,8 +621,11 @@
 }
 
 +(int) hasAdLoaded:(NSDictionary *)info {
-    AppController *appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
-    [appDelegate hasAdLoaded :info];
+//    AppController *appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
+//    [appDelegate hasAdLoaded :info];
+    
+    // always be true
+    return YES;
 }
 
 // =======================================================

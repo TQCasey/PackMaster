@@ -48,7 +48,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.21.0</string>
+	<string>2.21.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -63,9 +63,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>22100</string>
+	<string>22112</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookAppID</key>
 	<string>216424265679935</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookDisplayName</key>
 	<string>Cynking Domino Gaple</string>
 	<key>GADApplicationIdentifier</key>
@@ -752,10 +756,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-<key>FacebookAutoLogAppEventsEnabled</key>
- <string>TRUE</string>
- <key>FacebookAdvertiserIDCollectionEnabled</key>
- <string>TRUE</string>
-
 </dict>
 </plist>

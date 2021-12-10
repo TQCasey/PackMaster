@@ -1409,10 +1409,17 @@ BOOL bHasAdLoaded = false;
 //视频播放结束后，关闭落地页
 -(void)rewardedVideoAdDismissed:(NSDictionary *)dicChannelInfo
 {
-    //dismiss后重新请求广告，如果是自动加载可不调用。
+    NSString *is_play_complete = [dicChannelInfo objectForKey:@"is_play_complete"];
+    BOOL isComplete = [is_play_complete isEqualToString: @"Y"];
+    if (isComplete) {
+        [self callAdCallback:"reward"];
+    }
+
+    //dismiss后重新请求广告，如果是自动加载可不调用
     [self callAdCallback:"closed"];
     //[self.rewardedVideoAd loadAd];
     NSLog(@"%s", __FUNCTION__);
+
 }
 //点击广告后回调。
 -(void)rewardedVideoAdClicked:(NSDictionary *)dicChannelInfo
@@ -1423,7 +1430,7 @@ BOOL bHasAdLoaded = false;
 //播放完成获得奖励后回调 reward为TradPlus后台设置的奖励 通过reward.currencyType reward.amount访问
 -(void)rewardedVideoAdShouldReward:(NSDictionary *)dicChannelInfo reward:(MSRewardedVideoReward *)reward
 {
-    [self callAdCallback:"reward"];
+//    [self callAdCallback:"reward"];
     NSLog(@"%s", __FUNCTION__);
 }
 
