@@ -118,7 +118,7 @@ class PackAndroid(PackCommon):
         if os.path.exists(aab_path):
             # rename
             mode_name = "-debug-" if self.use_debug else "-release-"
-            new_aab_path = os.path.join(self.lua_project_dir,"publish","android",self.curGameHallName + mode_name + self.chName + "-" + self.vname + ".aab");
+            new_aab_path = os.path.join(self.lua_project_dir,"publish","android",self.curGameHallName,self.curGameHallName + mode_name + self.chName + "-" + self.vname + ".aab");
             if os.path.exists(new_aab_path):
                 os.remove(new_aab_path);
             shutil.move(aab_path, new_aab_path);
