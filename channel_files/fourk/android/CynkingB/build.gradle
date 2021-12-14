@@ -58,7 +58,7 @@ dependencies {
     // Cross Promotion
     implementation 'com.tradplusad:tradplus-crosspromotion:27.7.0.20.1'
     //国内需要同时引入
-    implementation 'com.tradplusad:tradplus-china_pluginx:7.0.20.1'
+    //implementation 'com.tradplusad:tradplus-china_pluginx:7.0.20.1'
     // Cross Promotion
     implementation 'com.tradplusad:tradplus-crosspromotion:27.7.0.20.1'
     // Adx
