@@ -11,11 +11,6 @@ from PyQt5.QtCore import QThread, pyqtSignal, QSize, QRect, QStringListModel
 from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIntValidator, QIcon
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
-from lupa import LuaRuntime
-
-from PushButton import PushButton
-
-from SvnUtils import SvnUtils
 from android.gameprofile import GameProfileDialogAndroid
 from android.pack import PackAndroid, PackH5Android
 from changelistdlg import AlertChangeList
