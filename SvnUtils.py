@@ -2,8 +2,6 @@ from passwddlg import getAccountInfo
 from cmm import *
 from profile import gPMConfig
 
-import os.path
-
 import svn.constants
 import svn.common
 import xml.etree.ElementTree

@@ -9,12 +9,8 @@ import socket
 import re
 import json
 
-from PyQt5 import QtCore
-
-from SvnUtils import SvnUtils
 from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
-from ftplib import FTP
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
