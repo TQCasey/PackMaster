@@ -20,7 +20,7 @@ class WhiteListDialog(QDialog):
 
             header = self.tableWidget_whitelist.horizontalHeader()
 
-            width = self.tableWidget_whitelist.width() - 40;
+            width = self.tableWidget_whitelist.width() - 60;
             self.tableWidget_whitelist.setColumnWidth(0, 250);
             self.tableWidget_whitelist.setColumnWidth(1, width  - 250);
 
