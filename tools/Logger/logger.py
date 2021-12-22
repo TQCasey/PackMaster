@@ -174,8 +174,9 @@ class DebugLogger (QDialog):
 
         curgame = self.cbo_game.currentText();
         filename = os.path.join(os.getcwd(), 'tools', 'Logger', 'config', curgame + 'Config.json')
-        with open(filename, 'w') as file:
-            file.write(jsonpickle.encode(self.m_config))
+        if os.path.exists (filename):
+            with open(filename, 'w') as file:
+                file.write(jsonpickle.encode(self.m_config))
 
         if 'initConfig' in kwargs:
             self.logger.initConfig()
@@ -282,7 +283,7 @@ class DebugLogger (QDialog):
 
 
     '''
-    restart Game 
+    restart Game
     '''
     def onRestartGame(self):
         self.onGameCommand ("restart");
