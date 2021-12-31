@@ -20,7 +20,7 @@ class WhiteListDialog(QDialog):
 
             header = self.tableWidget_whitelist.horizontalHeader()
 
-            width = self.tableWidget_whitelist.width() - 40;
+            width = self.tableWidget_whitelist.width() - 60;
             self.tableWidget_whitelist.setColumnWidth(0, 250);
             self.tableWidget_whitelist.setColumnWidth(1, width  - 250);
 
@@ -39,7 +39,7 @@ class WhiteListDialog(QDialog):
     def onAddToList(self):
 
         devname = self.lineEdit_dev_sn.text ();
-        name = self.lineEdit_name.text ();
+        name = self.lineEdit_name.text ().strip ('\r').strip ('\n').strip (' ');
         if devname == "" or name == "":
             rmsgbox("请补全名字和设备名");
             return ;
@@ -110,14 +110,14 @@ class WhiteListDialog(QDialog):
                 """
                 name 
                 """
-                item = QTableWidgetItem(str(info ["name"]))
+                item = QTableWidgetItem(str(info ["name"]).strip ('\r').strip ('\n').strip (' '))
                 # item.setFlags(QtCore.Qt.ItemIsUserCheckable)
                 self.tableWidget_whitelist.setItem(index, 0, item)
 
                 """
                 devname
                 """
-                item = QTableWidgetItem(str(info ["devname"]))
+                item = QTableWidgetItem(str(info ["devname"]).strip ('\r').strip ('\n').strip (' '));
                 # item.setFlags(QtCore.Qt.ItemIsUserCheckable | QtCore.Qt.ItemIsEnabled)
                 self.tableWidget_whitelist.setItem(index, 1, item)
 

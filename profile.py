@@ -586,7 +586,7 @@ class WhiteList(object):
 
             if os.path.exists(white_list_filename):
                 with open (white_list_filename,"r",encoding='utf8') as file:
-                    content = file.read ();
+                    content = file.read ().strip ('\n').strip ('\r').strip ('\t').strip(' ');
                     self.white_list = json.loads(content);
 
             pass

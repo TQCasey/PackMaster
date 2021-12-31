@@ -32,37 +32,33 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
     //TradPlus
-    implementation 'com.tradplusad:tradplus:7.0.20.1'
+    implementation 'com.tradplusad:tradplus:7.0.30.1'
     // Admob
     implementation 'com.google.android.gms:play-services-ads:20.4.0'
-    implementation 'com.tradplusad:tradplus-googlex:2.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-googlex:2.7.0.30.1'
     // Vungle
-    implementation 'com.tradplusad:tradplus-vunglex:7.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-vunglex:7.7.0.30.1'
     implementation 'com.vungle:publisher-sdk-android:6.10.2'
     implementation 'com.google.android.gms:play-services-basement:17.5.0'
     implementation 'com.google.android.gms:play-services-ads-identifier:17.0.0'
     // Facebook
     implementation 'com.facebook.android:audience-network-sdk:6.8.0'
-    implementation 'com.tradplusad:tradplus-facebook:1.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-facebook:1.7.0.30.11'
     // Mopub
-    implementation 'com.tradplusad:tradplus-mopubx:3.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-mopubx:3.7.0.30.1'
     implementation('com.mopub:mopub-sdk:5.17.0') {
         transitive = true
     }
     // Pangle (海外)
-    implementation 'com.tradplusad:tradplus-pangle:19.7.0.20.1'
-    //implementation(name: 'open_ad_sdk_V4.0.1.1', ext:'aar')
+    implementation 'com.tradplusad:tradplus-pangle:19.7.0.30.1'
+    //implementation(name: 'open_ad_sdk_V4.1.1.2', ext:'aar')
     // UnityAds
-    implementation 'com.tradplusad:tradplus-unity:5.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-unity:5.7.0.30.1'
     //implementation(name: 'unity-ads-3.7.5', ext: 'aar')
     // Cross Promotion
-    implementation 'com.tradplusad:tradplus-crosspromotion:27.7.0.20.1'
-    //国内需要同时引入
-    //implementation 'com.tradplusad:tradplus-china_pluginx:7.0.20.1'
-    // Cross Promotion
-    implementation 'com.tradplusad:tradplus-crosspromotion:27.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-crosspromotion:27.7.0.30.1'
     // Adx
-    implementation 'com.tradplusad:tradplus-adx:40.7.0.20.1'
+    implementation 'com.tradplusad:tradplus-adx:40.7.0.30.1'
     implementation 'com.google.code.gson:gson:2.8.6'
     
     

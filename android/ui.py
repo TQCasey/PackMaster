@@ -134,9 +134,9 @@ class MainWindowAndroid (MainWindow):
             arr = hallName.split ("-");
             GameHallName = arr [1];
             platconfig = self.getPlatSettings();
-            app_path = os.path.join(self.getLuaSrcDir (hallName),"publish","android");
+            app_path = os.path.join(platconfig.project_dir,"publish","android",GameHallName);
             if self.ckbox_use_debug.checkState () == Qt.Qt.Checked:
-                app_path = os.path.join(self.getLuaSrcDir (hallName),"runtime","android");
+                app_path = os.path.join(platconfig.project_dir,"runtime","android",GameHallName);
 
             all = os.walk(app_path);
 
