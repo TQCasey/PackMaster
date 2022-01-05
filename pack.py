@@ -480,9 +480,9 @@ return {
         if not os.path.exists(self.publish_dir):
             os.makedirs(self.publish_dir);
 
-        print ("自动同步到最新时间...");
-        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
-
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         print ("自动更新到最新....");
         if isMacOS():
