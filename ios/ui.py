@@ -116,7 +116,8 @@ class MainWindowIOS (MainWindow):
             platconfig = self.getPlatSettings();
             path = os.path.join(platconfig.project_dir,self.luaHallConfig.srcname);
             self.lua_project_dir = os.path.join(path.replace("~", os.environ['HOME']));
-            archpath = os.path.join(self.lua_project_dir, "publish", self.hallName, "ios");
+            ar = hallName.split ("-");
+            archpath = os.path.join(self.lua_project_dir, "publish", ar [1], "ios");
 
             all = os.walk(archpath);
 

@@ -104,6 +104,9 @@ class PackCommon:
 
     def run(self):
 
+        print ("自动同步到最新时间...");
+        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+
         #make auto_config file first
         self.makeConfigs();
 
@@ -477,7 +480,11 @@ return {
         if not os.path.exists(self.publish_dir):
             os.makedirs(self.publish_dir);
 
-        print ("Auto check update...");
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+
+        print ("自动更新到最新....");
         if isMacOS():
             cmdstr = '''cd %s && svn up''' % (os.path.join(self.publish_dir))
         else:
@@ -714,6 +721,10 @@ return {
         pass
 
     def makeAssets(self):
+
+
+        print ("自动同步到最新时间...");
+        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         print("make assets for debug...");
         self.makeConfigs();

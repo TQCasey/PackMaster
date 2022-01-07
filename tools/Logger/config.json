@@ -1,9 +1,10 @@
 {
-	"base_dir" : "D:/client/domino/client/",
+	"base_dir" : "D:/CynkingGame/client/",
 	"sub_dirs" : [
 		"base/src",
 		"base/res",
 		"hall/src",
-		"hall/res"
+    "hall/res",
+    "game"
 	]
 }
