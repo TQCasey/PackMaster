@@ -510,3 +510,6 @@ LXQE-haidiCJ.png
 LXQE-putongCJ.pngJLDB-BJpt.png
 JLDB-BJfree.png
 JLDB-bonusCJ.png
+JLDB-BJpt.png
+JLDB-BJpt2.png
+JLDB-jiesuan.png

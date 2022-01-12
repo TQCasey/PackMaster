@@ -30,8 +30,8 @@ useFixedHeight=0
 forceZero=0
 
 # output file
-outWidth=220
-outHeight=40
+outWidth=150
+outHeight=55
 outBitDepth=32
 fontDescFormat=0
 fourChnlPacked=0
@@ -50,16 +50,19 @@ invB=0
 outlineThickness=0
 
 # selected chars
-chars=46,48-57
+chars=43-44,48-58
 
 # imported icon images
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_0.png",48,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_1.png",49,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_2.png",50,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_3.png",51,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_4.png",52,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_5.png",53,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_6.png",54,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_7.png",55,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_8.png",56,0,0,0
-icon="../../../cocosstudio_tl/TexturePaker/hall_brc/hall_font/hall_brc_9.png",57,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/0.png",48,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/1.png",49,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/2.png",50,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/3.png",51,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/4.png",52,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/5.png",53,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/6.png",54,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/7.png",55,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/8.png",56,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/9.png",57,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/fh.png",58,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/,.png",44,0,0,0
+icon="D:/cocosstudio/indonesia_gaple/games/slot_hub/subgame/Dragon/fonts/dragon_bonus_time/+.png",43,0,0,0

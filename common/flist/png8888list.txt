@@ -194,3 +194,5 @@ penguin_slot_board_bg_grey_2.png
 penguin_slot_board_bg_grey_3.pngdragon_rule_item_bk1.png
 dragon_rule_item_bk2.png
 dragon_rule_item_bk3.png
+dragon_bonus_progress_bar.png
+slot_totalbet_mask.png
