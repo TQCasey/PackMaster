@@ -196,3 +196,4 @@ dragon_rule_item_bk2.png
 dragon_rule_item_bk3.png
 dragon_bonus_progress_bar.png
 slot_totalbet_mask.png
+escape_station_gun.png

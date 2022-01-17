@@ -507,7 +507,8 @@ CTHS-hszj.png
 CTHS-hszj2.png
 CTHS-hszj3.png
 LXQE-haidiCJ.png
-LXQE-putongCJ.pngJLDB-BJpt.png
+LXQE-putongCJ.png
+JLDB-BJpt.png
 JLDB-BJfree.png
 JLDB-bonusCJ.png
 JLDB-BJpt.png
