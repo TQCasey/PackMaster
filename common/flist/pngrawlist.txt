@@ -513,3 +513,4 @@ JLDB-bonusCJ.png
 JLDB-BJpt.png
 JLDB-BJpt2.png
 JLDB-jiesuan.png
+slot_totalbet_mask.png
