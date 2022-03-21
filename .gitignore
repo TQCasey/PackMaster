@@ -5,4 +5,4 @@ settings.json
 tools/Logger/config/
 __pycache__
 venvmy
-# venvbk
+venv
