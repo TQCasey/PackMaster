@@ -515,3 +515,4 @@ JLDB-BJpt.png
 JLDB-BJpt2.png
 JLDB-jiesuan.png
 slot_totalbet_mask.png
+lobby_texture_gaple.png
