@@ -71,6 +71,12 @@
         </intent-filter>
     </receiver>
 
+        <receiver android:name="com.zhijian.common.InstallReferrerReceiver" android:exported="true" android:permission="android.permission.INSTALL_PACKAGES">
+      <intent-filter>
+        <action android:name="com.android.vending.INSTALL_REFERRER" />
+      </intent-filter>
+    </receiver>
+
   </application>
   <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:smallScreens="true" android:xlargeScreens="true"/>
   <uses-permission android:name="android.permission.INTERNET"/>

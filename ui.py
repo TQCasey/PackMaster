@@ -26,7 +26,6 @@ from loglist import LogListDialog, getRevision
 from passwddlg import PasswdDlg, getAccountInfo
 from preference import PreferDialog
 from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM
-import svn.remote
 
 from whitelist import WhiteListDialog
 
@@ -746,6 +745,7 @@ class MainWindow(QMainWindow):
         self.succeed_panel = self.findChild(QGroupBox, "groupBox_succeed_list");
         self.btn_add_task = self.findChild(QPushButton, "btn_add_task");
         self.btn_sync_all_version = self.findChild(QPushButton,"btn_sync_all_version");
+        self.checkBox_no_hotupdate = self.findChild(QCheckBox,"checkBox_no_hotupdate");
 
         self.ckbox_ignore_err = self.findChild(QCheckBox, "checkBox_igone_error");
         self.ckbox_local_task_list = self.findChild(QCheckBox, "checkBox_lock_tasklist");
@@ -2749,6 +2749,7 @@ class MainWindow(QMainWindow):
             self.safeGetSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
             self.safeGetSinglePMConfig (chConfig,"use_etc2","ckbox_use_etc2");
             self.safeGetSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
+            self.safeGetSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
 
             self.safeGetSinglePMConfig (chConfig,"use_no_crypt_zip","ckbox_use_no_crypt_zip");
 
@@ -2802,6 +2803,7 @@ class MainWindow(QMainWindow):
             self.safeRestoreSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
             self.safeRestoreSinglePMConfig (chConfig,"use_etc2","ckbox_use_etc2");
             self.safeRestoreSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
+            self.safeRestoreSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
 
             gPMConfig.setDebug(self.ckbox_use_debug.checkState() == Qt.Qt.Checked);
 

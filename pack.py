@@ -2167,6 +2167,7 @@ return {
             config_str += '''CONFIG_CMM_STYLE          = "%s";\n''' % luaHallConfig.cmm_style;
             config_str += '''CHANNEL_NAME              = "%s";\n''' % self.chName;
             config_str += '''APP_VERSION               = "%s";\n''' % self.shortVerName;
+            config_str += '''CONFIG_NO_HOTUPDATE       = %s\n'''  % self.luaBool(pmChConfig.use_no_hotupdate)
 
             config_str += '''USE_AD                    = %s;\n''' % "true";
             config_str += '''CONFIG_GAUSE_BG           = %s;\n''' % "false";
