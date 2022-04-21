@@ -104,8 +104,9 @@ class PackCommon:
 
     def run(self):
 
-        print ("自动同步到最新时间...");
-        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         #make auto_config file first
         self.makeConfigs();
@@ -722,9 +723,9 @@ return {
 
     def makeAssets(self):
 
-
-        print ("自动同步到最新时间...");
-        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         print("make assets for debug...");
         self.makeConfigs();
