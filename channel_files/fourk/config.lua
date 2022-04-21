@@ -11,16 +11,18 @@ return {
     mm 			    = "fan_mm";
 
     games           = {
-        "dummy";
-        "dummy2v2";
-        "fourk";
-        "thai_sicbo";
         "fafafa";
-        "pokdeng";
-        "double_ten";
-        "sangong";
-        "sangong_bandar";
-        "texas_bandar";
+        "Dragon";
+        "Volcano";
+        "dummy";
+        -- "dummy2v2";
+        "fourk";
+        -- "thai_sicbo";
+        -- "pokdeng";
+        -- "double_ten";
+        -- "sangong";
+        -- "sangong_bandar";
+        -- "texas_bandar";
     };
 
     dbg_config 			= {

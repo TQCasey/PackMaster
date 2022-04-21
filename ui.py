@@ -2908,6 +2908,14 @@ class MainWindow(QMainWindow):
         if not self.isThreadEnd("pack"):
             return;
 
+        ### 打包的时候要关掉 刷新器
+        try:
+            if (hasattr(self, "logger_dialog")):
+                MsgBox().msg("正在打包，刷新器将会停止，如果需要开启，请手动打开");
+                self.logger_dialog.onStopLogger();
+        except Exception as err:
+            errmsg(err);
+
         msg = self.preCheckArgument();
         # if msg != None:
         #     MsgBox().msg(msg);
