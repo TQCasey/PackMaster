@@ -104,8 +104,9 @@ class PackCommon:
 
     def run(self):
 
-        print ("自动同步到最新时间...");
-        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         #make auto_config file first
         self.makeConfigs();
@@ -722,9 +723,9 @@ return {
 
     def makeAssets(self):
 
-
-        print ("自动同步到最新时间...");
-        Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+        if not isMacOS():
+            print ("自动同步到最新时间...");
+            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
         print("make assets for debug...");
         self.makeConfigs();
@@ -2167,6 +2168,7 @@ return {
             config_str += '''CONFIG_CMM_STYLE          = "%s";\n''' % luaHallConfig.cmm_style;
             config_str += '''CHANNEL_NAME              = "%s";\n''' % self.chName;
             config_str += '''APP_VERSION               = "%s";\n''' % self.shortVerName;
+            config_str += '''CONFIG_NO_HOTUPDATE       = %s\n'''  % self.luaBool(pmChConfig.use_no_hotupdate)
 
             config_str += '''USE_AD                    = %s;\n''' % "true";
             config_str += '''CONFIG_GAUSE_BG           = %s;\n''' % "false";
