@@ -28,6 +28,7 @@ import com.facebook.appevents.AppEventsConstants;
 import com.lahm.library.EasyProtectorLib;
 import com.zhijian.common.MyApplication;
 import com.zhijian.common.iap.google.GooglePay;
+import com.zhijian.common.InstallReferrerReceiver;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 import org.cocos2dx.lib.WebHandler;
@@ -87,6 +88,7 @@ public class LuaCallEvent {
 		map.put("appsflyerId", AppsFlyerLib.getInstance().getAppsFlyerUID(AppActivity.mActivity));
 		map.put("adjustId", Adjust.getAdid());
 		map.put("gms_adid", MyApplication.gms_adid);
+		map.put("referrer", InstallReferrerReceiver.getReferrer());
 		// String pushRid = AppActivity.mActivity.rid;
 		// String pushTid = AppActivity.mActivity.tid;
 		// if(pushRid != null && pushRid.length() > 0 && pushTid != null &&

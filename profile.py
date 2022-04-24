@@ -91,6 +91,7 @@ class PKConfig(object):
         self.use_logger = False,
         self.use_filelogger = False;
         self.use_test_game_update = False;
+        self.use_no_hotupdate = False;
 
         self.vname = "";
         self.vcode = 0;
