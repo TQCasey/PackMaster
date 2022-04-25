@@ -2164,7 +2164,7 @@ class MainWindow(QMainWindow):
             elif name == "actioniPhone_8":
                 width, height = 1520, 720;
             elif name == "actioniPhone_9":
-                width, height = 1440, 640;
+                width, height = 1494, 640;
             pass
 
             if width and height:

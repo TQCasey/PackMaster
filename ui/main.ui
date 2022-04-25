@@ -2089,7 +2089,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>unKnow  (1440*640)</string>
+    <string>unKnow  (1494*640)</string>
    </property>
   </action>
   <action name="action">
