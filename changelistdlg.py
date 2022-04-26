@@ -45,7 +45,10 @@ class ChangeListDlg(QDialog):
                 "A" : ("增加",Qt.QColor (0x00,0xff,0)),
                 "!" : ("删除",Qt.QColor (0xff,0,0)),
                 "D" : ("删除",Qt.QColor (0xff,0,0)),
-                "M" : ("修改",Qt.QColor (0,0,0xff))
+                "M" : ("修改",Qt.QColor (0,0,0xff)),
+                ">" : ("修改",Qt.QColor (0,0,0xff)),
+                "Summary" : ("冲突",Qt.QColor (0xff,0,0)),
+                "Text" : ("Text",Qt.QColor (0xff,0,0))
             }
             for index in range(len(changedlist)):
 
