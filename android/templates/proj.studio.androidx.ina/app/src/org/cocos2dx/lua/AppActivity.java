@@ -87,6 +87,8 @@ import com.zhijian.common.utility.FbLoginAndShare;
 import com.zhijian.common.utility.ImagePicker;
 import com.zhijian.common.utility.JsonUtil;
 import com.zhijian.common.utility.PermissionsChecker;
+import com.zhijian.common.InstallReferrer;
+import com.zhijian.common.ShareMgr;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import org.cocos2dx.lib.Cocos2dxGLSurfaceView;
@@ -211,6 +213,8 @@ public class AppActivity extends Cocos2dxActivity {
 			GooglePay.getmInstance();
 			mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 			DeviceState.getInstance().Init(this);
+			//InstallReferrer.getInstance().init(this);
+			ShareMgr.getIntance().init(this);
 		} catch (Exception e) {
 			handle_exception(e);
 		}
@@ -632,6 +636,7 @@ public class AppActivity extends Cocos2dxActivity {
         FbLoginAndShare.instance().callbackManager.onActivityResult(requestCode, resultCode, data);
         ImagePicker.getInstance().onActivityResult(requestCode, resultCode, data);
 		GooglePay.getmInstance().onActivityResult(requestCode, resultCode, data);
+		ShareMgr.getIntance().onActivityResult(requestCode,resultCode,data);
     }
 
     @Override

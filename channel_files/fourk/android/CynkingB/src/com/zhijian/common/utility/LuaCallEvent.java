@@ -27,6 +27,7 @@ import com.facebook.appevents.AppEventsConstants;
 import com.lahm.library.EasyProtectorLib;
 import com.zhijian.common.MyApplication;
 import com.zhijian.common.iap.google.GooglePay;
+import com.zhijian.common.InstallReferrer;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 import org.cocos2dx.lib.WebHandler;
@@ -1322,5 +1323,12 @@ public class LuaCallEvent {
 	public static void lineLogout(final int luaFunc) {
 		LineUtils.getInstance().lineLogout(luaFunc);
 	}
-	
+
+	public static void checkInstallReferrer (final int funcId) {
+		InstallReferrer.getInstance().init(AppActivity.mActivity,funcId);
+	}
+
+	public static void shareMsg(final String activityTitle, final String msgTitle, final String msgText, final String imgPath,final int funcId) {
+		ShareMgr.getIntance().shareMsg(activityTitle,msgTitle,msgText,imgPath,funcId);
+	}
 }

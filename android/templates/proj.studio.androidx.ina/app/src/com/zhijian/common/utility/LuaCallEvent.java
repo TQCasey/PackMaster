@@ -28,7 +28,8 @@ import com.facebook.appevents.AppEventsConstants;
 import com.lahm.library.EasyProtectorLib;
 import com.zhijian.common.MyApplication;
 import com.zhijian.common.iap.google.GooglePay;
-import com.zhijian.common.InstallReferrerReceiver;
+import com.zhijian.common.InstallReferrer;
+import com.zhijian.common.ShareMgr;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 import org.cocos2dx.lib.WebHandler;
@@ -88,7 +89,6 @@ public class LuaCallEvent {
 		map.put("appsflyerId", AppsFlyerLib.getInstance().getAppsFlyerUID(AppActivity.mActivity));
 		map.put("adjustId", Adjust.getAdid());
 		map.put("gms_adid", MyApplication.gms_adid);
-		map.put("referrer", InstallReferrerReceiver.getReferrer());
 		// String pushRid = AppActivity.mActivity.rid;
 		// String pushTid = AppActivity.mActivity.tid;
 		// if(pushRid != null && pushRid.length() > 0 && pushTid != null &&
@@ -1319,4 +1319,12 @@ public class LuaCallEvent {
 	public static String getMSTime() { return System.currentTimeMillis()+"";}
 
 	public static int getBangsInfo() { return AppActivity.mBangsHeight;}
+
+	public static void checkInstallReferrer (final int funcId) {
+		InstallReferrer.getInstance().init(AppActivity.mActivity,funcId);
+	}
+
+	public static void shareMsg(final String activityTitle, final String msgTitle, final String msgText, final String imgPath,final int funcId) {
+		ShareMgr.getIntance().shareMsg(activityTitle,msgTitle,msgText,imgPath,funcId);
+	}
 }
