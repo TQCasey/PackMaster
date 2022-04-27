@@ -517,3 +517,5 @@ slot_totalbet_mask.png
 lobby_texture_gaple.png
 mission.png
 lobby_new.png
+SGDD-putongbj.png
+SGDD-freecake.png
