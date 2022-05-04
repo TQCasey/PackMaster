@@ -28,6 +28,7 @@ import com.lahm.library.EasyProtectorLib;
 import com.zhijian.common.MyApplication;
 import com.zhijian.common.iap.google.GooglePay;
 import com.zhijian.common.InstallReferrer;
+import com.zhijian.common.ShareMgr;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 import org.cocos2dx.lib.WebHandler;
