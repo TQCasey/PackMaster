@@ -519,3 +519,4 @@ mission.png
 lobby_new.png
 SGDD-putongbj.png
 SGDD-freecake.png
+WS-BJbaitian.png
