@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="app_name" translatable="false">ไพ่แคง</string>
+  <string name="app_name" translatable="false">Slots-dummy</string>
   <!-- cynking1:1051333554898444, youmi:1108604572519476  cynking2:1543672592605437 主版本1，click1，click2 是一个，cynking-->
   <string name="facebook_app_id" translatable="false">921059574770341</string>
   <string name="facebook_ads_id" translatable="false">524272441101407</string>
