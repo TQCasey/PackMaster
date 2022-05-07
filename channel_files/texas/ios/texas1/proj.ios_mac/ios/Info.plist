@@ -48,7 +48,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.21.0</string>
+	<string>2.22.1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -56,16 +56,32 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>Icon-120</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb247337319380989</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLIconFile</key>
+			<string>Icon-120</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.zhijian.texas</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>22100</string>
+	<string>22210</string>
+	<key>FacebookAdvertiserIDCollectionEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookAppID</key>
 	<string>247337319380989</string>
+	<key>FacebookAutoLogAppEventsEnabled</key>
+	<string>TRUE</string>
 	<key>FacebookDisplayName</key>
 	<string>Poker - Texas Holdem</string>
 	<key>GADApplicationIdentifier</key>
@@ -76,6 +92,7 @@
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
+		<string>com.zhijian.texas</string>
 		<string>fbapi</string>
 		<string>fbapi20130214</string>
 		<string>fbapi20130410</string>
@@ -750,11 +767,5 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 	</array>
-
-	<key>FacebookAutoLogAppEventsEnabled</key>
- <string>TRUE</string>
- <key>FacebookAdvertiserIDCollectionEnabled</key>
- <string>TRUE</string>
- 
 </dict>
 </plist>

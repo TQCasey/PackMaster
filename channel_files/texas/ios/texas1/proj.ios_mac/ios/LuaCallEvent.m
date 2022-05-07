@@ -703,5 +703,28 @@
     [downloader addToDownloader:dict];
 }
 
+// =======================================================
+// share
+// =======================================================
++(void) checkInstallReferrer:(NSDictionary *) dict {
+    
+    int luaFuncId = [[dict objectForKey:@"callback"] intValue];
+    
+    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    RootViewController *viewController = (RootViewController *)appRootVC;
+    AppController *appDelegate = (AppController *)[[UIApplication sharedApplication] delegate];
+    
+    NSDictionary *params = appDelegate.installParams;
+    NSString *shareLink = appDelegate.shareLink;
+    
+    [viewController checkInstallReferrer:params shareLink:shareLink luaFuncId:luaFuncId];
+}
+
++(void) shareMsg:(NSDictionary *) dict {
+    UIViewController *appRootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+    RootViewController *viewController = (RootViewController *)appRootVC;
+    [viewController shareMsg:dict];
+}
+
 @end
 

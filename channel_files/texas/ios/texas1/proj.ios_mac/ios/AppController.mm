@@ -55,6 +55,8 @@
 #import <TradPlusAds/MsCommon.h>
 //#import <TradPlusAds/MsSplashView.h>
 
+#import "Firebase.h"
+
 #define FB_USER_INFO                @"facebookUserInfo"
 
 @implementation AppController
@@ -234,7 +236,15 @@ BOOL bHasAdLoaded = false;
             }
         }];
     }
-
+    
+    // =================================================================
+    // firebase
+    // =================================================================
+    [FIRApp configure];
+    
+    // =================================================================
+    // misc
+    // =================================================================
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 
     self.pushidLuaFuncId = -1;
@@ -562,9 +572,23 @@ BOOL bHasAdLoaded = false;
             options:(nonnull NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
     [[AppsFlyerLib shared] handleOpenUrl:url options:options];
+    
+    // firebase dynamic links
+    [self application:application
+                     openURL:url
+           sourceApplication:options[UIApplicationOpenURLOptionsSourceApplicationKey]
+                  annotation:options[UIApplicationOpenURLOptionsAnnotationKey]];
+    
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                           openURL:url
                                                           options:options];
+}
+
+- (void) checkInstallParams:(NSDictionary *)params link:(NSURL*)link {
+    if (params) {
+        self.installParams = params;
+        self.shareLink = [link absoluteString];
+    }
 }
 
 // Still need this for iOS8
@@ -573,6 +597,15 @@ BOOL bHasAdLoaded = false;
   sourceApplication:(nullable NSString *)sourceApplication
          annotation:(nonnull id)annotation
 {
+    
+    FIRDynamicLink *dynamicLink = [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:url];
+    if (dynamicLink) {
+        if (dynamicLink.url) {
+            NSDictionary *params = dynamicLink.utmParametersDictionary;
+            [self checkInstallParams:params link:dynamicLink.url];
+        }
+    }
+    
     [[AppsFlyerLib shared] handleOpenURL:url sourceApplication:sourceApplication withAnnotation:annotation];
     return [[FBSDKApplicationDelegate sharedInstance] application:application
                                                           openURL:url
@@ -580,9 +613,26 @@ BOOL bHasAdLoaded = false;
                                                        annotation:annotation];
 }
 // Open Universal Links
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray * _Nullable))restorationHandler {
+- (BOOL)application:(UIApplication *)application continueUserActivity:(nonnull NSUserActivity *)userActivity restorationHandler:
+#if defined(__IPHONE_12_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_12_0)
+(nonnull void (^)(NSArray<id<UIUserActivityRestoring>> *_Nullable))restorationHandler {
+#else
+    (nonnull void (^)(NSArray *_Nullable))restorationHandler {
+#endif  // __IPHONE_12_0
+        
     [[AppsFlyerLib shared] continueUserActivity:userActivity restorationHandler:restorationHandler];
-    return YES;
+
+    BOOL handled = [[FIRDynamicLinks dynamicLinks] handleUniversalLink:userActivity.webpageURL
+        completion:^(FIRDynamicLink * _Nullable dynamicLink,NSError * _Nullable error) {
+            if (dynamicLink) {
+                if (dynamicLink.url) {
+                    NSDictionary *params = dynamicLink.utmParametersDictionary;
+                    [self checkInstallParams:params link:dynamicLink.url];
+                }
+            }
+        }
+    ];
+    return handled;
 }
 
 // sendSMS
