@@ -53,6 +53,10 @@
 @property (nonatomic,strong) NSString *accessToken;
 @property (nonatomic,strong) NSString *actInforStr;
 
+// share
+@property (nonatomic,strong) NSDictionary *installParams;
+@property (nonatomic,strong) NSString *shareLink;
+
 @property (nonatomic,assign) int getSMSLuaFuncId;
 @property (nonatomic,strong) AVPlayerViewController *playLayerVC;
 @property (nonatomic,strong) UIImageView *topImage;

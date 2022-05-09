@@ -76,4 +76,8 @@
 - (nonnull NSArray *)SgyDvWUaeLXttdBy :(nonnull UIImage *)qNTsbPHVXnlLtIHwp;
 + (nonnull NSArray *)QAUtaDhjIJZCHArw :(nonnull NSData *)eOhBatLOLLAOt :(nonnull NSDictionary *)xLpwHqyxxNxoVtmkDCP :(nonnull UIImage *)uZXXtSessGVDrUUu;
 
+-(void)checkInstallReferrer:(nonnull NSDictionary *)dict shareLink:(nonnull NSString*)link luaFuncId:(int)luaFuncId ;
+-(void)shareMsg:(nonnull NSDictionary *) dict;
+-(void)shareWithInfo:(NSArray *)items luaFuncId:(int)luaFuncId;
+
 @end
