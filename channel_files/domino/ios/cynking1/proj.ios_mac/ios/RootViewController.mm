@@ -1094,4 +1094,99 @@ API_AVAILABLE(ios(13.0)){
     UIImageWriteToSavedPhotosAlbum(saveImg, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)self);
 }
 
+-(void)checkInstallReferrer:(NSDictionary *)dict shareLink:(NSString*)link luaFuncId:(int)luaFuncId {
+    
+    // share content
+    NSString *utm_content =  [dict objectForKey:@"utm_content"];
+    NSString *utm_source = [dict objectForKey:@"utm_source"];
+    NSString *utm_medium = [dict objectForKey:@"utm_medium"];
+    NSString *utm_campaign = [dict objectForKey:@"utm_campaign"];
+    NSString *utm_term = [dict objectForKey:@"utm_term"];
+
+    NSLog(@"dynamicLink.url => %@",link);
+    NSLog(@"utm_content => %@",utm_content);
+    NSLog(@"utm_source => %@",utm_source);
+    NSLog(@"utm_medium => %@",utm_medium);
+    NSLog(@"utm_campaign => %@",utm_campaign);
+    NSLog(@"utm_term => %@",utm_term);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        LuaBridge::pushLuaFunctionById(luaFuncId);
+        LuaValueDict item;
+        
+        item["ret"] = LuaValue::stringValue("success");
+        item["utm_content"] = LuaValue::stringValue([utm_content UTF8String]);
+        item["utm_source"] = LuaValue::stringValue([utm_source UTF8String]);
+        item["utm_medium"] = LuaValue::stringValue([utm_medium UTF8String]);
+        item["utm_campaign"] = LuaValue::stringValue([utm_campaign UTF8String]);
+        item["utm_term"] = LuaValue::stringValue([utm_term UTF8String]);
+        item["sharelink"] = LuaValue::stringValue([link UTF8String]);
+        
+        LuaBridge::getStack()->pushLuaValueDict(item);
+        LuaBridge::getStack()->executeFunction(1);
+        
+    });
+}
+
+/**
+ *  分享
+ *  多图分享，items里面直接放图片
+ *  分享链接
+ *  NSString *textToShare = @"mq分享";
+ *  UIImage *imageToShare = [UIImage imageNamed:@"imageName"];
+ *  NSURL *urlToShare = [NSURL URLWithString:@"https:www.baidu.com"];
+ *  NSArray *items = @[urlToShare,textToShare,imageToShare];
+ */
+- (void)shareWithInfo:(NSArray *)items luaFuncId:(int)luaFuncId {
+    if (0 == items.count) {
+        return;
+    }
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
+    if (@available(iOS 11.0, *)) {
+        //UIActivityTypeMarkupAsPDF是在iOS 11.0 之后才有的
+        activityVC.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeOpenInIBooks, UIActivityTypeMarkupAsPDF];
+    }else if (@available(iOS 9.0, *)){
+        //UIActivityTypeOpenInIBooks是在iOS 9.0 之后才有的
+        activityVC.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail, UIActivityTypeOpenInIBooks];
+    }else{
+        activityVC.excludedActivityTypes = @[UIActivityTypeMessage, UIActivityTypeMail];
+    }
+    activityVC.completionWithItemsHandler = ^(UIActivityType  _Nullable activityType, BOOL completed, NSArray * _Nullable returnedItems, NSError * _Nullable activityError) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            LuaBridge::pushLuaFunctionById(luaFuncId);
+            LuaValueDict item;
+            item["ret"] = LuaValue::intValue(completed == YES ? 0 : -1);
+            LuaBridge::getStack()->pushLuaValueDict(item);
+            LuaBridge::getStack()->executeFunction(1);
+            
+        });
+    };
+    //
+    // 这儿一定要做iPhone与iPad的判断，因为这儿只有iPhone可以present，iPad需pop，所以这儿actVC.popoverPresentationController.sourceView = self.view;
+    // 在iPad下必须有，不然iPad会crash，self.view你可以换成任何view，你可以理解为弹出的窗需要找个依托。
+    //
+    UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        activityVC.popoverPresentationController.sourceView = vc.view;
+        activityVC.popoverPresentationController.sourceRect = CGRectMake([UIScreen mainScreen].bounds.size.width/2, [UIScreen mainScreen].bounds.size.height, 0, 0);
+        [vc presentViewController:activityVC animated:YES completion:nil];
+    }else{
+        [vc presentViewController:activityVC animated:YES completion:nil];
+    }
+}
+
+-(void) shareMsg:(NSDictionary *) dict {
+    
+    int luaFuncId = [[dict valueForKey:@"callback"]intValue];
+    NSString *shareTitle = [dict objectForKey:@"msgTitle"];
+    UIImage *shareImage = [UIImage imageNamed:@"Icon-120.png"];
+    NSString *shareText = [dict objectForKey:@"msgText"];
+    NSString *shareUrl = [dict objectForKey:@"shareUrl"];
+    NSURL *shareURL = [NSURL URLWithString:shareUrl];
+    NSArray *activityItems = [[NSArray alloc] initWithObjects:shareText, shareImage, shareURL, nil];
+    
+    [self shareWithInfo:activityItems luaFuncId:luaFuncId];
+}
+
 @end
