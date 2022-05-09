@@ -82,6 +82,10 @@
 @property (nonatomic, strong) NSMutableDictionary *dicChannelInfo;
 @property (strong, nonatomic) MsRewardedVideoAd *rewardedVideoAd;
 
+// share
+@property (nonatomic,strong) NSDictionary *installParams;
+@property (nonatomic,strong) NSString *shareLink;
+
 -(void)getDeviceToken:(NSDictionary *)dict;
 -(void)getFirendPushInfo:(NSDictionary *)dict;
 -(void) openCamera:(NSDictionary *)info;

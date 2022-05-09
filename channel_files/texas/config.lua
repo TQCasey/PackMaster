@@ -36,36 +36,6 @@ return {
         share_page = texas_share_page;
 
         chlconfig = {
-            ["texas"] = {
-                name = "com.zhijian.texas";
-                template_proj = "proj.studio.androidx.ina";
-                channel = 0x01012210;
-                encrypt_char = "Z";
-                visitor_sid = 5;
-                copyres = {
-                }
-            }
-        ;
-            ["texas1"] = {
-                name = "com.zhijian.texas1";
-                template_proj = "proj.studio.androidx.ina";
-                channel = 0x01013210;
-                encrypt_char = "K";
-                visitor_sid = 5;
-                copyres = {
-                }
-            }
-        ;
-            ["texas2"] = {
-                name = "com.zhijian.texas2";
-                template_proj = "proj.studio.androidx.ina";
-                channel = 0x01014210;
-                encrypt_char = "L";
-                visitor_sid = 5;
-                copyres = {
-                }
-            }
-        ;
             ["texas3"] = {
                 name = "com.zhijian.texas3";
                 channel = 0x01015210;
@@ -75,27 +45,6 @@ return {
                 copyres = {
                 }
             }
-        ;
-            ["preassemble"] = {
-                name = "com.gp.texas";
-                channel = 0x01020210;
-                encrypt_char = "PB";
-                visitor_sid = 5;
-                template_proj = "proj.studio.androidx.ina";
-                copyres = {
-                }
-            }
-        ;
-            ["ranking"] = {
-                name = "com.cynking.id.texas.ranking";
-                template_proj = "proj.studio.androidx.ina";
-                channel = 0x01029210;
-                encrypt_char = "BT";
-                visitor_sid = 5;
-                copyres = {
-                }
-            }
-        ;
         }
     }
     ;

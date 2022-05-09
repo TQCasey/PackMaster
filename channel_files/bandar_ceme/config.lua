@@ -56,32 +56,6 @@ return {
                 copyres = {
                 }
             }
-        ;
-            ["cynkingB"] = {   -- 主版本B
-                name = "com.cynking.card_ceme";
-                channel = 0x01024240;
-                encrypt_char = "CB";
-                visitor_sid = 8;
-                copyres = {
-                }
-            };
-            ["cynkingC"] = {   -- 主版本C
-                name = "com.cynking.table_ceme";
-                channel = 0x01025240;
-                encrypt_char = "CC";
-                visitor_sid = 8;
-                copyres = {
-                }
-            };
-            ["clickwala3"] = {   -- click 3
-                name = "com.cynking.ceme3";
-                channel = 0x01023240;
-                encrypt_char = "CA";
-                visitor_sid = 8;
-                copyres = {
-                }
-            }
-        ;
         }
     }
     ;

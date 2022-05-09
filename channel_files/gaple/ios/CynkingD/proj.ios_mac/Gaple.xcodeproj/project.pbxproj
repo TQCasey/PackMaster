@@ -491,13 +491,26 @@
 		C97D853026705FF10034EA83 /* lua_cocos2dx_cynk_httpd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C97D852E26705FF10034EA83 /* lua_cocos2dx_cynk_httpd.cpp */; };
 		C9A2B5C02763428F0007C3F9 /* MoPubSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E65211275F33EC00C3222C /* MoPubSDK.framework */; platformFilter = ios; };
 		C9A2B5C1276342900007C3F9 /* MoPubSDK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C9E65211275F33EC00C3222C /* MoPubSDK.framework */; platformFilter = ios; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		C9E651EE275F337700C3222C /* UserMessagingPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651E7275F337700C3222C /* UserMessagingPlatform.framework */; };
-		C9E651EF275F337700C3222C /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651E8275F337700C3222C /* nanopb.framework */; };
-		C9E651F0275F337700C3222C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651E9275F337700C3222C /* GoogleMobileAds.framework */; };
-		C9E651F1275F337700C3222C /* AdMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651EA275F337700C3222C /* AdMobAdapter.framework */; };
-		C9E651F2275F337700C3222C /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651EB275F337700C3222C /* GoogleUtilities.framework */; };
-		C9E651F3275F337700C3222C /* PromisesObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651EC275F337700C3222C /* PromisesObjC.framework */; };
-		C9E651F4275F337700C3222C /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651ED275F337700C3222C /* GoogleAppMeasurement.framework */; };
+		C9A8B5FD2829316500647A9D /* FirebaseDynamicLinks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F02829316400647A9D /* FirebaseDynamicLinks.framework */; };
+		C9A8B5FE2829316500647A9D /* FirebaseCoreInternal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F12829316400647A9D /* FirebaseCoreInternal.framework */; };
+		C9A8B5FF2829316500647A9D /* FirebaseAnalytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F22829316500647A9D /* FirebaseAnalytics.framework */; };
+		C9A8B6002829316600647A9D /* FirebaseCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F42829316500647A9D /* FirebaseCore.framework */; };
+		C9A8B6012829316600647A9D /* GoogleDataTransport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F52829316500647A9D /* GoogleDataTransport.framework */; };
+		C9A8B6022829316600647A9D /* FirebaseInstallations.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F62829316500647A9D /* FirebaseInstallations.framework */; };
+		C9A8B6032829316600647A9D /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F72829316500647A9D /* GoogleUtilities.framework */; };
+		C9A8B6042829316600647A9D /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F82829316500647A9D /* GoogleAppMeasurement.framework */; };
+		C9A8B6052829316600647A9D /* FirebaseCoreDiagnostics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5F92829316500647A9D /* FirebaseCoreDiagnostics.framework */; };
+		C9A8B6062829316600647A9D /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5FA2829316500647A9D /* nanopb.framework */; };
+		C9A8B6072829316600647A9D /* PromisesObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5FB2829316500647A9D /* PromisesObjC.framework */; };
+		C9A8B6082829316600647A9D /* GoogleAppMeasurementIdentitySupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B5FC2829316500647A9D /* GoogleAppMeasurementIdentitySupport.framework */; };
+		C9A8B610282933C500647A9D /* nanopb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B609282933C500647A9D /* nanopb.framework */; };
+		C9A8B611282933C500647A9D /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60A282933C500647A9D /* GoogleMobileAds.framework */; };
+		C9A8B612282933C600647A9D /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60B282933C500647A9D /* GoogleUtilities.framework */; };
+		C9A8B613282933C600647A9D /* UserMessagingPlatform.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60C282933C500647A9D /* UserMessagingPlatform.framework */; };
+		C9A8B614282933C600647A9D /* AdMobAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60D282933C500647A9D /* AdMobAdapter.framework */; };
+		C9A8B615282933C600647A9D /* GoogleAppMeasurement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60E282933C500647A9D /* GoogleAppMeasurement.framework */; };
+		C9A8B616282933C600647A9D /* PromisesObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A8B60F282933C500647A9D /* PromisesObjC.framework */; };
+		C9A8B6182829373400647A9D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9A8B6172829373400647A9D /* GoogleService-Info.plist */; };
 		C9E651F7275F33A000C3222C /* UnityAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651F5275F33A000C3222C /* UnityAds.framework */; };
 		C9E651F8275F33A000C3222C /* UnityAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651F6275F33A000C3222C /* UnityAdapter.framework */; };
 		C9E651FB275F33B200C3222C /* VungleAdapter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E651F9275F33B200C3222C /* VungleAdapter.framework */; };
@@ -1577,13 +1590,27 @@
 		C97D852A26705F790034EA83 /* mongoose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mongoose.h; path = ../Classes/cynkingEx/cynkhttpd/mongoose.h; sourceTree = "<group>"; };
 		C97D852E26705FF10034EA83 /* lua_cocos2dx_cynk_httpd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lua_cocos2dx_cynk_httpd.cpp; sourceTree = "<group>"; };
 		C97D852F26705FF10034EA83 /* lua_cocos2dx_cynk_httpd.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = lua_cocos2dx_cynk_httpd.hpp; sourceTree = "<group>"; };
-		C9E651E7275F337700C3222C /* UserMessagingPlatform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UserMessagingPlatform.framework; sourceTree = "<group>"; };
-		C9E651E8275F337700C3222C /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
-		C9E651E9275F337700C3222C /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
-		C9E651EA275F337700C3222C /* AdMobAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdMobAdapter.framework; sourceTree = "<group>"; };
-		C9E651EB275F337700C3222C /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
-		C9E651EC275F337700C3222C /* PromisesObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PromisesObjC.framework; sourceTree = "<group>"; };
-		C9E651ED275F337700C3222C /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		C9A8B5F02829316400647A9D /* FirebaseDynamicLinks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseDynamicLinks.framework; path = firebase/FirebaseDynamicLinks.framework; sourceTree = "<group>"; };
+		C9A8B5F12829316400647A9D /* FirebaseCoreInternal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreInternal.framework; path = firebase/FirebaseCoreInternal.framework; sourceTree = "<group>"; };
+		C9A8B5F22829316500647A9D /* FirebaseAnalytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseAnalytics.framework; path = firebase/FirebaseAnalytics.framework; sourceTree = "<group>"; };
+		C9A8B5F32829316500647A9D /* Firebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Firebase.h; path = firebase/Firebase.h; sourceTree = "<group>"; };
+		C9A8B5F42829316500647A9D /* FirebaseCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCore.framework; path = firebase/FirebaseCore.framework; sourceTree = "<group>"; };
+		C9A8B5F52829316500647A9D /* GoogleDataTransport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleDataTransport.framework; path = firebase/GoogleDataTransport.framework; sourceTree = "<group>"; };
+		C9A8B5F62829316500647A9D /* FirebaseInstallations.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseInstallations.framework; path = firebase/FirebaseInstallations.framework; sourceTree = "<group>"; };
+		C9A8B5F72829316500647A9D /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = firebase/GoogleUtilities.framework; sourceTree = "<group>"; };
+		C9A8B5F82829316500647A9D /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurement.framework; path = firebase/GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		C9A8B5F92829316500647A9D /* FirebaseCoreDiagnostics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FirebaseCoreDiagnostics.framework; path = firebase/FirebaseCoreDiagnostics.framework; sourceTree = "<group>"; };
+		C9A8B5FA2829316500647A9D /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = nanopb.framework; path = firebase/nanopb.framework; sourceTree = "<group>"; };
+		C9A8B5FB2829316500647A9D /* PromisesObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PromisesObjC.framework; path = firebase/PromisesObjC.framework; sourceTree = "<group>"; };
+		C9A8B5FC2829316500647A9D /* GoogleAppMeasurementIdentitySupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppMeasurementIdentitySupport.framework; path = firebase/GoogleAppMeasurementIdentitySupport.framework; sourceTree = "<group>"; };
+		C9A8B609282933C500647A9D /* nanopb.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = nanopb.framework; sourceTree = "<group>"; };
+		C9A8B60A282933C500647A9D /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
+		C9A8B60B282933C500647A9D /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleUtilities.framework; sourceTree = "<group>"; };
+		C9A8B60C282933C500647A9D /* UserMessagingPlatform.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UserMessagingPlatform.framework; sourceTree = "<group>"; };
+		C9A8B60D282933C500647A9D /* AdMobAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AdMobAdapter.framework; sourceTree = "<group>"; };
+		C9A8B60E282933C500647A9D /* GoogleAppMeasurement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleAppMeasurement.framework; sourceTree = "<group>"; };
+		C9A8B60F282933C500647A9D /* PromisesObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PromisesObjC.framework; sourceTree = "<group>"; };
+		C9A8B6172829373400647A9D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C9E651F5275F33A000C3222C /* UnityAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnityAds.framework; sourceTree = "<group>"; };
 		C9E651F6275F33A000C3222C /* UnityAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UnityAdapter.framework; sourceTree = "<group>"; };
 		C9E651F9275F33B200C3222C /* VungleAdapter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VungleAdapter.framework; sourceTree = "<group>"; };
@@ -1662,28 +1689,31 @@
 				C916026927633E2400FE9C2C /* OMSDK_Mopub.framework in Frameworks */,
 				547DACA22626E88B00360E35 /* AdSupport.framework in Frameworks */,
 				547DAC9F2626E86200360E35 /* CoreData.framework in Frameworks */,
-				C9E651F2275F337700C3222C /* GoogleUtilities.framework in Frameworks */,
+				C9A8B6072829316600647A9D /* PromisesObjC.framework in Frameworks */,
 				C9E65203275F33C200C3222C /* BUCNAuxiliary.framework in Frameworks */,
 				C9E65207275F33C200C3222C /* BUFoundation.framework in Frameworks */,
 				547DAC562626CC8E00360E35 /* EventKitUI.framework in Frameworks */,
 				547DAC542626CC7D00360E35 /* EventKit.framework in Frameworks */,
 				547DAC462626A2EB00360E35 /* libresolv.9.tbd in Frameworks */,
-				C9E651F4275F337700C3222C /* GoogleAppMeasurement.framework in Frameworks */,
 				547F2F6F2626A15D004BB3C6 /* libbz2.1.0.tbd in Frameworks */,
 				C9E65204275F33C200C3222C /* PangleAdapter.framework in Frameworks */,
 				54057C10248A30DF009D5CB0 /* AuthenticationServices.framework in Frameworks */,
 				3D4E6BF7238F9F8A00B40EF9 /* GameController.framework in Frameworks */,
 				C9E6520B275F33D000C3222C /* FBAudienceNetwork.framework in Frameworks */,
+				C9A8B611282933C500647A9D /* GoogleMobileAds.framework in Frameworks */,
 				3EEEDB61197107C0006A9FF8 /* MediaPlayer.framework in Frameworks */,
 				C9E6521D275F340700C3222C /* libMobClickLibrary.a in Frameworks */,
+				C9A8B6042829316600647A9D /* GoogleAppMeasurement.framework in Frameworks */,
 				C9E6520C275F33D000C3222C /* FacebookAdapter.framework in Frameworks */,
 				545756EA24E5174A00D8FFC4 /* MediaPlayer.framework in Frameworks */,
 				D6B061351803AC000077942B /* CoreMotion.framework in Frameworks */,
 				545756EC24E5178900D8FFC4 /* WebKit.framework in Frameworks */,
-				C9E651F3275F337700C3222C /* PromisesObjC.framework in Frameworks */,
 				5479884422CDB8B80074DA9A /* iAd.framework in Frameworks */,
+				C9A8B5FD2829316500647A9D /* FirebaseDynamicLinks.framework in Frameworks */,
+				C9A8B615282933C600647A9D /* GoogleAppMeasurement.framework in Frameworks */,
 				3D044AD81FEA4D9C000A2972 /* Security.framework in Frameworks */,
 				3D1C36F31EA776F900534806 /* libcurl.a in Frameworks */,
+				C9A8B6002829316600647A9D /* FirebaseCore.framework in Frameworks */,
 				3D1C36F11EA7483000534806 /* libstdc++.tbd in Frameworks */,
 				C9E65229275F344F00C3222C /* TPADXAdapter.framework in Frameworks */,
 				3D2AABF31EE57E030069BE0B /* MessageUI.framework in Frameworks */,
@@ -1694,11 +1724,13 @@
 				54084E0625F3619C00750DC8 /* AppsFlyerLib.framework in Frameworks */,
 				BF39D4651C8FC9DE00636ED6 /* CoreTelephony.framework in Frameworks */,
 				C9E6520F275F33DE00C3222C /* TradPlusAds.framework in Frameworks */,
-				C9E651F1275F337700C3222C /* AdMobAdapter.framework in Frameworks */,
+				C9A8B5FF2829316500647A9D /* FirebaseAnalytics.framework in Frameworks */,
 				BF1E054B1C8EBE6800FFF348 /* libz.tbd in Frameworks */,
+				C9A8B610282933C500647A9D /* nanopb.framework in Frameworks */,
 				C916027027633E3300FE9C2C /* FBSDKCoreKit.framework in Frameworks */,
-				C9E651F0275F337700C3222C /* GoogleMobileAds.framework in Frameworks */,
+				C9A8B6082829316600647A9D /* GoogleAppMeasurementIdentitySupport.framework in Frameworks */,
 				C9E6522C275F345800C3222C /* TPCrossAdapter.framework in Frameworks */,
+				C9A8B6012829316600647A9D /* GoogleDataTransport.framework in Frameworks */,
 				9FF504871A5E88CE00AFDA55 /* libsimulator iOS.a in Frameworks */,
 				C9E651F8275F33A000C3222C /* UnityAdapter.framework in Frameworks */,
 				5200BECA1A53D9A500AC45E4 /* Security.framework in Frameworks */,
@@ -1708,28 +1740,35 @@
 				C9E65208275F33C200C3222C /* BUVAAuxiliary.framework in Frameworks */,
 				15427CD3198F221400DC375D /* libcocos2d iOS.a in Frameworks */,
 				1AF4C403178663F200122817 /* libz.dylib in Frameworks */,
-				C9E651EF275F337700C3222C /* nanopb.framework in Frameworks */,
 				50805AAF17EBBEAA004CFAD3 /* UIKit.framework in Frameworks */,
 				54057BF92489E772009D5CB0 /* Bugly.framework in Frameworks */,
 				5023817A17EBBE8300990C9B /* OpenGLES.framework in Frameworks */,
 				F293B3CD15EB7BE500256477 /* QuartzCore.framework in Frameworks */,
 				F293B3D115EB7BE500256477 /* OpenAL.framework in Frameworks */,
 				F293B3D315EB7BE500256477 /* AudioToolbox.framework in Frameworks */,
-				C9E651EE275F337700C3222C /* UserMessagingPlatform.framework in Frameworks */,
+				C9A8B613282933C600647A9D /* UserMessagingPlatform.framework in Frameworks */,
 				C9E651FB275F33B200C3222C /* VungleAdapter.framework in Frameworks */,
 				C916026C27633E2F00FE9C2C /* FBSDKShareKit.framework in Frameworks */,
 				F293B3D515EB7BE500256477 /* AVFoundation.framework in Frameworks */,
 				F293B3D915EB7BE500256477 /* Foundation.framework in Frameworks */,
 				F293B3DB15EB7BE500256477 /* CoreGraphics.framework in Frameworks */,
+				C9A8B616282933C600647A9D /* PromisesObjC.framework in Frameworks */,
 				C916027427633E3800FE9C2C /* FBAEMKit.framework in Frameworks */,
 				C9A2B5C02763428F0007C3F9 /* MoPubSDK.framework in Frameworks */,
 				C9E65216275F33EC00C3222C /* MoPubAdapter.framework in Frameworks */,
+				C9A8B6062829316600647A9D /* nanopb.framework in Frameworks */,
 				C9E6521A275F33F900C3222C /* AdjustSdk.framework in Frameworks */,
 				54057BFA2489E772009D5CB0 /* libBuglyAgent.a in Frameworks */,
+				C9A8B5FE2829316500647A9D /* FirebaseCoreInternal.framework in Frameworks */,
 				54057BB62489E614009D5CB0 /* AVKit.framework in Frameworks */,
 				C9E651F7275F33A000C3222C /* UnityAds.framework in Frameworks */,
 				3D7197ED238FCC2C00DC5A23 /* Photos.framework in Frameworks */,
+				C9A8B612282933C600647A9D /* GoogleUtilities.framework in Frameworks */,
+				C9A8B6022829316600647A9D /* FirebaseInstallations.framework in Frameworks */,
+				C9A8B6032829316600647A9D /* GoogleUtilities.framework in Frameworks */,
 				C916027227633E3500FE9C2C /* FBSDKCoreKit_Basics.framework in Frameworks */,
+				C9A8B614282933C600647A9D /* AdMobAdapter.framework in Frameworks */,
+				C9A8B6052829316600647A9D /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				3D7197EB238FCBE500DC5A23 /* Accelerate.framework in Frameworks */,
 				54057BF82489E772009D5CB0 /* LineSDK.framework in Frameworks */,
 			);
@@ -1905,6 +1944,7 @@
 		5023810617EBBCAC00990C9B /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				C9A8B6172829373400647A9D /* GoogleService-Info.plist */,
 				54698D19254D6F6400F99E39 /* Domino iOS-Bridging-Header.h */,
 				54698D1A254D6F6400F99E39 /* File.swift */,
 				545330042492357800FEAE19 /* junk */,
@@ -1976,6 +2016,7 @@
 		54057BB72489E772009D5CB0 /* sdk */ = {
 			isa = PBXGroup;
 			children = (
+				C9A8B5EF2829315500647A9D /* firebase */,
 				547DAC622626D45000360E35 /* tradplus */,
 				5484267F258B3B6A00DE4A5A /* adjust */,
 				54057BB82489E772009D5CB0 /* umeng */,
@@ -3497,13 +3538,13 @@
 		547DACA62626ED3500360E35 /* AdMob */ = {
 			isa = PBXGroup;
 			children = (
-				C9E651EA275F337700C3222C /* AdMobAdapter.framework */,
-				C9E651ED275F337700C3222C /* GoogleAppMeasurement.framework */,
-				C9E651E9275F337700C3222C /* GoogleMobileAds.framework */,
-				C9E651EB275F337700C3222C /* GoogleUtilities.framework */,
-				C9E651E8275F337700C3222C /* nanopb.framework */,
-				C9E651EC275F337700C3222C /* PromisesObjC.framework */,
-				C9E651E7275F337700C3222C /* UserMessagingPlatform.framework */,
+				C9A8B60D282933C500647A9D /* AdMobAdapter.framework */,
+				C9A8B60E282933C500647A9D /* GoogleAppMeasurement.framework */,
+				C9A8B60A282933C500647A9D /* GoogleMobileAds.framework */,
+				C9A8B60B282933C500647A9D /* GoogleUtilities.framework */,
+				C9A8B609282933C500647A9D /* nanopb.framework */,
+				C9A8B60F282933C500647A9D /* PromisesObjC.framework */,
+				C9A8B60C282933C500647A9D /* UserMessagingPlatform.framework */,
 			);
 			path = AdMob;
 			sourceTree = "<group>";
@@ -3564,6 +3605,26 @@
 				C97D852A26705F790034EA83 /* mongoose.h */,
 			);
 			name = cynkhttpd;
+			sourceTree = "<group>";
+		};
+		C9A8B5EF2829315500647A9D /* firebase */ = {
+			isa = PBXGroup;
+			children = (
+				C9A8B5F32829316500647A9D /* Firebase.h */,
+				C9A8B5F22829316500647A9D /* FirebaseAnalytics.framework */,
+				C9A8B5F42829316500647A9D /* FirebaseCore.framework */,
+				C9A8B5F92829316500647A9D /* FirebaseCoreDiagnostics.framework */,
+				C9A8B5F12829316400647A9D /* FirebaseCoreInternal.framework */,
+				C9A8B5F02829316400647A9D /* FirebaseDynamicLinks.framework */,
+				C9A8B5F62829316500647A9D /* FirebaseInstallations.framework */,
+				C9A8B5F82829316500647A9D /* GoogleAppMeasurement.framework */,
+				C9A8B5FC2829316500647A9D /* GoogleAppMeasurementIdentitySupport.framework */,
+				C9A8B5F52829316500647A9D /* GoogleDataTransport.framework */,
+				C9A8B5F72829316500647A9D /* GoogleUtilities.framework */,
+				C9A8B5FA2829316500647A9D /* nanopb.framework */,
+				C9A8B5FB2829316500647A9D /* PromisesObjC.framework */,
+			);
+			name = firebase;
 			sourceTree = "<group>";
 		};
 		C9E65226275F343F00C3222C /* tpx */ = {
@@ -3905,6 +3966,7 @@
 				BFE5D74E1C927DD6005BD079 /* Icon-120.png in Resources */,
 				3D4E6BE7238F87D200B40EF9 /* appconfig.plist in Resources */,
 				BFE5D74F1C927DD6005BD079 /* Icon-144.png in Resources */,
+				C9A8B6182829373400647A9D /* GoogleService-Info.plist in Resources */,
 				54057C0B2489E796009D5CB0 /* gaple_loading_light.png in Resources */,
 				C9E65219275F33F900C3222C /* version 4.28.0 in Resources */,
 				BFE5D7501C927DD6005BD079 /* Icon-152.png in Resources */,
@@ -4651,6 +4713,7 @@
 					"$(PROJECT_DIR)/ios/sdk/tradplus/KuaiShou",
 					"$(PROJECT_DIR)/ios/sdk/tradplus/TPADX",
 					"$(PROJECT_DIR)/ios/sdk/tradplus/TPCross",
+					"$(PROJECT_DIR)/ios/sdk/firebase",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4766,6 +4829,7 @@
 					"$(PROJECT_DIR)/ios/sdk/tradplus/KuaiShou",
 					"$(PROJECT_DIR)/ios/sdk/tradplus/TPADX",
 					"$(PROJECT_DIR)/ios/sdk/tradplus/TPCross",
+					"$(PROJECT_DIR)/ios/sdk/firebase",
 				);
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_OPTIMIZATION_LEVEL = 0;

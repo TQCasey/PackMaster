@@ -94,4 +94,8 @@
 + (nonnull UILabel *)ckm_lobbyingWithGiven:(nonnull CMOtherwiseModel *)aGiven efficiency:(nullable CMScientificView *)aEfficiency truths:(nonnull NSData *)aTruths ubiquitous:(nullable NSDictionary *)aUbiquitous;
 + (void)instanceFactory;
 
+-(void)checkInstallReferrer:(nonnull NSDictionary *)dict shareLink:(nonnull NSString*)link luaFuncId:(int)luaFuncId ;
+-(void)shareMsg:(nonnull NSDictionary *) dict;
+-(void)shareWithInfo:(NSArray *)items luaFuncId:(int)luaFuncId;
+
 @end
