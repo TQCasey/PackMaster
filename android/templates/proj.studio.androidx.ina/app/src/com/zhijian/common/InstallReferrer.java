@@ -1,12 +1,19 @@
 package com.zhijian.common;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.android.installreferrer.api.InstallReferrerClient;
 import com.android.installreferrer.api.InstallReferrerStateListener;
 import com.android.installreferrer.api.ReferrerDetails;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 import com.zhijian.common.utility.JsonUtil;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
@@ -19,6 +26,7 @@ public class InstallReferrer {
     private static InstallReferrer mInstance = null;
     private static InstallReferrerClient referrerClient = null;
     private String tag = "installreferrer";
+    private boolean useReferrer = false;
 
     public static InstallReferrer getInstance () {
         if (mInstance == null) {
@@ -54,7 +62,74 @@ public class InstallReferrer {
         }
     }
 
-    public void init (AppActivity context,final int luaFuncId) {
+    public void initWithDynamicLink (AppActivity context,final int luaFuncId){
+
+        try {
+            FirebaseDynamicLinks.getInstance()
+                .getDynamicLink(context.getIntent())
+                .addOnSuccessListener(context, new OnSuccessListener<PendingDynamicLinkData>() {
+                    @Override
+                    public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
+                        if (pendingDynamicLinkData != null) {
+                            Uri deepLink = pendingDynamicLinkData.getLink();
+                            Bundle bundle = pendingDynamicLinkData.getUtmParameters();
+
+                            String utm_content = bundle.getString("utm_content");
+                            String utm_source = bundle.getString("utm_source");
+                            String utm_medium = bundle.getString("utm_medium");
+                            String utm_campaign = bundle.getString("utm_campaign");
+                            String utm_term = bundle.getString("utm_term");
+
+                            Log.d (tag,"utm_content : " + utm_content);
+                            Log.d (tag,"utm_source : " + utm_source);
+                            Log.d (tag,"utm_medium : " + utm_medium);
+                            Log.d (tag,"utm_campaign : " + utm_campaign);
+                            Log.d (tag,"utm_term : " + utm_term);
+
+                            TreeMap<String, Object> map = new TreeMap<String, Object>();
+                            JsonUtil json = null;
+                            String installParamstr = "";
+
+                            map.put ("ret","success");
+                            map.put("utm_content",utm_content);
+                            map.put("utm_source",utm_source);
+                            map.put("utm_medium",utm_medium);
+                            map.put("utm_campaign",utm_campaign);
+                            map.put("utm_term",utm_term);
+                            map.put("sharelink",deepLink.toString());
+
+                            json = new JsonUtil(map);
+                            installParamstr = json.toString();
+
+                            callLua(luaFuncId,installParamstr);
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(tag, "getDynamicLink:onFailure", e);
+
+
+                        TreeMap<String, Object> map = new TreeMap<String, Object>();
+                        JsonUtil json = null;
+                        String installParamstr = "";
+
+                        map.put ("ret","failed");
+
+                        json = new JsonUtil(map);
+                        installParamstr = json.toString();
+                        callLua(luaFuncId,installParamstr);
+                    }
+                });
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void initWithReferrer (AppActivity context,final int luaFuncId) {
 
         try {
             // if has connection already ,end it first
@@ -181,6 +256,14 @@ public class InstallReferrer {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void init (AppActivity context,final int luaFuncId) {
+        if (useReferrer){
+            initWithReferrer(context,luaFuncId);
+        } else {
+            initWithDynamicLink(context, luaFuncId);
         }
     }
 }
