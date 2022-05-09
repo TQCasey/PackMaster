@@ -54,15 +54,7 @@ return {
                 copyres = {
                 }
             }
-        ;
-            ["clickwala1"] = {
-                name = "com.zhijian.domino";
-                channel = 0x01001200;
-                encrypt_char = "Y";
-                visitor_sid = 1;
-                copyres = {
-                }
-            }
+            ;
         }
     }
     ;
