@@ -30,8 +30,8 @@ useFixedHeight=0
 forceZero=0
 
 # output file
-outWidth=195
-outHeight=72
+outWidth=260
+outHeight=50
 outBitDepth=32
 fontDescFormat=0
 fourChnlPacked=0
@@ -50,6 +50,17 @@ invB=0
 outlineThickness=0
 
 # selected chars
-chars=44,48-57,107,109
+chars=44,48-57
 
 # imported icon images
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/0.png",48,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/1.png",49,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/2.png",50,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/3.png",51,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/4.png",52,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/5.png",53,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/6.png",54,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/7.png",55,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/8.png",56,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/9.png",57,0,0,0
+icon="../../../cocosstudio/indonesia_gaple/games/slot_hub/subgame/LionWealth/fonts/lionWealth_bonus_chip/dh.png",44,0,0,0
