@@ -43,8 +43,12 @@ class PackCommon:
             self.isThaiLang = self.luaHallConfig.lang == "tl";
 
             self.use_debug = self.curChConfig.use_debug;
+
+            self.use_compress_texture = self.curChConfig.use_compress_texture;
             self.use_pvr = self.curChConfig.use_pvr;
             self.use_etc2 = self.curChConfig.use_etc2;
+            self.use_astc = self.curChConfig.use_astc;
+
             self.use_rgba8888 = self.curChConfig.use_rgba8888;
 
             self.use_bones_zip = self.curChConfig.use_bones_zip;
@@ -1561,6 +1565,83 @@ return {
             errmsg(err);
         pass
 
+    def _astcencResFilesImpl(self):
+        try:
+            cache_dir = os.path.join(getCacheDir(), "astc");
+
+            if not os.path.exists(cache_dir) or not os.path.isdir(cache_dir):
+                if os.path.exists(cache_dir):
+                    os.remove(cache_dir);
+                os.makedirs(cache_dir);
+
+            if isMacOS():
+                precmd = "chmod +x ./mac/astcenc-avx2 ; ";
+                redirect = "1>/dev/null 2>/dev/null";
+            else:
+                precmd = "";
+                redirect = "> out.log";
+
+            all = os.walk(self.publish_dir);
+            for path, dir, filelist in all:
+                for filename in filelist:
+                    if filename.endswith("png"):
+                        # if self.isInRawResList(filename) or self.isInRGBA888List(filename):
+                        #     # if self.use_pngquant and not self.isInRGBA888List(filename):
+                        #     #     print("compress raw pngfiles %s with pngquant" % (filename));
+                        #     #     self._pngquantResFile(os.path.join(path, filename), redirect);
+                        #     # else:
+                        #     #     pass
+                        #     print("no need to compress,need raw png res %s (rawPNG)" % filename);
+                        #     continue;
+
+                        filepath = os.path.join(path, filename);
+                        fileMd5 = self._fileMd5(filepath);
+
+                        """
+                        turbo boost up !!
+                        """
+                        bmd5filepath = os.path.join(cache_dir, fileMd5);
+                        if os.path.exists(bmd5filepath):
+                            """
+                            already converted 
+                            """
+                            print("compress pngres %s to astc(Cached)..." % filename);
+                            if os.path.exists(filepath):
+                                os.remove(filepath);
+                            shutil.copy(bmd5filepath, filepath);
+
+                        else:
+
+                            ## trick , use ./xxx to execute etcpack for that etcpack cwd must locate at the executable file dir
+                            print("compress pngres %s to astc." % filename);
+                            astcfilepath = filepath.replace(".png", ".astc");
+
+                            cmdstr = ('''%s %s -cl %s %s 5x5 -medium %s''' % (precmd, os.path.join(".", "astcenc-avx2"), filepath,astcfilepath,redirect));
+
+                            my_env = os.environ.copy();
+                            astc_path = os.path.abspath(os.path.join(os.path.curdir,"common","astcenc"));
+                            my_env["PATH"] = astc_path + ":" + my_env["PATH"]
+
+                            Commander().do(cmdstr, astc_path,env=my_env);
+                            # print ("Done");
+                            if os.path.exists(astcfilepath):
+                                os.remove(filepath);
+                                shutil.move(astcfilepath, filepath);
+                                ## back up with etc2cache
+                                shutil.copy(filepath, cache_dir);
+                                shutil.move(os.path.join(cache_dir, filename), bmd5filepath);
+
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            if os.path.exists("out.log"):
+                os.remove("out.log");
+        pass
+
+
+    def _astcencResFiles(self,dirpath):
+        self._astcencResFilesImpl();
 
     def _pngquantPathResFiles(self,dirpath):
         try:
@@ -2003,15 +2084,17 @@ return {
                 print("Is debugMode,will skip this step");
                 return;
 
-            if self.use_pvr:
-                self._pvrResFilesImpl(dirpath);
-            elif self.use_etc2:
-                self._etc2ResFiles(dirpath);
-            elif self.use_pngquant:
+            if self.use_compress_texture == True:
+                if self.use_pvr:
+                    self._pvrResFilesImpl(dirpath);
+                elif self.use_etc2:
+                    self._etc2ResFiles(dirpath);
+                elif self.use_astc:
+                    self._astcencResFiles (dirpath);
+                    pass
+
+            if self.use_pngquant:
                 self._pngquantResFiles (dirpath);
-            else:
-                print ("Nothing to deal with the pngfiles");
-                pass
 
         except Exception as err:
             errmsg(err);

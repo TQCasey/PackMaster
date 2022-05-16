@@ -83,6 +83,8 @@ class PKConfig(object):
         self.use_rgba8888 = False;
         self.use_bones_zip = False;
         self.use_etc2 = False;
+        self.use_astc = False;
+        self.use_compress_texture  = False;
         self.use_v2030 = True;
         self.use_debug = False;
         self.use_debug_hotupdate = False;

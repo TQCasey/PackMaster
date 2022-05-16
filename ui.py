@@ -319,6 +319,31 @@ class MakeAssetsThread(ThreadBaseClass):
         finally:
             super().saybye();
 
+"""
+BuildThread Class
+"""
+
+
+class BuildThread(ThreadBaseClass):
+    def run(self):
+
+        pmconfig = self.pmconfig;
+
+        try:
+
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(pmconfig, None,self.dict);
+            elif isWin():
+                pack = PackAndroid(pmconfig, None,self.dict);
+
+            pack.buildAll ();
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            super().saybye();
 
 """
 MakeNativeProjectThread Class
@@ -721,6 +746,7 @@ class MainWindow(QMainWindow):
         self.btn_publish_basehall = self.findChild(QPushButton, "btn_publish_basehall");
 
         self.btn_make_native_project = self.findChild(QPushButton,"btn_make_native_project");
+        self.btn_build = self.findChild(QPushButton,"btn_build")
 
         self.text_panel = self.findChild(QTextBrowser, "text_panel");
         self.text_panel_error = self.findChild(QTextBrowser, "text_panel_error");
@@ -754,7 +780,12 @@ class MainWindow(QMainWindow):
         self.pushButton_sym_tbl = self.findChild(QPushButton,"pushButton_sym_tbl");
         self.btn_load_publish_games = self.findChild(QPushButton,"btn_load_publish_games");
 
+        self.compress_texture = self.findChild(QGroupBox,"compress_texture")
+
+        self.compress_texture.clicked.connect (self.onCompressTextureClicked)
+
         self.btn_make_native_project.clicked.connect (self.onMakeNativeProject);
+        self.btn_build.clicked.connect (self.onBuildClicked);
 
         self.btn_whitelist.clicked.connect (self.onMakeWhiteList)
         self.list_app.itemDoubleClicked.connect(self.onListItemDBClicked);
@@ -951,10 +982,25 @@ class MainWindow(QMainWindow):
         self.ckbox_use_can_log = self.findChild(QCheckBox, "checkBox_can_log")
         self.ckbox_use_collect_hall_game = self.findChild(QCheckBox, "checkBox_collect_hall_game")
         self.ckbox_use_ip_local = self.findChild(QCheckBox, "checkBox_use_ip_in_local")
-        self.ckbox_use_pvr = self.findChild(QCheckBox, "checkBox_use_pvr")
+
         self.ckbox_use_rgba8888 = self.findChild(QCheckBox, "checkBox_use_rgba8888")
         self.ckbox_use_bone_zip = self.findChild(QCheckBox, "checkBox_bone_zip")
-        self.ckbox_use_etc2 = self.findChild(QCheckBox, "checkBox_use_etc2")
+
+        '''
+        compress 
+        '''
+        self.ckbox_use_pvr = self.findChild(QRadioButton, "checkBox_use_pvr")
+        self.ckbox_use_etc2 = self.findChild(QRadioButton, "checkBox_use_etc2")
+        self.ckbox_use_astc = self.findChild(QRadioButton,"checkBox_use_astc");
+
+        '''
+        callback
+        '''
+        self.ckbox_use_etc2.toggled.connect(self.onEtc2Clicked);
+        self.ckbox_use_astc.toggled.connect (self.onASTCClicked);
+        self.ckbox_use_pvr.toggled.connect(self.onPvrClicked);
+
+
         self.ckbox_use_debug = self.findChild(QCheckBox, "checkBox_use_debug");
         self.ckbox_use_no_crypt_zip = self.findChild(QCheckBox, "checkBox_use_no_crypt_zip");
 
@@ -970,8 +1016,9 @@ class MainWindow(QMainWindow):
 
         self.ckbox_use_filelogger.clicked.connect (self.onFileLogger);
         self.ckbox_use_logger.clicked.connect (self.onRemoteLogger)
-        self.ckbox_use_etc2.clicked.connect(self.onEtc2Clicked);
-        self.ckbox_use_pvr.clicked.connect(self.onPvrClicked);
+
+
+
         self.ckbox_use_rgba8888.clicked.connect (self.onRGBA8888Clicked);
         self.ckbox_use_debug.clicked.connect(self.onDebugClicked);
         self.ckbox_show_error_only.clicked.connect (self.onShowErrorOnly);
@@ -1090,6 +1137,7 @@ class MainWindow(QMainWindow):
             self.ckbox_use_rgba8888,
             self.ckbox_use_bone_zip,
             self.ckbox_use_etc2,
+            self.ckbox_use_astc,
             self.ckbox_use_pngquant,
             self.ckbox_use_logger,
             self.ckbox_use_filelogger,
@@ -1127,6 +1175,9 @@ class MainWindow(QMainWindow):
         self.onShowErrorOnly ();
         self.initLockedList ();
         self.onLockHallNum ();
+
+    def onCompressTextureClicked(self):
+        pass
 
     def onMakeNativeProject(self):
         self.getPMConfig();
@@ -1896,13 +1947,22 @@ class MainWindow(QMainWindow):
         # gsignal.msg_ret_trigger.emit (ret);
 
     def onEtc2Clicked(self):
-        if (self.ckbox_use_etc2.checkState() == Qt.Qt.Checked):
-            self.ckbox_use_pvr.setCheckState(Qt.Qt.Unchecked);
-            self.ckbox_use_rgba8888.setCheckState(Qt.Qt.Unchecked);
+        # if (self.ckbox_use_etc2.checkState() == Qt.Qt.Checked):
+        #     self.ckbox_use_pvr.setCheckState(Qt.Qt.Unchecked);
+        #     self.ckbox_use_rgba8888.setCheckState(Qt.Qt.Unchecked);
+
+        pass
 
     def onPvrClicked(self):
-        if (self.ckbox_use_pvr.checkState() == Qt.Qt.Checked):
-            self.ckbox_use_etc2.setCheckState(Qt.Qt.Unchecked);
+        # if (self.ckbox_use_pvr.checkState() == Qt.Qt.Checked):
+        #     self.ckbox_use_etc2.setCheckState(Qt.Qt.Unchecked);
+        pass
+
+    def onASTCClicked(self):
+        # if self.ckbox_use_astc.checkState ()== Qt.Qt.Checked:
+        #     self.ckbox_use_astc.setCheckState(Qt.Qt.Unchecked);
+
+        pass
 
     def onMakeAssetsClicked(self):
         self.getPMConfig();
@@ -1925,6 +1985,20 @@ class MainWindow(QMainWindow):
         thread = MakeAssetsThread(self, None,dict);
         thread.start();
         self.threads["mkassets"] = thread;
+        pass
+
+    def onBuildClicked(self):
+        self.getPMConfig();
+
+        if not self.isThreadEnd("buildaa"):
+            return;
+
+        # self.expandTaskPanel(False);
+        dict = {};
+        dict["games_info"] = self.getGamesInfo();
+        thread = BuildThread(self, None,dict);
+        thread.start();
+        self.threads["buildaa"] = thread;
         pass
 
     def onFetchHallList(self):
@@ -2720,6 +2794,61 @@ class MainWindow(QMainWindow):
         text = self.edit_vname.displayText().strip ();
         return text.replace (' ',"");
 
+
+    ''''
+    groupbox
+    '''
+    def safeRestoreSinglePMConfigGroupBox(self,chConfig,configName,widgetName):
+
+        if not hasattr (chConfig,configName):
+            setattr(chConfig,configName,False);
+
+        if hasattr (self,widgetName):
+            getattr (self,widgetName).setChecked(True
+                                                 if getattr (chConfig,configName)
+                                                    else False);
+        pass
+
+    def safeGetSinglePMConfigGroupBox(self,chConfig,configName,widgetName):
+        if hasattr (self,widgetName):
+            value = getattr (self,widgetName).isChecked () == True;
+            setattr(chConfig, configName, value);
+        pass
+
+    ''''
+    radiobutton
+    '''
+    def safeRestoreSinglePMConfigRadioButton(self,chConfig,configName,widgetName):
+
+        if not hasattr (chConfig,configName):
+            setattr(chConfig,configName,False);
+
+        if hasattr (self,widgetName):
+            getattr (self,widgetName).setChecked(True
+                                                 if getattr (chConfig,configName)
+                                                    else False);
+        pass
+
+    def safeGetSinglePMConfigRadioButton(self,chConfig,configName,widgetName):
+        if hasattr (self,widgetName):
+            value = getattr (self,widgetName).isChecked () == True;
+            setattr(chConfig, configName, value);
+        pass
+
+    ''''
+    checkbox
+    '''
+    def safeRestoreSinglePMConfig(self,chConfig,configName,widgetName):
+
+        if not hasattr (chConfig,configName):
+            setattr(chConfig,configName,False);
+
+        if hasattr (self,widgetName):
+            getattr (self,widgetName).setCheckState(Qt.Qt.Checked
+                                                    if getattr (chConfig,configName)
+                                                    else Qt.Qt.Unchecked);
+        pass
+
     def safeGetSinglePMConfig(self,chConfig,configName,widgetName):
         if hasattr (self,widgetName):
             value = getattr (self,widgetName).checkState () == Qt.Qt.Checked;
@@ -2744,10 +2873,20 @@ class MainWindow(QMainWindow):
             self.safeGetSinglePMConfig (chConfig,"use_can_log","ckbox_use_can_log");
             self.safeGetSinglePMConfig (chConfig,"use_game_hall_no_zip","ckbox_use_collect_hall_game");
             self.safeGetSinglePMConfig (chConfig,"use_local_srv_ip","ckbox_use_ip_local");
-            self.safeGetSinglePMConfig (chConfig,"use_pvr","ckbox_use_pvr");
+
+            '''
+            config 
+            '''
+            self.safeGetSinglePMConfigGroupBox(chConfig,"use_compress_texture","compress_texture");
+            self.safeGetSinglePMConfigRadioButton (chConfig,"use_pvr","ckbox_use_pvr");
+            self.safeGetSinglePMConfigRadioButton (chConfig,"use_etc2","ckbox_use_etc2");
+            self.safeGetSinglePMConfigRadioButton (chConfig,"use_astc", "ckbox_use_astc");
+
+            '''
+            1111
+            '''
             self.safeGetSinglePMConfig (chConfig,"use_rgba8888","ckbox_use_rgba8888");
             self.safeGetSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
-            self.safeGetSinglePMConfig (chConfig,"use_etc2","ckbox_use_etc2");
             self.safeGetSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
             self.safeGetSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
 
@@ -2770,16 +2909,7 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
 
-    def safeRestoreSinglePMConfig(self,chConfig,configName,widgetName):
 
-        if not hasattr (chConfig,configName):
-            setattr(chConfig,configName,False);
-
-        if hasattr (self,widgetName):
-            getattr (self,widgetName).setCheckState(Qt.Qt.Checked
-                                                    if getattr (chConfig,configName)
-                                                    else Qt.Qt.Unchecked);
-        pass
 
     def restorePMConfig(self):
         try:
@@ -2798,10 +2928,20 @@ class MainWindow(QMainWindow):
             self.safeRestoreSinglePMConfig (chConfig,"use_can_log","ckbox_use_can_log");
             self.safeRestoreSinglePMConfig (chConfig,"use_game_hall_no_zip","ckbox_use_collect_hall_game");
             self.safeRestoreSinglePMConfig (chConfig,"use_local_srv_ip","ckbox_use_ip_local");
-            self.safeRestoreSinglePMConfig (chConfig,"use_pvr","ckbox_use_pvr");
+
+            '''
+            save config 
+            '''
+            self.safeRestoreSinglePMConfigGroupBox(chConfig, "use_compress_texture", "compress_texture");
+            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_pvr","ckbox_use_pvr");
+            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_etc2","ckbox_use_etc2");
+            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_astc", "ckbox_use_astc");
+
+            '''
+            111111
+            '''
             self.safeRestoreSinglePMConfig (chConfig,"use_rgba8888","ckbox_use_rgba8888");
             self.safeRestoreSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
-            self.safeRestoreSinglePMConfig (chConfig,"use_etc2","ckbox_use_etc2");
             self.safeRestoreSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
             self.safeRestoreSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
 
