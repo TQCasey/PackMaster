@@ -1577,11 +1577,11 @@ return {
             if isMacOS():
                 precmd = "chmod +x ./mac/astcenc-avx2 ; ";
                 redirect = "1>/dev/null 2>/dev/null";
-                redirect = "";
+                # redirect = "";
             else:
                 precmd = "";
                 redirect = "> out.log";
-                redirect = "";
+                # redirect = "";
 
             all = os.walk(self.publish_dir);
             for path, dir, filelist in all:
@@ -1637,8 +1637,8 @@ return {
         except Exception as err:
             errmsg(err);
         finally:
-            # if os.path.exists("out.log"):
-                # os.remove("out.log");
+            if os.path.exists("out.log"):
+                os.remove("out.log");
 
             pass
         pass
@@ -2096,9 +2096,9 @@ return {
                 elif self.use_astc:
                     self._astcencResFiles (dirpath);
                     pass
-
-            if self.use_pngquant:
-                self._pngquantResFiles (dirpath);
+            else:
+                if self.use_pngquant:
+                    self._pngquantResFiles (dirpath);
 
         except Exception as err:
             errmsg(err);
