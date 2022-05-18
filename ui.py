@@ -1016,6 +1016,7 @@ class MainWindow(QMainWindow):
 
         self.ckbox_use_filelogger.clicked.connect (self.onFileLogger);
         self.ckbox_use_logger.clicked.connect (self.onRemoteLogger)
+        self.ckbox_use_pngquant.clicked.connect (self.onPngQuantClicked)
 
 
 
@@ -1177,7 +1178,16 @@ class MainWindow(QMainWindow):
         self.onLockHallNum ();
 
     def onCompressTextureClicked(self):
+
+        if self.compress_texture.isChecked () == True:
+            self.ckbox_use_pngquant.setCheckState(QtCore.Qt.Unchecked);
+
         pass
+
+    def onPngQuantClicked(self):
+        if self.ckbox_use_pngquant.checkState () == Qt.Qt.Checked:
+            self.compress_texture.setChecked (False);
+
 
     def onMakeNativeProject(self):
         self.getPMConfig();
