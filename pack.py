@@ -1577,9 +1577,11 @@ return {
             if isMacOS():
                 precmd = "chmod +x ./mac/astcenc-avx2 ; ";
                 redirect = "1>/dev/null 2>/dev/null";
+                redirect = "";
             else:
                 precmd = "";
                 redirect = "> out.log";
+                redirect = "";
 
             all = os.walk(self.publish_dir);
             for path, dir, filelist in all:
@@ -1616,7 +1618,7 @@ return {
                             print("compress pngres %s to astc." % filename);
                             astcfilepath = filepath.replace(".png", ".astc");
 
-                            cmdstr = ('''%s %s -cl %s %s 5x5 -medium %s''' % (precmd, os.path.join(".", "astcenc-avx2"), filepath,astcfilepath,redirect));
+                            cmdstr = ('''%s %s -cl %s %s 5x5 -medium %s''' % (precmd, os.path.join(".", "mac","astcenc-avx2"), filepath,astcfilepath,redirect));
 
                             my_env = os.environ.copy();
                             astc_path = os.path.abspath(os.path.join(os.path.curdir,"common","astcenc"));
@@ -1635,8 +1637,10 @@ return {
         except Exception as err:
             errmsg(err);
         finally:
-            if os.path.exists("out.log"):
-                os.remove("out.log");
+            # if os.path.exists("out.log"):
+                # os.remove("out.log");
+
+            pass
         pass
 
 
