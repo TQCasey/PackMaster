@@ -520,3 +520,8 @@ lobby_new.png
 SGDD-putongbj.png
 SGDD-freecake.png
 WS-BJbaitian.png
+WS-TBxq.png
+WS-TBsxq.png
+WS-wushi.png
+WS-wushi-xiuqiu.png
+WS-BJheiye.png
