@@ -525,3 +525,5 @@ WS-TBsxq.png
 WS-wushi.png
 WS-wushi-xiuqiu.png
 WS-BJheiye.png
+WS-TBwild.png
+WS-TBbonus.png
