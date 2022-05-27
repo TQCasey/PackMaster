@@ -65,6 +65,16 @@ config = {
 		ipv6			= "http://8.129.10.38";
 	};
 
+	slots_config 		= {
+		hotupdate_cfg 	= "http://172.20.11.248:8990";
+		hotupdate_zip 	= "http://172.20.11.248:8990";
+		noticeurl 		= "http://init.fg-domino.com/notices.lastest.json?r=%d";
+		configurl 		= "http://init.fg-domino.com/configs.network.json?r=%d";
+		phpurl 			= "http://8.129.10.38/mm/api.php";
+		backup 			= "8.129.10.38";
+		ipv6			= "http://8.129.10.38";
+	};
+
 	prefix_url 			= "http://d3bon1cx113mtl.cloudfront.net/mm/i/4/";
 
 	langinfo 			= {

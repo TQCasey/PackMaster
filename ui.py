@@ -772,6 +772,7 @@ class MainWindow(QMainWindow):
         self.btn_add_task = self.findChild(QPushButton, "btn_add_task");
         self.btn_sync_all_version = self.findChild(QPushButton,"btn_sync_all_version");
         self.checkBox_no_hotupdate = self.findChild(QCheckBox,"checkBox_no_hotupdate");
+        self.checkBox_slots_update = self.findChild(QCheckBox,"checkBox_slots_update");
 
         self.ckbox_ignore_err = self.findChild(QCheckBox, "checkBox_igone_error");
         self.ckbox_local_task_list = self.findChild(QCheckBox, "checkBox_lock_tasklist");
@@ -791,6 +792,7 @@ class MainWindow(QMainWindow):
         self.list_app.itemDoubleClicked.connect(self.onListItemDBClicked);
         self.btn_sync_all_version.clicked.connect (self.onSyncAllSubGamesVersion);
         self.btn_load_publish_games.clicked.connect (self.onLoadPublishGames);
+        self.checkBox_slots_update.clicked.connect (self.onSlotsUpdate)
 
         self.btn_logger.clicked.connect (self.onLogger);
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
@@ -1073,6 +1075,8 @@ class MainWindow(QMainWindow):
         self.btn_connect_emulator.clicked.connect(self.onConnectEmulator);
         self.btn_refresh_applist.clicked.connect(self.onFreshAppList);
 
+        self.ckbox_use_local.clicked.connect (self.onLocalServerClicked);
+
         """
         pack h5
         """
@@ -1176,6 +1180,16 @@ class MainWindow(QMainWindow):
         self.onShowErrorOnly ();
         self.initLockedList ();
         self.onLockHallNum ();
+
+    def onLocalServerClicked(self):
+        if self.ckbox_use_local.checkState () == Qt.Qt.Unchecked:
+            self.checkBox_slots_update.setCheckState (Qt.Qt.Unchecked)
+        pass
+
+    def onSlotsUpdate(self):
+        if self.checkBox_slots_update.checkState () == Qt.Qt.Checked:
+            self.ckbox_use_local.setCheckState (Qt.Qt.Checked);
+        pass
 
     def onCompressTextureClicked(self):
 
@@ -2899,6 +2913,7 @@ class MainWindow(QMainWindow):
             self.safeGetSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
             self.safeGetSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
             self.safeGetSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
+            self.safeGetSinglePMConfig (chConfig,"use_slots_update","checkBox_slots_update");
 
             self.safeGetSinglePMConfig (chConfig,"use_no_crypt_zip","ckbox_use_no_crypt_zip");
 
@@ -2954,6 +2969,7 @@ class MainWindow(QMainWindow):
             self.safeRestoreSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
             self.safeRestoreSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
             self.safeRestoreSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
+            self.safeRestoreSinglePMConfig (chConfig,"use_slots_update", "checkBox_slots_update");
 
             gPMConfig.setDebug(self.ckbox_use_debug.checkState() == Qt.Qt.Checked);
 

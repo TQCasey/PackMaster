@@ -49,6 +49,8 @@ class PackCommon:
             self.use_etc2 = self.curChConfig.use_etc2;
             self.use_astc = self.curChConfig.use_astc;
 
+            self.use_slots_update = self.curChConfig.use_slots_update;
+
             self.use_rgba8888 = self.curChConfig.use_rgba8888;
 
             self.use_bones_zip = self.curChConfig.use_bones_zip;
@@ -2329,8 +2331,23 @@ return {
             else:
                 preonlineconfig = config.preonline_config;
 
+            ### slotsconfig
+            if luaChConfig.slots_config:
+                slots_config = luaChConfig.slots_config;
+            elif luaHallConfig.slots_config:
+                slots_config = luaHallConfig.slots_config;
+            elif luaPlatConfig.slots_config:
+                slots_config = luaPlatConfig.slots_config;
+            else:
+                slots_config = config.slots_config;
+
             if pmChConfig.use_local_srv:
-                cnnconfig = dbgconfig;
+                if pmChConfig.use_slots_update:
+                    cnnconfig = slots_config;
+                    if cnnconfig == None:
+                        cnnconfig = dbgconfig;
+                else:
+                    cnnconfig = dbgconfig;
             else:
                 cnnconfig = releaseconfig;
 
