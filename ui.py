@@ -1348,7 +1348,13 @@ class MainWindow(QMainWindow):
                 preMsg = "##################\n    正在发布热更   \n##################\n";
                 distdir = "dist";
 
-            ret = MsgBox().yesno("%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布测试热更\nCancel) 取消则取消热更\n" % (preMsg));
+            if self.checkBox_slots_update.checkState() != Qt.Qt.Checked:
+                ret = MsgBox().yesno(
+                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布测试热更\nCancel) 取消则取消热更\n" % (preMsg));
+            else:
+                ret = MsgBox().yesno(
+                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布slots热更\nCancel) 取消则取消热更\n" % (preMsg));
+
             if (QMessageBox.Yes == ret):
                 isDebugPublish = True;
             elif (QMessageBox.No == ret):
@@ -1390,8 +1396,12 @@ class MainWindow(QMainWindow):
                 dict["project_dir"] = os.path.join(platconfig.project_dir,"client_publish_dis",distdir);
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir,"client_publish_dis","navigator.json");
             else:
-                dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev",distdir);
-                dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
+                if self.checkBox_slots_update.checkState ()== Qt.Qt.Checked:
+                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots",distdir);
+                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
+                else:
+                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev",distdir);
+                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
 
             if not os.path.exists(dict["project_dir"]):
                 MsgBox().msg("没有找到 %s \n请确保目录存在!!" % (dict["project_dir"]));
