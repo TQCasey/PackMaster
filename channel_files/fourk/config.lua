@@ -55,6 +55,16 @@ return {
 		ipv6			= "8.129.10.38";
 	};
 
+    slots_config 		= {
+		hotupdate_cfg 	= "http://172.20.11.248:8990";
+		hotupdate_zip 	= "http://172.20.11.248:8990";
+		noticeurl 		= "http://init.fg-domino.com/notices.lastest.json?r=%d";
+		configurl 		= "http://init.fg-domino.com/configs.network.json?r=%d";
+		phpurl 			= "http://8.129.10.38/fan_mm/api.php";
+		backup 			= "8.129.10.38";
+		ipv6			= "8.129.10.38";
+	};
+
     android = {
 
         oldpname 		= "com.zhijian.domino";
