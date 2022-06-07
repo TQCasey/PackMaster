@@ -353,7 +353,7 @@ class PackCommon:
                     hallinfo64[game]['md5info'] = md5str64;
 
                 '''
-                asserts_gamesConfig.json
+                asserts_gamesVesion.json
                 '''
                 singleGameConfigPath = os.path.join(baseDir, game, "%s_version.lua" % (hallName));
                 singlestr = '''
@@ -374,7 +374,7 @@ return {
 
         if isMakeGamesConfig == True:
             if isMakeAssets == True:
-                filePath = os.path.join(baseDir, "gamesConfig.json");
+                filePath = os.path.join(baseDir, "gamesVersionv2.json");
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo));
@@ -385,7 +385,7 @@ return {
                 '''
                 32bit
                 '''
-                filePath = os.path.join(baseDir, "%s_32_gamesConfig.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_32_gamesVersionv2.json" % (hallName));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo32));
@@ -395,7 +395,7 @@ return {
                 '''
                 64bit
                 '''
-                filePath = os.path.join(baseDir, "%s_64_gamesConfig.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_64_gamesVersionv2.json" % (hallName));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo64));
@@ -573,7 +573,7 @@ return {
             msg = msg [i:].strip(' ');
             file = msg.replace("\\","/")
 
-            if "filemd5" in file or "_version" in file or "gamesConfig.json" in file:
+            if "filemd5" in file or "_version" in file or "gamesVersionv2.json" in file:
                 continue;
 
             if "config_version" in file or "config_auto" in file:
@@ -698,6 +698,74 @@ return {
         ## make whitelist.json
         self.makeWhiteList ();
 
+        pass
+
+    def doFinalThing1(self,update_version_trigger,gamesChangedArr,hallNum):
+
+        try:
+
+            delaySumitFiles = [];
+
+            hallList = gPMConfig.getHallList();
+            for hallName in hallList:
+                path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
+                # print ("Hall version Path => %s" % path);
+
+                path = path.replace("\\", "/");
+                delaySumitFiles.append(path);
+
+                '''
+                add gamesConfig.json
+                '''
+                gamesConfig32 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"32"));
+                gamesConfig32 = gamesConfig32.replace("\\", "/");
+                delaySumitFiles.append(gamesConfig32);
+
+                gamesConfig32 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"64"));
+                gamesConfig64 = gamesConfig64.replace("\\", "/");
+                delaySumitFiles.append(gamesConfig64);
+
+                '''
+                games
+                '''
+                list = self.game_list;
+                for i in range(len(list)):
+                    gname = list[i];
+                    if self.isInGameList(gname):
+                        gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
+                        # print ("HallGame %s ,Game %s => %s" % (hallName,gname, gpath));
+                        gpath = gpath.replace("\\", "/");
+                        delaySumitFiles.append(gpath);
+                    pass
+                pass
+            pass
+
+            all = os.walk(self.publish_dir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+                    native_filepath = os.path.join(path,filename);
+                    filepath = native_filepath.replace("\\", "/");
+                    # print(filepath);
+
+                    isIn = False;
+                    for dfilepath in delaySumitFiles:
+                        if dfilepath == filepath:
+                            isIn = True;
+                            break;
+
+                    if not isIn:
+                        print ("Make %s " % filepath);
+                        file_md5 = self._fileMd5(native_filepath);
+                        new_native_filepath = native_filepath + "." +file_md5;
+                        if os.path.exists(native_filepath) and not os.path.exists(new_native_filepath):
+                            os.rename(native_filepath,new_native_filepath);
+
+                    pass
+
+
+        except Exception as err:
+            errmsg(err);
         pass
 
     def makeWhiteList(self):

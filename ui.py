@@ -29,8 +29,9 @@ from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gL
 
 from whitelist import WhiteListDialog
 
+
 class ThreadBaseClass(QThread):
-    def __init__(self, parent = None, luaglobals = None,dict = None):
+    def __init__(self, parent=None, luaglobals=None, dict=None):
         super(ThreadBaseClass, self).__init__();
         self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
         self.mainObj = parent;
@@ -40,12 +41,12 @@ class ThreadBaseClass(QThread):
 
         start_pack();
 
-    def onMsgBoxRet(self,ret):
+    def onMsgBoxRet(self, ret):
         # print ("ret = %d" % (ret));
         self.msgbox_ret = ret;
         pass
 
-    def askbox(self,msg):
+    def askbox(self, msg):
         raskbox(msg);
         while self.msgbox_ret == None:
             time.sleep(0.3);
@@ -62,6 +63,9 @@ class ThreadBaseClass(QThread):
         done_pack(0);
 
 
+'''
+打包线程
+'''
 class PMThread(ThreadBaseClass):
 
     def run(self):
@@ -70,11 +74,11 @@ class PMThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(self.pmconfig, None,self.dict);
+                pack = PackIOS(self.pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(self.pmconfig, None,self.dict);
+                pack = PackAndroid(self.pmconfig, None, self.dict);
 
-            app_path  = pack.run();
+            app_path = pack.run();
             aab_path = None;
 
             if pack.PACK_OK == True and app_path:
@@ -87,7 +91,7 @@ class PMThread(ThreadBaseClass):
                 if 1024 == self.askbox(msg % (app_path)):
 
                     if isMacOS():
-                        pack.exportIpa(pack.arch_path,True);
+                        pack.exportIpa(pack.arch_path, True);
                         ipa_path = pack.ipa_path;
                         pass
                     else:
@@ -119,7 +123,7 @@ class PMThread(ThreadBaseClass):
                             chName=self.chName,
                             curChConfig=self.curChConfig,
                             isSpecDir=True,
-                            objDir = pack.arch_path,
+                            objDir=pack.arch_path,
                         );
                     else:
                         self.mainObj.onProceedUploadSymTbl(
@@ -139,9 +143,12 @@ class PMThread(ThreadBaseClass):
             super().saybye();
 
 
+'''
+图集重新打包线程
+'''
 class RepackThread(ThreadBaseClass):
 
-    def __init__(self, parent,inputDir):
+    def __init__(self, parent, inputDir):
         super(RepackThread, self).__init__(parent);
         self.inputDir = inputDir;
         start_pack();
@@ -150,7 +157,7 @@ class RepackThread(ThreadBaseClass):
 
         try:
             from repack import repackWithDir
-            repackWithDir (self.inputDir);
+            repackWithDir(self.inputDir);
             rmsgbox("Repack Done!")
         except Exception as err:
             errmsg(err);
@@ -158,9 +165,12 @@ class RepackThread(ThreadBaseClass):
             done_pack(0);
 
 
+'''
+导出签名IPA包线程
+'''
 class ExportIpaThread(ThreadBaseClass):
 
-    def __init__(self, parent, luaglobals,archPath):
+    def __init__(self, parent, luaglobals, archPath):
         super(ExportIpaThread, self).__init__(parent);
         self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
         self.mainObj = parent;
@@ -178,7 +188,7 @@ class ExportIpaThread(ThreadBaseClass):
             elif isWin():
                 pack = PackAndroid(self.pmconfig, None);
 
-            pack.exportIpa(self.archPath,exportAppStore=False,needAlert=True);
+            pack.exportIpa(self.archPath, exportAppStore=False, needAlert=True);
 
         except Exception as err:
             errmsg(err);
@@ -187,19 +197,17 @@ class ExportIpaThread(ThreadBaseClass):
 
 
 """
-CheckThread Class
+检查语法线程
 """
-
 class CheckSyntaxThread(ThreadBaseClass):
 
-    def __init__(self, parent = None, luaglobals = None):
+    def __init__(self, parent=None, luaglobals=None):
         super(CheckSyntaxThread, self).__init__(parent);
 
         self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
         self.mainObj = parent;
         self.dict = dict;
         start_pack();
-
 
     def saybye(self):
         done_pack(0);
@@ -212,27 +220,25 @@ class CheckSyntaxThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
 
-
-            pack.onCheckSyntaxImpl ();
+            pack.onCheckSyntaxImpl();
 
         except Exception as err:
             errmsg(err);
         finally:
             self.saybye();
-            print ("Check Syntax Done!")
+            print("Check Syntax Done!")
+
 
 """
-UploadThread Class
+上传bugly符号表线程
 """
-
-
 class UploadThread(ThreadBaseClass):
 
-    def __init__(self, parent, luaglobals,isSpecDir,objDir,mappingFileDir):
+    def __init__(self, parent, luaglobals, isSpecDir, objDir, mappingFileDir):
         super(UploadThread, self).__init__(parent);
         self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
         self.mainObj = parent;
@@ -252,13 +258,13 @@ class UploadThread(ThreadBaseClass):
             self.curChConfig = pmconfig.getCurChConfig();
 
             self.mainObj.onProceedUploadSymTbl(
-                hallName = self.hallName,
-                chName = self.chName,
-                curChConfig = self.curChConfig,
+                hallName=self.hallName,
+                chName=self.chName,
+                curChConfig=self.curChConfig,
 
-                isSpecDir = self.isSpecDir,
-                objDir = self.objDir,
-                mapppingFileDir = self.mapppingFileDir
+                isSpecDir=self.isSpecDir,
+                objDir=self.objDir,
+                mapppingFileDir=self.mapppingFileDir
             );
 
         except Exception as err:
@@ -266,11 +272,10 @@ class UploadThread(ThreadBaseClass):
         finally:
             super().saybye();
 
-"""
-MakeConfigThread Class
-"""
 
-
+"""
+生成配置线程
+"""
 class MakeConfigThread(ThreadBaseClass):
     def run(self):
 
@@ -280,9 +285,9 @@ class MakeConfigThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             else:
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
 
             pack.makeConfigsForDebug();
 
@@ -294,7 +299,7 @@ class MakeConfigThread(ThreadBaseClass):
 
 
 """
-MakeAssetsThread Class
+生成assets线程
 """
 
 
@@ -308,22 +313,21 @@ class MakeAssetsThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
 
-            pack.makeAssets ();
+            pack.makeAssets();
 
         except Exception as err:
             errmsg(err);
         finally:
             super().saybye();
 
-"""
-BuildThread Class
-"""
 
-
+"""
+编译线程
+"""
 class BuildThread(ThreadBaseClass):
     def run(self):
 
@@ -334,22 +338,21 @@ class BuildThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
 
-            pack.buildAll ();
+            pack.buildAll();
 
         except Exception as err:
             errmsg(err);
         finally:
             super().saybye();
 
-"""
-MakeNativeProjectThread Class
-"""
 
-
+"""
+生成工程线程
+"""
 class MakeNativeProjectThread(ThreadBaseClass):
     def run(self):
 
@@ -360,27 +363,26 @@ class MakeNativeProjectThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
 
-            pack.onMakeNativeProject ();
-            rmsgbox ("生成原生工程成功!")
+            pack.onMakeNativeProject();
+            rmsgbox("生成原生工程成功!")
 
         except Exception as err:
             errmsg(err);
         finally:
             super().saybye();
 
-"""
-PublishAllThread Class
-"""
 
-
+"""
+发布
+"""
 class PublishAllThread(ThreadBaseClass):
     update_version_trigger = pyqtSignal(dict);
 
-    def __init__(self, parent, luaglobals,dict):
+    def __init__(self, parent, luaglobals, dict):
         super(PublishAllThread, self).__init__(parent);
         self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
         self.mainObj = parent;
@@ -388,17 +390,16 @@ class PublishAllThread(ThreadBaseClass):
 
         self.changelist_ret = None;
 
-        gsignal.alert_ret_changelist_trigger.connect (self.onChangeListRet)
+        gsignal.alert_ret_changelist_trigger.connect(self.onChangeListRet)
 
         start_pack();
 
-
-    def onChangeListRet(self,ret):
+    def onChangeListRet(self, ret):
         # print ("ret = %d" % (ret));
         self.changelist_ret = ret;
         pass
 
-    def ask_changeList(self,dict):
+    def ask_changeList(self, dict):
         rchangelistbox(dict);
         while self.changelist_ret == None:
             time.sleep(0.3);
@@ -407,7 +408,6 @@ class PublishAllThread(ThreadBaseClass):
         self.changelist_ret = None;
         return ret;
 
-
     def run(self):
 
         pmconfig = self.pmconfig;
@@ -415,26 +415,33 @@ class PublishAllThread(ThreadBaseClass):
             pack = None;
 
             if isMacOS() == True:
-                pack = PackIOS(pmconfig, None,self.dict);
+                pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
-                pack = PackAndroid(pmconfig, None,self.dict);
+                pack = PackAndroid(pmconfig, None, self.dict);
+            #
+            pack.startPublishAll();
+            # pack.publishBaseAndHall();
+            # pack.publishGame();
+            #
+            # dict = pack.figureoutChangedInfo();
+            # gamesChangedArr = dict["gamesChangedArr"];
+            # hasBaseAndHallChanged = dict["hasBaseAndHallChanged"];
+            # hallNum = dict['hallNum'];
+            #
+            # ret = self.ask_changeList(dict);
+            # if ret == 2:
+            #     if hasBaseAndHallChanged:
+            #         hallNum = str(int(hallNum) + 1);
+            #         print("Base Hall files changed...,Hall Num : %s " % (hallNum));
+            #
+            # pack.doLastThing(self.update_version_trigger, gamesChangedArr, hallNum);
 
-            pack.startPublishAll ();
-            pack.publishBaseAndHall ();
-            pack.publishGame();
-
-            dict = pack.figureoutChangedInfo ();
-            gamesChangedArr = dict["gamesChangedArr"];
-            hasBaseAndHallChanged = dict["hasBaseAndHallChanged"];
-            hallNum = dict ['hallNum'];
-
-            ret = self.ask_changeList (dict);
-            if ret == 2:
-                if hasBaseAndHallChanged:
-                    hallNum = str(int(hallNum) + 1);
-                    print("Base Hall files changed...,Hall Num : %s " % (hallNum));
-
-            pack.doLastThing(self.update_version_trigger,gamesChangedArr,hallNum)
+            '''
+            最终包1
+            '''
+            hallNum = 1;
+            gamesChangedArr = "";
+            pack.doFinalThing1(self.update_version_trigger, gamesChangedArr, hallNum);
 
         except Exception as err:
             errmsg(err);
@@ -442,16 +449,13 @@ class PublishAllThread(ThreadBaseClass):
             rmsgbox("恭喜恭喜，生成大厅热更成功了 !\n今天那可以买体彩大乐透\n");
             self.saybye();
 
-
     def saybye(self):
         done_pack(0);
 
 
 """
-connect device thread
+链接adb线程
 """
-
-
 class DevThread(ThreadBaseClass):
     def __init__(self, parent, luaglobals, emulator=None):
         super(DevThread, self).__init__(parent, None);
@@ -469,10 +473,8 @@ class DevThread(ThreadBaseClass):
 
 
 """
-install thread
+安装 apk / ipa 线程
 """
-
-
 class InstallThread(ThreadBaseClass):
 
     def __init__(self, parent, app_path, devname):
@@ -498,10 +500,8 @@ class InstallThread(ThreadBaseClass):
 
 
 """
-restart adb
+重启adb 线程
 """
-
-
 class RestartAdbThread(ThreadBaseClass):
 
     def __init__(self, parent):
@@ -516,11 +516,11 @@ class RestartAdbThread(ThreadBaseClass):
             # print ("connecting device...");
             # self.mainObj.onInstallApp(self.app_path, self.devname);
             # print ("OK OK OK")
-            print ("kill nox_adb_server");
-            Commander().do("nox_adb kill-server",encoding='utf8');
+            print("kill nox_adb_server");
+            Commander().do("nox_adb kill-server", encoding='utf8');
 
-            print ("kill adb_server")
-            Commander().do("adb kill-server",encoding='utf8');
+            print("kill adb_server")
+            Commander().do("adb kill-server", encoding='utf8');
 
             pass
 
@@ -530,14 +530,13 @@ class RestartAdbThread(ThreadBaseClass):
         finally:
             done_pack(0);
 
-"""
-logcat thread
-"""
 
-
+"""
+android logcat 线程
+"""
 class LogCatThread(ThreadBaseClass):
 
-    def __init__(self, parent, devname,isExportTxt,isNox):
+    def __init__(self, parent, devname, isExportTxt, isNox):
         super(LogCatThread, self).__init__(parent);
 
         self.devname = devname;
@@ -549,7 +548,7 @@ class LogCatThread(ThreadBaseClass):
 
     def stop(self):
         try:
-            self.mainObj.onTerminateLogcat ();
+            self.mainObj.onTerminateLogcat();
             pass
         except Exception as err:
             errmsg(err);
@@ -559,7 +558,7 @@ class LogCatThread(ThreadBaseClass):
     def run(self):
         try:
             # print ("connecting device...");
-            self.mainObj.onLogcat(self.devname,self.isExportTxt,self.isNox);
+            self.mainObj.onLogcat(self.devname, self.isExportTxt, self.isNox);
             # print ("OK OK OK")
 
         except Exception as err:
@@ -567,11 +566,6 @@ class LogCatThread(ThreadBaseClass):
             errmsg(err);
         finally:
             done_pack(0);
-
-
-"""
-Make push Thread 
-"""
 
 
 class CertPush(object):
@@ -637,7 +631,9 @@ class CertPush(object):
             errmsg(err);
         pass
 
-
+"""
+生成ios推送参数线程
+"""
 class MakePushCertThread(ThreadBaseClass):
     def __init__(self, parent, cer_file, p12_file, name, passwd):
         super(MakePushCertThread, self).__init__(parent);
@@ -660,7 +656,9 @@ class MakePushCertThread(ThreadBaseClass):
         finally:
             done_pack(0);
 
-
+"""
+生成ios推送参数线程
+"""
 class CleanProfileThread(ThreadBaseClass):
     def run(self):
         try:
@@ -673,13 +671,16 @@ class CleanProfileThread(ThreadBaseClass):
             rmsgbox("清除成功!")
         pass
 
+'''
+清除xcode userdata 线程
+'''
 class CleanXcodeThread(ThreadBaseClass):
     def run(self):
         try:
             print("clean xcode data...");
-            path = os.path.join("ios","channel_files");
+            path = os.path.join("ios", "channel_files");
             cmdstr = '''find %s -name xcuserdata -exec rm -rf {} \;''' % (path);
-            Commander().do (cmdstr);
+            Commander().do(cmdstr);
 
         except Exception as err:
             errmsg(err);
@@ -688,8 +689,11 @@ class CleanXcodeThread(ThreadBaseClass):
             rmsgbox("清除成功!")
         pass
 
+'''
+打包creator 包
+'''
 class PackCreatorH5(ThreadBaseClass):
-    def __init__(self, parent,param):
+    def __init__(self, parent, param):
         super(PackCreatorH5, self).__init__(parent);
         start_pack();
         self.param = param;
@@ -699,9 +703,9 @@ class PackCreatorH5(ThreadBaseClass):
 
             pack = None;
             if isMacOS() == True:
-                pack = PackH5IOS (self.param);
+                pack = PackH5IOS(self.param);
             elif isWin():
-                pack = PackH5Android (self.param);
+                pack = PackH5Android(self.param);
 
             pack.pack();
 
@@ -714,8 +718,6 @@ class PackCreatorH5(ThreadBaseClass):
 """
 MainWindow Class
 """
-
-
 class MainWindow(QMainWindow):
 
     def prepareUIFile(self, filepath):
@@ -726,7 +728,7 @@ class MainWindow(QMainWindow):
         ui_path = os.path.join("ui", "main.ui");
         self.prepareUIFile(ui_path)
         loadUi(ui_path, self)
-        self.setWindowIcon(QIcon(os.path.join("ui","app.png")));
+        self.setWindowIcon(QIcon(os.path.join("ui", "app.png")));
 
         self.setAcceptDrops(True);
         self.expandTaskPanel(False);
@@ -742,11 +744,11 @@ class MainWindow(QMainWindow):
         """
 
         self.btn_pack = self.findChild(QPushButton, "btn_pack");
-        self.btn_whitelist = self.findChild(QPushButton,"btn_whitelist");
+        self.btn_whitelist = self.findChild(QPushButton, "btn_whitelist");
         self.btn_publish_basehall = self.findChild(QPushButton, "btn_publish_basehall");
 
-        self.btn_make_native_project = self.findChild(QPushButton,"btn_make_native_project");
-        self.btn_build = self.findChild(QPushButton,"btn_build")
+        self.btn_make_native_project = self.findChild(QPushButton, "btn_make_native_project");
+        self.btn_build = self.findChild(QPushButton, "btn_build")
 
         self.text_panel = self.findChild(QTextBrowser, "text_panel");
         self.text_panel_error = self.findChild(QTextBrowser, "text_panel_error");
@@ -770,31 +772,31 @@ class MainWindow(QMainWindow):
         self.tasks_panel = self.findChild(QGroupBox, "groupBox_tasks");
         self.succeed_panel = self.findChild(QGroupBox, "groupBox_succeed_list");
         self.btn_add_task = self.findChild(QPushButton, "btn_add_task");
-        self.btn_sync_all_version = self.findChild(QPushButton,"btn_sync_all_version");
-        self.checkBox_no_hotupdate = self.findChild(QCheckBox,"checkBox_no_hotupdate");
-        self.checkBox_slots_update = self.findChild(QCheckBox,"checkBox_slots_update");
+        self.btn_sync_all_version = self.findChild(QPushButton, "btn_sync_all_version");
+        self.checkBox_no_hotupdate = self.findChild(QCheckBox, "checkBox_no_hotupdate");
+        self.checkBox_slots_update = self.findChild(QCheckBox, "checkBox_slots_update");
 
         self.ckbox_ignore_err = self.findChild(QCheckBox, "checkBox_igone_error");
         self.ckbox_local_task_list = self.findChild(QCheckBox, "checkBox_lock_tasklist");
         self.btn_logger = self.findChild(QPushButton, "btn_logger");
 
-        self.pushButton_sym_tbl = self.findChild(QPushButton,"pushButton_sym_tbl");
-        self.btn_load_publish_games = self.findChild(QPushButton,"btn_load_publish_games");
+        self.pushButton_sym_tbl = self.findChild(QPushButton, "pushButton_sym_tbl");
+        self.btn_load_publish_games = self.findChild(QPushButton, "btn_load_publish_games");
 
-        self.compress_texture = self.findChild(QGroupBox,"compress_texture")
+        self.compress_texture = self.findChild(QGroupBox, "compress_texture")
 
-        self.compress_texture.clicked.connect (self.onCompressTextureClicked)
+        self.compress_texture.clicked.connect(self.onCompressTextureClicked)
 
-        self.btn_make_native_project.clicked.connect (self.onMakeNativeProject);
-        self.btn_build.clicked.connect (self.onBuildClicked);
+        self.btn_make_native_project.clicked.connect(self.onMakeNativeProject);
+        self.btn_build.clicked.connect(self.onBuildClicked);
 
-        self.btn_whitelist.clicked.connect (self.onMakeWhiteList)
+        self.btn_whitelist.clicked.connect(self.onMakeWhiteList)
         self.list_app.itemDoubleClicked.connect(self.onListItemDBClicked);
-        self.btn_sync_all_version.clicked.connect (self.onSyncAllSubGamesVersion);
-        self.btn_load_publish_games.clicked.connect (self.onLoadPublishGames);
-        self.checkBox_slots_update.clicked.connect (self.onSlotsUpdate)
+        self.btn_sync_all_version.clicked.connect(self.onSyncAllSubGamesVersion);
+        self.btn_load_publish_games.clicked.connect(self.onLoadPublishGames);
+        self.checkBox_slots_update.clicked.connect(self.onSlotsUpdate)
 
-        self.btn_logger.clicked.connect (self.onLogger);
+        self.btn_logger.clicked.connect(self.onLogger);
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
 
         # 搜索按钮
@@ -809,24 +811,21 @@ class MainWindow(QMainWindow):
 
         self.prevLangName = "";
 
-
         '''
         install / android logcat 
         '''
         self.cbox_devlist = self.findChild(QComboBox, "cbox_devlist");
         self.btn_refresh_applist = self.findChild(QPushButton, "btn_refresh_app");
-        self.btn_logcat = self.findChild(QPushButton,"pushButton_logcat");
-        self.checkBox_export_txt = self.findChild(QCheckBox,"checkBox_export_txt");
-        self.checkBox_nox = self.findChild(QCheckBox,"checkBox_nox");
-        self.pushButton_restart_adb = self.findChild(QPushButton,"pushButton_restart_adb");
+        self.btn_logcat = self.findChild(QPushButton, "pushButton_logcat");
+        self.checkBox_export_txt = self.findChild(QCheckBox, "checkBox_export_txt");
+        self.checkBox_nox = self.findChild(QCheckBox, "checkBox_nox");
+        self.pushButton_restart_adb = self.findChild(QPushButton, "pushButton_restart_adb");
 
-        self.btn_logcat.clicked.connect (self.onAndroidLogCat);
-        self.pushButton_restart_adb.clicked.connect (self.onRestartAdb);
-
+        self.btn_logcat.clicked.connect(self.onAndroidLogCat);
+        self.pushButton_restart_adb.clicked.connect(self.onRestartAdb);
 
         self.isLogcatEnd = False;
         self.logcat_process = None;
-
 
         """
         Qmenu 
@@ -865,15 +864,15 @@ class MainWindow(QMainWindow):
         """
         svn utils 
         """
-        gsignal.auth_trigger.connect (self.onAuthDialog);
+        gsignal.auth_trigger.connect(self.onAuthDialog);
 
         """
         export to appstore
         """
-        self.listWidget_arch = self.findChild(QListWidget,"listWidget_arch");
-        self.btn_fresh_archlist = self.findChild(QPushButton,"btn_fresh_archlist");
-        self.listWidget_arch.itemDoubleClicked.connect (self.onArchDBClicked);
-        self.btn_fresh_archlist.clicked.connect (self.onLoadArchList);
+        self.listWidget_arch = self.findChild(QListWidget, "listWidget_arch");
+        self.btn_fresh_archlist = self.findChild(QPushButton, "btn_fresh_archlist");
+        self.listWidget_arch.itemDoubleClicked.connect(self.onArchDBClicked);
+        self.btn_fresh_archlist.clicked.connect(self.onLoadArchList);
 
         """
         tools 
@@ -888,88 +887,84 @@ class MainWindow(QMainWindow):
         self.lineEdit_passwd = self.findChild(QLineEdit, "lineEdit_passwd");
 
         self.btn_clean_profile = self.findChild(QPushButton, "btn_clean_profile");
-        self.btn_clean_xcodedata = self.findChild(QPushButton,"btn_clean_xcodedata");
+        self.btn_clean_xcodedata = self.findChild(QPushButton, "btn_clean_xcodedata");
 
         self.btn_make_pem.clicked.connect(self.onMakePem);
         self.btn_open_cert.clicked.connect(self.onOpenCert);
         self.btn_open_p12.clicked.connect(self.onOpenP12);
-        self.btn_clean_xcodedata.clicked.connect (self.onCleanXcodeData);
+        self.btn_clean_xcodedata.clicked.connect(self.onCleanXcodeData);
 
         self.btn_clean_profile.clicked.connect(self.onCleanProfile);
 
         if not isMacOS():
             self.groupBox_ios_push.setEnabled(False);
 
-
         """
         pack h5
         """
-        self.btn_h5_pack = self.findChild(QPushButton,"btn_h5_pack");
-        self.checkBox_use_aab = self.findChild(QCheckBox,"checkBox_use_aab");
-        self.btn_h5_res_proceed = self.findChild(QPushButton,"btn_h5_res_proceed");
-
+        self.btn_h5_pack = self.findChild(QPushButton, "btn_h5_pack");
+        self.checkBox_use_aab = self.findChild(QCheckBox, "checkBox_use_aab");
+        self.btn_h5_res_proceed = self.findChild(QPushButton, "btn_h5_res_proceed");
 
         """
         hot update (tags_svn_root)
         """
-        self.btn_svn_link = self.findChild(QPushButton,"btn_svn_link");
-        self.lineEdit_svn = self.findChild(QLineEdit,"lineEdit_svn");
-        self.comboBox_tagname = self.findChild(QComboBox,"comboBox_tagname");
+        self.btn_svn_link = self.findChild(QPushButton, "btn_svn_link");
+        self.lineEdit_svn = self.findChild(QLineEdit, "lineEdit_svn");
+        self.comboBox_tagname = self.findChild(QComboBox, "comboBox_tagname");
 
-        self.lineEdit_base_src_v = self.findChild(QLineEdit,"lineEdit_base_src_v");
-        self.lineEdit_hall_src_v = self.findChild(QLineEdit,"lineEdit_hall_src_v");
-        self.lineEdit_game_src_v = self.findChild(QLineEdit,"lineEdit_game_src_v");
-        self.lineEdit_base_dest_v = self.findChild(QLineEdit,"lineEdit_base_dest_v");
-        self.lineEdit_hall_dest_v = self.findChild(QLineEdit,"lineEdit_hall_dest_v");
-        self.lineEdit_game_dest_v = self.findChild(QLineEdit,"lineEdit_game_dest_v");
-        self.lineEdit_game_vname = self.findChild(QLineEdit,"edit_game_vname");
+        self.lineEdit_base_src_v = self.findChild(QLineEdit, "lineEdit_base_src_v");
+        self.lineEdit_hall_src_v = self.findChild(QLineEdit, "lineEdit_hall_src_v");
+        self.lineEdit_game_src_v = self.findChild(QLineEdit, "lineEdit_game_src_v");
+        self.lineEdit_base_dest_v = self.findChild(QLineEdit, "lineEdit_base_dest_v");
+        self.lineEdit_hall_dest_v = self.findChild(QLineEdit, "lineEdit_hall_dest_v");
+        self.lineEdit_game_dest_v = self.findChild(QLineEdit, "lineEdit_game_dest_v");
+        self.lineEdit_game_vname = self.findChild(QLineEdit, "edit_game_vname");
 
         self.widget_game_version = self.findChild(QWidget, "widget_game_version");
         # self.widget_game_version.setVisible(False);
         # self.lineEdit_game_vname.setInputMask("99.99");
         # self.lineEdit_game_vname.setText("1.0");
 
-        self.btn_make_hotupdate = self.findChild(QPushButton,"btn_make_hotupdate");
+        self.btn_make_hotupdate = self.findChild(QPushButton, "btn_make_hotupdate");
 
-        self.checkBox_whitelist = self.findChild(QCheckBox,"checkBox_whitelist");
-        self.pushButton_whitelist = self.findChild(QPushButton,"pushButton_whitelist");
+        self.checkBox_whitelist = self.findChild(QCheckBox, "checkBox_whitelist");
+        self.pushButton_whitelist = self.findChild(QPushButton, "pushButton_whitelist");
 
         self.btn_svn_link_fresh = self.findChild(QPushButton, "btn_svn_link_fresh");
-        self.checkBox_sel_all_game = self.findChild(QCheckBox,"checkBox_sel_all_game");
-        self.btn_fresh_game_version     = self.findChild(QPushButton,"btn_fresh_game_version");
+        self.checkBox_sel_all_game = self.findChild(QCheckBox, "checkBox_sel_all_game");
+        self.btn_fresh_game_version = self.findChild(QPushButton, "btn_fresh_game_version");
 
-        self.checkBox_whitelist.clicked.connect (self.onWhiteList);
-        self.pushButton_whitelist.clicked.connect (self.onOpenWhiteList);
-        self.checkBox_sel_all_game.clicked.connect (self.onSelAllSubGameClicked);
-        self.btn_fresh_game_version.clicked.connect (self.onFetchGameList);
+        self.checkBox_whitelist.clicked.connect(self.onWhiteList);
+        self.pushButton_whitelist.clicked.connect(self.onOpenWhiteList);
+        self.checkBox_sel_all_game.clicked.connect(self.onSelAllSubGameClicked);
+        self.btn_fresh_game_version.clicked.connect(self.onFetchGameList);
 
         '''
         repack
         '''
-        self.pushButton_select = self.findChild(QPushButton,"pushButton_select");
-        self.pushButton_repack = self.findChild(QPushButton,"pushButton_repack");
-        self.lineEdit_inputdir = self.findChild(QLineEdit,"lineEdit_inputdir");
-
+        self.pushButton_select = self.findChild(QPushButton, "pushButton_select");
+        self.pushButton_repack = self.findChild(QPushButton, "pushButton_repack");
+        self.lineEdit_inputdir = self.findChild(QLineEdit, "lineEdit_inputdir");
 
         '''
         bugly symbol
         '''
 
-        self.groupBox_sym_tbl = self.findChild(QGroupBox,"groupBox_sym_tbl")
+        self.groupBox_sym_tbl = self.findChild(QGroupBox, "groupBox_sym_tbl")
 
-        self.lineEdit_so_dir = self.findChild(QLineEdit,"lineEdit_so_dir");
-        self.lineEdit_mapping_dir = self.findChild(QLineEdit,"lineEdit_mapping_dir");
+        self.lineEdit_so_dir = self.findChild(QLineEdit, "lineEdit_so_dir");
+        self.lineEdit_mapping_dir = self.findChild(QLineEdit, "lineEdit_mapping_dir");
 
-        self.pushButton_so_dir = self.findChild(QPushButton,"pushButton_so_dir");
-        self.pushButton_mapping_dir = self.findChild(QPushButton,"pushButton_mapping_dir");
-        self.checkBox_spec_dir = self.findChild(QCheckBox,"checkBox_spec_dir");
-        self.pushButton_upload = self.findChild(QPushButton,"pushButton_upload");
+        self.pushButton_so_dir = self.findChild(QPushButton, "pushButton_so_dir");
+        self.pushButton_mapping_dir = self.findChild(QPushButton, "pushButton_mapping_dir");
+        self.checkBox_spec_dir = self.findChild(QCheckBox, "checkBox_spec_dir");
+        self.pushButton_upload = self.findChild(QPushButton, "pushButton_upload");
 
-        self.checkBox_spec_dir.clicked.connect (self.onSpecDirClicked);
-        self.pushButton_so_dir.clicked.connect (self.onSoDirClicked);
-        self.pushButton_mapping_dir.clicked.connect (self.onMappingDirClicked);
-        self.pushButton_upload.clicked.connect (self.onUploadSymTbl)
-
+        self.checkBox_spec_dir.clicked.connect(self.onSpecDirClicked);
+        self.pushButton_so_dir.clicked.connect(self.onSoDirClicked);
+        self.pushButton_mapping_dir.clicked.connect(self.onMappingDirClicked);
+        self.pushButton_upload.clicked.connect(self.onUploadSymTbl)
 
         """
         all kind of checkboxes 
@@ -993,42 +988,39 @@ class MainWindow(QMainWindow):
         '''
         self.ckbox_use_pvr = self.findChild(QRadioButton, "checkBox_use_pvr")
         self.ckbox_use_etc2 = self.findChild(QRadioButton, "checkBox_use_etc2")
-        self.ckbox_use_astc = self.findChild(QRadioButton,"checkBox_use_astc");
+        self.ckbox_use_astc = self.findChild(QRadioButton, "checkBox_use_astc");
 
         '''
         callback
         '''
         self.ckbox_use_etc2.toggled.connect(self.onEtc2Clicked);
-        self.ckbox_use_astc.toggled.connect (self.onASTCClicked);
+        self.ckbox_use_astc.toggled.connect(self.onASTCClicked);
         self.ckbox_use_pvr.toggled.connect(self.onPvrClicked);
-
 
         self.ckbox_use_debug = self.findChild(QCheckBox, "checkBox_use_debug");
         self.ckbox_use_no_crypt_zip = self.findChild(QCheckBox, "checkBox_use_no_crypt_zip");
 
         self.ckbox_use_export_appstore = self.findChild(QCheckBox, "checkBox_use_export_appstore");
         self.ckbox_show_error_only = self.findChild(QCheckBox, "checkBox_show_error_only");
-        self.ckbox_use_pngquant = self.findChild(QCheckBox,"checkBox_use_pngquant");
-        self.ckbox_use_logger = self.findChild(QCheckBox,"checkBox_use_logger");
-        self.ckbox_use_filelogger = self.findChild(QCheckBox,"checkBox_use_filelogger");
-        self.checkBox_use_debug_hall_hotupdate = self.findChild(QCheckBox,"checkBox_use_debug_hall_hotupdate");
-        self.checkBox_use_debug_game_hotupdate = self.findChild(QCheckBox,"checkBox_use_debug_game_hotupdate");
+        self.ckbox_use_pngquant = self.findChild(QCheckBox, "checkBox_use_pngquant");
+        self.ckbox_use_logger = self.findChild(QCheckBox, "checkBox_use_logger");
+        self.ckbox_use_filelogger = self.findChild(QCheckBox, "checkBox_use_filelogger");
+        self.checkBox_use_debug_hall_hotupdate = self.findChild(QCheckBox, "checkBox_use_debug_hall_hotupdate");
+        self.checkBox_use_debug_game_hotupdate = self.findChild(QCheckBox, "checkBox_use_debug_game_hotupdate");
 
-        self.checkBox_hallnum = self.findChild (QCheckBox,"checkBox_hallnum");
+        self.checkBox_hallnum = self.findChild(QCheckBox, "checkBox_hallnum");
 
-        self.ckbox_use_filelogger.clicked.connect (self.onFileLogger);
-        self.ckbox_use_logger.clicked.connect (self.onRemoteLogger)
-        self.ckbox_use_pngquant.clicked.connect (self.onPngQuantClicked)
+        self.ckbox_use_filelogger.clicked.connect(self.onFileLogger);
+        self.ckbox_use_logger.clicked.connect(self.onRemoteLogger)
+        self.ckbox_use_pngquant.clicked.connect(self.onPngQuantClicked)
 
-
-
-        self.ckbox_use_rgba8888.clicked.connect (self.onRGBA8888Clicked);
+        self.ckbox_use_rgba8888.clicked.connect(self.onRGBA8888Clicked);
         self.ckbox_use_debug.clicked.connect(self.onDebugClicked);
-        self.ckbox_show_error_only.clicked.connect (self.onShowErrorOnly);
-        self.ckbox_use_ip_local.clicked.connect (self.onUseIPLocal);
+        self.ckbox_show_error_only.clicked.connect(self.onShowErrorOnly);
+        self.ckbox_use_ip_local.clicked.connect(self.onUseIPLocal);
 
         self.ckbox_lock_gamelist.clicked.connect(self.onLockGameList);
-        self.checkBox_hallnum.clicked.connect (self.onLockHallNum);
+        self.checkBox_hallnum.clicked.connect(self.onLockHallNum);
 
         '''
         version 
@@ -1049,11 +1041,10 @@ class MainWindow(QMainWindow):
         '''
         hall num
         '''
-        self.edit_hallnum = self.findChild(QLineEdit,"edit_hallnum");
+        self.edit_hallnum = self.findChild(QLineEdit, "edit_hallnum");
         self.edit_hallnum.setAlignment(Qt.Qt.AlignCenter);
-        self.edit_hallnum.textChanged.connect (self.onHallNumChanged);
+        self.edit_hallnum.textChanged.connect(self.onHallNumChanged);
         self.hallNum = "";
-
 
         '''
         signal 
@@ -1064,8 +1055,8 @@ class MainWindow(QMainWindow):
         gsignal.done_trigger.connect(self.doneThread);
         gsignal.start_trigger.connect(self.startThread);
         gsignal.msgbox_trigger.connect(self.msgboxMsg)
-        gsignal.ask_box_trigger.connect (self.askboxMsg);
-        gsignal.alert_changelist_trigger.connect (self.onAlertChangeList)
+        gsignal.ask_box_trigger.connect(self.askboxMsg);
+        gsignal.alert_changelist_trigger.connect(self.onAlertChangeList)
 
         self.btn_clr.clicked.connect(self.onClearScreen)
         self.btn_check_lua_syntax.clicked.connect(self.onCheckSyntaxBtnClicked);
@@ -1075,26 +1066,25 @@ class MainWindow(QMainWindow):
         self.btn_connect_emulator.clicked.connect(self.onConnectEmulator);
         self.btn_refresh_applist.clicked.connect(self.onFreshAppList);
 
-        self.ckbox_use_local.clicked.connect (self.onLocalServerClicked);
+        self.ckbox_use_local.clicked.connect(self.onLocalServerClicked);
 
         """
         pack h5
         """
-        self.btn_h5_pack.clicked.connect (self.onPackH5);
-        self.btn_h5_res_proceed.clicked.connect (self.onMakeResH5);
-
+        self.btn_h5_pack.clicked.connect(self.onPackH5);
+        self.btn_h5_res_proceed.clicked.connect(self.onMakeResH5);
 
         '''
         repack
         '''
-        self.pushButton_select.clicked.connect (self.onSelectDir);
-        self.pushButton_repack.clicked.connect (self.onRepack);
+        self.pushButton_select.clicked.connect(self.onSelectDir);
+        self.pushButton_repack.clicked.connect(self.onRepack);
 
         """
         list games 
         """
 
-        self.subgame_tablistview = self.findChild(QTableWidget,"tableWidget_gamelist");
+        self.subgame_tablistview = self.findChild(QTableWidget, "tableWidget_gamelist");
         # self.subgame_tablistview.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         # self.subgame_tablistview.setColumnCount(4)
 
@@ -1105,13 +1095,12 @@ class MainWindow(QMainWindow):
         header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch);
 
-        width = self.subgame_tablistview.width ();
+        width = self.subgame_tablistview.width();
         # self.subgame_tablistview.setColumnWidth(0, 150);
         # self.subgame_tablistview.setColumnWidth(1, 150);
         # self.subgame_tablistview.setColumnWidth(2, width - 150 - 150);
 
         self.onLockGameList();
-
 
         """
         load Hall / Channel / Lang list 
@@ -1157,7 +1146,7 @@ class MainWindow(QMainWindow):
         self.onHallChanged();
 
         self.btn_pack.clicked.connect(self.onPackClicked);
-        self.btn_publish_basehall.clicked.connect (self.onPublishAll)
+        self.btn_publish_basehall.clicked.connect(self.onPublishAll)
 
         """
         record all the widgets which we need disabled when we are packing 
@@ -1165,7 +1154,7 @@ class MainWindow(QMainWindow):
         self.widgets = [];
 
         self.bottom_panel = self.findChild(QTabWidget, "bottom_panel");
-        self.bottom_panel.currentChanged.connect (self.onTabChanged);
+        self.bottom_panel.currentChanged.connect(self.onTabChanged);
         self.up_panel = self.findChild(QGroupBox, "up_panel");
 
         self.widgets.insert(0, self.bottom_panel);
@@ -1177,31 +1166,30 @@ class MainWindow(QMainWindow):
         self.widgets.insert(0, self.succeed_panel);
 
         self.threads = {};
-        self.onShowErrorOnly ();
-        self.initLockedList ();
-        self.onLockHallNum ();
+        self.onShowErrorOnly();
+        self.initLockedList();
+        self.onLockHallNum();
 
     def onLocalServerClicked(self):
-        if self.ckbox_use_local.checkState () == Qt.Qt.Unchecked:
-            self.checkBox_slots_update.setCheckState (Qt.Qt.Unchecked)
+        if self.ckbox_use_local.checkState() == Qt.Qt.Unchecked:
+            self.checkBox_slots_update.setCheckState(Qt.Qt.Unchecked)
         pass
 
     def onSlotsUpdate(self):
-        if self.checkBox_slots_update.checkState () == Qt.Qt.Checked:
-            self.ckbox_use_local.setCheckState (Qt.Qt.Checked);
+        if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
+            self.ckbox_use_local.setCheckState(Qt.Qt.Checked);
         pass
 
     def onCompressTextureClicked(self):
 
-        if self.compress_texture.isChecked () == True:
+        if self.compress_texture.isChecked() == True:
             self.ckbox_use_pngquant.setCheckState(QtCore.Qt.Unchecked);
 
         pass
 
     def onPngQuantClicked(self):
-        if self.ckbox_use_pngquant.checkState () == Qt.Qt.Checked:
-            self.compress_texture.setChecked (False);
-
+        if self.ckbox_use_pngquant.checkState() == Qt.Qt.Checked:
+            self.compress_texture.setChecked(False);
 
     def onMakeNativeProject(self):
         self.getPMConfig();
@@ -1218,7 +1206,7 @@ class MainWindow(QMainWindow):
             # self.expandTaskPanel(False);
             dict = {};
             dict["games_info"] = self.getGamesInfo();
-            thread = MakeNativeProjectThread(self, None,dict);
+            thread = MakeNativeProjectThread(self, None, dict);
             thread.start();
             self.threads["mknativeproject"] = thread;
             pass
@@ -1231,23 +1219,23 @@ class MainWindow(QMainWindow):
         self.chName = gPMConfig.getCurChName();
         self.curChConfig = gPMConfig.getCurChConfig();
         self.luaHallConfig = gLuaPM.hallConfig(self.hallName);
-        self.luaChConfig = gLuaPM.chConifg(self.hallName,self.chName);
+        self.luaChConfig = gLuaPM.chConifg(self.hallName, self.chName);
         self.luaConfig = gLuaPM.config();
 
         games = self.luaHallConfig.games;
         gameslist = [];
         for k in games:
             # print (name);
-            gameslist.append(games [k]);
+            gameslist.append(games[k]);
 
         for row in range(self.subgame_tablistview.rowCount()):
             gameitem = self.subgame_tablistview.item(row, 0)
             veritem = self.subgame_tablistview.cellWidget(row, 1);
             hallitem = self.subgame_tablistview.cellWidget(row, 2);
 
-            gamename = gameitem.text ();
+            gamename = gameitem.text();
             if gamename != "" and gamename in gameslist:
-                gameitem.setCheckState (Qt.Qt.Checked);
+                gameitem.setCheckState(Qt.Qt.Checked);
             else:
                 if gameitem:
                     gameitem.setCheckState(Qt.Qt.Unchecked);
@@ -1273,53 +1261,52 @@ class MainWindow(QMainWindow):
 
         platconfig = self.getPlatSettings();
 
-
         if isDebugPublish:
-            whitelist_path = os.path.join(platconfig.project_dir,"client_publish_dis","navigator.json");
+            whitelist_path = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
         else:
-            whitelist_path = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
+            whitelist_path = os.path.join(platconfig.project_dir, "client_publish_dev", "navigator.json");
 
         if not os.path.exists(whitelist_path):
             MsgBox().msg("没有找到 %s \n请确保目录存在!!" % (whitelist_path));
-            return ;
+            return;
 
-        with open (whitelist_path,"w+") as file:
+        with open(whitelist_path, "w+") as file:
             file.write(gWhiteList.convertToJson());
 
         MsgBox().msg("生成白名单成功\n路径 ==> %s!!" % (whitelist_path));
         pass
 
-    def onHallNumChanged(self,text):
+    def onHallNumChanged(self, text):
         if self.hallNum != "" and self.hallNum != text:
             if (QMessageBox.Ok != MsgBox().ask("确认要修改大厅框架号么 ? \n如果是发布版本，强烈建议不要那么做")):
-                self.edit_hallnum.setText (self.hallNum);
-                return ;
+                self.edit_hallnum.setText(self.hallNum);
+                return;
 
         self.hallNum = text;
         pass
 
-    def onAlertChangeList(self,dict):
-        ret = AlertChangeList (self,dict);
-        gsignal.alert_ret_changelist_trigger.emit (ret);
+    def onAlertChangeList(self, dict):
+        ret = AlertChangeList(self, dict);
+        gsignal.alert_ret_changelist_trigger.emit(ret);
         pass
 
     def onSyncAllSubGamesVersion(self):
         if (QMessageBox.Ok == MsgBox().ask("确认要同步所有子游戏最低支持框架号为大厅框架号么 ? \n如果是发布版本，强烈建议不要那么做")):
 
-            hallnumstr = self.edit_hallnum.text ();
+            hallnumstr = self.edit_hallnum.text();
 
             for row in range(self.subgame_tablistview.rowCount()):
                 gameitem = self.subgame_tablistview.item(row, 0)
                 veritem = self.subgame_tablistview.cellWidget(row, 1);
                 hallitem = self.subgame_tablistview.cellWidget(row, 2);
                 if hallitem:
-                    hallitem.setText (hallnumstr);
+                    hallitem.setText(hallnumstr);
                     # hallitem.setEnabled(self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked)
 
         pass
 
     def onLockHallNum(self):
-        self.edit_hallnum.setEnabled (self.checkBox_hallnum.checkState () != Qt.Qt.Checked);
+        self.edit_hallnum.setEnabled(self.checkBox_hallnum.checkState() != Qt.Qt.Checked);
         pass
 
     def onPublishAll(self):
@@ -1360,7 +1347,7 @@ class MainWindow(QMainWindow):
             elif (QMessageBox.No == ret):
                 isDebugPublish = False;
             else:
-                return ;
+                return;
 
             dict = {};
             dict["games_info"] = self.getGamesInfo();
@@ -1371,44 +1358,46 @@ class MainWindow(QMainWindow):
 
             for row in range(self.subgame_tablistview.rowCount()):
                 gameitem = self.subgame_tablistview.item(row, 0)
-                veritem = self.subgame_tablistview.cellWidget(row,1);
-                hallitem = self.subgame_tablistview.cellWidget(row,2);
+                veritem = self.subgame_tablistview.cellWidget(row, 1);
+                hallitem = self.subgame_tablistview.cellWidget(row, 2);
 
-                gname = gameitem.text () or "";
+                gname = gameitem.text() or "";
                 if gname != "":
-                    gversion = veritem.text () or "";
-                    hallnum = hallitem.text () or "";
+                    gversion = veritem.text() or "";
+                    hallnum = hallitem.text() or "";
 
                     tbl = {};
-                    tbl ["gname"] = gname;
-                    tbl ["version"] = gversion;
-                    tbl ["hallnum"] = hallnum;
+                    tbl["gname"] = gname;
+                    tbl["version"] = gversion;
+                    tbl["hallnum"] = hallnum;
                     glistInfo.append(tbl);
                 pass
             pass
 
             self.getPMConfig();
-            self.luaConfig = gLuaPM.config ();
+            self.luaConfig = gLuaPM.config();
 
             dict["games_info"] = glistInfo;
 
             if isDebugPublish:
-                dict["project_dir"] = os.path.join(platconfig.project_dir,"client_publish_dis",distdir);
-                dict["whitelist_path"] = os.path.join(platconfig.project_dir,"client_publish_dis","navigator.json");
+                dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir);
+                dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
             else:
-                if self.checkBox_slots_update.checkState ()== Qt.Qt.Checked:
-                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots",distdir);
-                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
+                if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
+                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir);
+                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots",
+                                                          "navigator.json");
                 else:
-                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev",distdir);
-                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
+                    dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir);
+                    dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev",
+                                                          "navigator.json");
 
             if not os.path.exists(dict["project_dir"]):
                 MsgBox().msg("没有找到 %s \n请确保目录存在!!" % (dict["project_dir"]));
-                return ;
+                return;
 
-            thread = PublishAllThread(self, None,dict);
-            thread.update_version_trigger.connect (self.onUpdateVersion);
+            thread = PublishAllThread(self, None, dict);
+            thread.update_version_trigger.connect(self.onUpdateVersion);
             thread.start();
             self.threads["publishAll"] = thread;
             pass
@@ -1421,38 +1410,38 @@ class MainWindow(QMainWindow):
     def onSelAllSubGameClicked(self):
         for row in range(self.subgame_tablistview.rowCount()):
             gameitem = self.subgame_tablistview.item(row, 0)
-            gameitem.setCheckState (self.checkBox_sel_all_game.checkState())
+            gameitem.setCheckState(self.checkBox_sel_all_game.checkState())
 
         pass
 
     def onSpecDirClicked(self):
-        self.groupBox_sym_tbl.setEnabled (self.checkBox_spec_dir.checkState() == QtCore.Qt.Checked)
+        self.groupBox_sym_tbl.setEnabled(self.checkBox_spec_dir.checkState() == QtCore.Qt.Checked)
         pass
 
     def onSoDirClicked(self):
         try:
-            dirname = QFileDialog.getExistingDirectory(self,"选择so目录");
-            self.lineEdit_so_dir.setText (dirname);
+            dirname = QFileDialog.getExistingDirectory(self, "选择so目录");
+            self.lineEdit_so_dir.setText(dirname);
 
         except Exception as err:
-            errmsg (err);
+            errmsg(err);
         pass
 
     def onMappingDirClicked(self):
         try:
-            dirname = QFileDialog.getExistingDirectory(self,"选择mapping目录");
-            self.lineEdit_mapping_dir.setText (dirname);
+            dirname = QFileDialog.getExistingDirectory(self, "选择mapping目录");
+            self.lineEdit_mapping_dir.setText(dirname);
 
         except Exception as err:
-            errmsg (err);
+            errmsg(err);
         pass
 
     def onUploadSymTbl(self):
         try:
 
-            isSpecDir   = self.checkBox_spec_dir.checkState() == QtCore.Qt.Checked;
-            objDir       = self.lineEdit_so_dir.text ().strip ();
-            mappingDir  = self.lineEdit_mapping_dir.text ().strip ();
+            isSpecDir = self.checkBox_spec_dir.checkState() == QtCore.Qt.Checked;
+            objDir = self.lineEdit_so_dir.text().strip();
+            mappingDir = self.lineEdit_mapping_dir.text().strip();
 
             if isSpecDir == True:
                 if isWin():
@@ -1466,7 +1455,7 @@ class MainWindow(QMainWindow):
             else:
                 if isMacOS():
                     MsgBox().msg("平台必须要指定 dsym 目录");
-                    return ;
+                    return;
 
             # print ("Prepre to upload the symbol table...");
 
@@ -1475,7 +1464,7 @@ class MainWindow(QMainWindow):
             if not self.isThreadEnd("uploadSymtbl"):
                 return;
 
-            thread = UploadThread(self, None,isSpecDir,objDir,mappingDir);
+            thread = UploadThread(self, None, isSpecDir, objDir, mappingDir);
             thread.start();
             self.threads["uploadSymtbl"] = thread;
         except Exception as err:
@@ -1484,7 +1473,7 @@ class MainWindow(QMainWindow):
 
     def onOpenWhiteList(self):
         try:
-            self.whiltelist_dialog = WhiteListDialog (self);
+            self.whiltelist_dialog = WhiteListDialog(self);
             self.whiltelist_dialog.show();
         except Exception as err:
             errmsg(err);
@@ -1493,13 +1482,12 @@ class MainWindow(QMainWindow):
     def onWhiteList(self):
         try:
 
-            self.pushButton_whitelist.setEnabled (self.checkBox_whitelist.checkState() == QtCore.Qt.Checked);
-            gWhiteList.setWhiteListEnabled(self.checkBox_whitelist.checkState () == QtCore.Qt.Checked);
+            self.pushButton_whitelist.setEnabled(self.checkBox_whitelist.checkState() == QtCore.Qt.Checked);
+            gWhiteList.setWhiteListEnabled(self.checkBox_whitelist.checkState() == QtCore.Qt.Checked);
 
         except Exception as err:
             errmsg(err);
         pass
-
 
     def onFileLogger(self):
         pass
@@ -1513,7 +1501,7 @@ class MainWindow(QMainWindow):
     def onSelectDir(self):
         try:
             directory = QtWidgets.QFileDialog.getExistingDirectory(self, "选择文件夹", "./");
-            self.lineEdit_inputdir.setText (directory);
+            self.lineEdit_inputdir.setText(directory);
         except Exception as err:
             errmsg(err);
         pass
@@ -1523,7 +1511,7 @@ class MainWindow(QMainWindow):
             dirstr = self.lineEdit_inputdir.text();
             if (dirstr == ""):
                 MsgBox().msg("请选择文件夹");
-                return ;
+                return;
 
             if not self.isThreadEnd("repackthread"):
                 return;
@@ -1536,7 +1524,6 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
         pass
-
 
     def onAuthDialog(self):
         getAccountInfo(self);
@@ -1559,7 +1546,7 @@ class MainWindow(QMainWindow):
             if not self.isThreadEnd("exportipa"):
                 return;
 
-            thread = ExportIpaThread(self, None,str);
+            thread = ExportIpaThread(self, None, str);
             thread.start();
             self.threads["exportipa"] = thread;
 
@@ -1568,9 +1555,12 @@ class MainWindow(QMainWindow):
         pass
 
     '''获取格式化时间'''
+
     def get_time_str(self):
         ltime = time.localtime();
-        return str(ltime.tm_year) + str(ltime.tm_mon) + str(ltime.tm_mday) + str(ltime.tm_hour) + str(ltime.tm_min) + str(ltime.tm_sec);
+        return str(ltime.tm_year) + str(ltime.tm_mon) + str(ltime.tm_mday) + str(ltime.tm_hour) + str(
+            ltime.tm_min) + str(ltime.tm_sec);
+
     pass
 
     def getGamesInfo(self):
@@ -1584,19 +1574,19 @@ class MainWindow(QMainWindow):
 
             for row in range(self.subgame_tablistview.rowCount()):
                 gameitem = self.subgame_tablistview.item(row, 0)
-                veritem = self.subgame_tablistview.cellWidget(row,1);
-                hallitem = self.subgame_tablistview.cellWidget(row,2);
+                veritem = self.subgame_tablistview.cellWidget(row, 1);
+                hallitem = self.subgame_tablistview.cellWidget(row, 2);
 
-                gname = gameitem.text () or "";
+                gname = gameitem.text() or "";
                 if gname != "":
-                    gversion = veritem.text () or "";
-                    hallnum = hallitem.text () or "";
+                    gversion = veritem.text() or "";
+                    hallnum = hallitem.text() or "";
 
                     tbl = {};
-                    tbl ["gname"] = gname;
-                    tbl ["version"] = gversion;
-                    tbl ["hallnum"] = hallnum;
-                    tbl ["selected"] = gameitem.checkState () == Qt.Qt.Checked;
+                    tbl["gname"] = gname;
+                    tbl["version"] = gversion;
+                    tbl["hallnum"] = hallnum;
+                    tbl["selected"] = gameitem.checkState() == Qt.Qt.Checked;
                     glistInfo.append(tbl);
 
             return glistInfo;
@@ -1612,7 +1602,7 @@ class MainWindow(QMainWindow):
 
         infos = {};
 
-        infos["subgame"]  = {};
+        infos["subgame"] = {};
         infos["list"] = [];
 
         try:
@@ -1621,59 +1611,61 @@ class MainWindow(QMainWindow):
             else:
                 platconfig = gPMConfig.getPlatSettings("android");
 
-            game_dir = os.path.join(platconfig.project_dir,"client","game");
+            game_dir = os.path.join(platconfig.project_dir, "client", "game");
 
-            gameConfigPath = os.path.join(game_dir,"gamesConfig.json");
+            gameConfigPath = os.path.join(game_dir, "gamesVersionv2.json");
+            gamesConfig = None;
+
             if os.path.exists(gameConfigPath):
-                with open (gameConfigPath,"r") as file:
+                with open(gameConfigPath, "r") as file:
                     content = file.read();
                     gamesConfig = json.loads(content);
                 pass
 
             if os.path.exists(game_dir):
                 for gname in os.listdir(game_dir):
-                    game_src_dir = os.path.join(game_dir,gname, "src");
-                    game_res_dir = os.path.join(game_dir,gname, "res");
+                    game_src_dir = os.path.join(game_dir, gname, "src");
+                    game_res_dir = os.path.join(game_dir, gname, "res");
 
                     if os.path.exists(game_src_dir) and os.path.exists(game_res_dir):
                         infos["list"].append(gname);
                         infos["subgame"][gname] = {};
 
                         if gamesConfig and gname in gamesConfig:
-                            infos["subgame"][gname]["version"] = gamesConfig [gname]["version"];
-                            infos["subgame"][gname]["minhall"] = gamesConfig [gname]["minhall"];
+                            infos["subgame"][gname]["version"] = gamesConfig[gname]["version"];
+                            infos["subgame"][gname]["minhall"] = gamesConfig[gname]["minhall"];
                         else:
                             infos["subgame"][gname]["version"] = "1.0";
                             infos["subgame"][gname]["minhall"] = 1;
 
-                self.reloadGameList (infos);
+                self.reloadGameList(infos);
 
             return list;
         except Exception as err:
             errmsg(err);
         pass
 
-    def onUpdateVersion(self,dict):
+    def onUpdateVersion(self, dict):
         try:
-            print ("Update versions info ...");
+            print("Update versions info ...");
             hallnum = dict["main"]["hallnum"];
 
-            games_info = dict ["games_info"];
+            games_info = dict["games_info"];
 
-            self.edit_hallnum.setText (str(hallnum));
+            self.edit_hallnum.setText(str(hallnum));
 
             for row in range(self.subgame_tablistview.rowCount()):
                 gameitem = self.subgame_tablistview.item(row, 0)
                 # veritem = self.subgame_tablistview.cellWidget(row,1);
-                hallitem = self.subgame_tablistview.cellWidget(row,2);
+                hallitem = self.subgame_tablistview.cellWidget(row, 2);
 
-                gamename = gameitem.text () or "";
+                gamename = gameitem.text() or "";
 
                 if hallitem:
                     for k in range(len(games_info)):
-                        info = games_info [k]
-                        if info ["gname"] == gamename:
-                            hallitem.setText (info ["hallnum"])
+                        info = games_info[k]
+                        if info["gname"] == gamename:
+                            hallitem.setText(info["hallnum"])
                             break;
 
 
@@ -1702,13 +1694,13 @@ class MainWindow(QMainWindow):
 
             param = {};
 
-            self.threads["packh5"] = PackCreatorH5(self,param);
+            self.threads["packh5"] = PackCreatorH5(self, param);
             self.threads["packh5"].start();
         except Exception as err:
             errmsg(err);
 
     def onRGBA8888Clicked(self):
-        if self.ckbox_use_rgba8888.checkState () == Qt.Qt.Checked:
+        if self.ckbox_use_rgba8888.checkState() == Qt.Qt.Checked:
             self.ckbox_use_etc2.setCheckState(Qt.Qt.Unchecked);
             self.ckbox_use_pvr.setCheckState(Qt.Qt.Checked);
         pass
@@ -1718,7 +1710,7 @@ class MainWindow(QMainWindow):
             platconfig = self.getPlatSettings();
             srv_ip = platconfig.srv_ip;
 
-            if self.ckbox_use_ip_local.checkState () == Qt.Qt.Checked:
+            if self.ckbox_use_ip_local.checkState() == Qt.Qt.Checked:
                 arr = srv_ip.split(".");
                 ip = "";
                 sum = 0;
@@ -1728,7 +1720,7 @@ class MainWindow(QMainWindow):
                         arr[i] = "0";
                     ip += arr[i];
 
-                if int (ip) == 0:
+                if int(ip) == 0:
                     self.ckbox_use_ip_local.setCheckState(Qt.Qt.Unchecked);
                     MsgBox().msg("ip地址不合法!\n请配置ip");
                     self.handleMenu("AppProfile");
@@ -1739,16 +1731,16 @@ class MainWindow(QMainWindow):
             errmsg(err);
 
     def onShowErrorOnly(self):
-        self.text_panel_error.setHidden (self.ckbox_show_error_only.checkState () != Qt.Qt.Checked);
-        self.text_panel.setHidden (self.ckbox_show_error_only.checkState () == Qt.Qt.Checked);
+        self.text_panel_error.setHidden(self.ckbox_show_error_only.checkState() != Qt.Qt.Checked);
+        self.text_panel.setHidden(self.ckbox_show_error_only.checkState() == Qt.Qt.Checked);
 
     def onCleanProfile(self):
         if not self.isThreadEnd("clean"):
-            return ;
+            return;
 
-        if QMessageBox.Ok == MsgBox().ask ("确定清除xcode profiles 么，清除后需要手动打开xcode导入哦！"):
-            self.threads ["clean"] = CleanProfileThread (self, None);
-            self.threads ["clean"].start();
+        if QMessageBox.Ok == MsgBox().ask("确定清除xcode profiles 么，清除后需要手动打开xcode导入哦！"):
+            self.threads["clean"] = CleanProfileThread(self, None);
+            self.threads["clean"].start();
         pass
 
     def onMakePem(self):
@@ -1771,7 +1763,8 @@ class MainWindow(QMainWindow):
 
     def onOpenCert(self):
         try:
-            filename, filetype = QFileDialog.getOpenFileName(self, "选择cert文件","/Users/qingtan/Documents/ios_cert/dominoA/",
+            filename, filetype = QFileDialog.getOpenFileName(self, "选择cert文件",
+                                                             "/Users/qingtan/Documents/ios_cert/dominoA/",
                                                              "Cer Files (*.cer)");
             self.lineEdit_cert.setText(filename);
         except Exception as err:
@@ -1804,7 +1797,7 @@ class MainWindow(QMainWindow):
                 arr[i] = "0";
             vcode += arr[i];
             if (i < len(arr) - 1):
-                new_vname = new_vname + arr [i] + ".";
+                new_vname = new_vname + arr[i] + ".";
             else:
                 new_vname = new_vname + arr[i];
 
@@ -1818,12 +1811,11 @@ class MainWindow(QMainWindow):
 
     def isThreadEnd(self, name):
 
-        if not hasattr(self,"threads"):
+        if not hasattr(self, "threads"):
             return True;
 
         return (name not in self.threads) or (
                 name in self.threads and self.threads[name] and self.threads[name].isFinished())
-
 
     def onListItemDBClicked(self):
         try:
@@ -1835,7 +1827,7 @@ class MainWindow(QMainWindow):
             if devname == None or devname == "":
                 MsgBox().msg("没有任何设备被选中!");
                 return;
-            
+
             thread = InstallThread(self, self.list_app.currentItem().text(), devname);
             thread.start();
             self.threads["install"] = thread;
@@ -1858,7 +1850,7 @@ class MainWindow(QMainWindow):
         try:
 
             isExportTxt = self.checkBox_export_txt.checkState() == Qt.Qt.Checked;
-            isNox       = self.checkBox_nox.checkState() == Qt.Qt.Checked;
+            isNox = self.checkBox_nox.checkState() == Qt.Qt.Checked;
 
             if not self.isThreadEnd("logcat"):
                 return;
@@ -1868,7 +1860,7 @@ class MainWindow(QMainWindow):
                 MsgBox().msg("没有任何设备被选中!");
                 return;
 
-            thread = LogCatThread(self, devname,isExportTxt,isNox);
+            thread = LogCatThread(self, devname, isExportTxt, isNox);
             thread.start();
             self.threads["logcat"] = thread;
         except Exception as err:
@@ -1876,24 +1868,23 @@ class MainWindow(QMainWindow):
 
     def onTabPageChanged(self):
         try:
-            gPMConfig.setDebug(self.ckbox_use_debug.checkState () == Qt.Qt.Checked);
+            gPMConfig.setDebug(self.ckbox_use_debug.checkState() == Qt.Qt.Checked);
 
             '''
             tab index changed 
             '''
-            if self.bottom_panel.currentIndex () == 0:
+            if self.bottom_panel.currentIndex() == 0:
                 self.onFetchGameList()
-            elif self.bottom_panel.currentIndex () == 3:
-               self.loadAppList();
-            elif self.bottom_panel.currentIndex () == 5:
-                self.onLoadArchList ();
+            elif self.bottom_panel.currentIndex() == 3:
+                self.loadAppList();
+            elif self.bottom_panel.currentIndex() == 5:
+                self.onLoadArchList();
 
         except Exception as err:
             errmsg(err);
 
     def onDebugClicked(self):
-        self.onTabPageChanged ();
-
+        self.onTabPageChanged();
 
     def onFreshAppList(self):
         self.loadAppList()
@@ -1913,7 +1904,7 @@ class MainWindow(QMainWindow):
 
     def onConnectEmulator(self):
         try:
-        #    process = subprocess.Popen("adb connect 127.0.0.1:62001",
+            #    process = subprocess.Popen("adb connect 127.0.0.1:62001",
             process = subprocess.Popen("adb connect 127.0.0.1:7555",
                                        shell=True,
                                        bufsize=0,
@@ -1925,7 +1916,7 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
 
-    #    os.system("adb connect 127.0.0.1:62001");
+        #    os.system("adb connect 127.0.0.1:62001");
         self.onConnectDevice("127.0.0.1:62001");
         pass
 
@@ -1955,9 +1946,9 @@ class MainWindow(QMainWindow):
             return;
 
         str = '''参数:\n%s\n[大厅 : %s] [渠道 : %s] [版本 : %s] [版本代码 : %s]\n游戏列表: %s''' % (md5str,
-                                                                                              hallName, chName,
-                                                                                              chData.vname,
-                                                                                              chData.vcode, list);
+                                                                                    hallName, chName,
+                                                                                    chData.vname,
+                                                                                    chData.vcode, list);
         item = QListWidgetItem(str, self.list_tasks);
         self.pack_config_strings[md5str] = config_str;
 
@@ -1967,7 +1958,7 @@ class MainWindow(QMainWindow):
             veritem = self.subgame_tablistview.cellWidget(row, 1);
             hallitem = self.subgame_tablistview.cellWidget(row, 2);
             if hallitem:
-                hallitem.setEnabled (self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked)
+                hallitem.setEnabled(self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked)
 
         # self.subgame_tablistview.setEnabled(self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked);
         # self.checkBox_sel_all_game.setEnabled(self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked);
@@ -1975,9 +1966,9 @@ class MainWindow(QMainWindow):
     def msgboxMsg(self, msg):
         ret = MsgBox().msg(msg);
 
-    def askboxMsg(self,msg):
+    def askboxMsg(self, msg):
         ret = MsgBox().ask(msg);
-        gsignal.msg_ret_trigger.emit (ret);
+        gsignal.msg_ret_trigger.emit(ret);
         # gsignal.msg_ret_trigger.emit (ret);
 
     def onEtc2Clicked(self):
@@ -2010,13 +2001,12 @@ class MainWindow(QMainWindow):
             return;
 
         if (QMessageBox.Ok != MsgBox().ask("仅生成assets，请确认文件没有被占用!")):
-
-            return ;
+            return;
 
         # self.expandTaskPanel(False);
         dict = {};
         dict["games_info"] = self.getGamesInfo();
-        thread = MakeAssetsThread(self, None,dict);
+        thread = MakeAssetsThread(self, None, dict);
         thread.start();
         self.threads["mkassets"] = thread;
         pass
@@ -2030,7 +2020,7 @@ class MainWindow(QMainWindow):
         # self.expandTaskPanel(False);
         dict = {};
         dict["games_info"] = self.getGamesInfo();
-        thread = BuildThread(self, None,dict);
+        thread = BuildThread(self, None, dict);
         thread.start();
         self.threads["buildaa"] = thread;
         pass
@@ -2057,16 +2047,16 @@ class MainWindow(QMainWindow):
 
         dict = {};
         dict["games_info"] = self.getGamesInfo();
-        thread = MakeConfigThread(self,None,dict);
+        thread = MakeConfigThread(self, None, dict);
         thread.start();
         self.threads["mkconfig"] = thread;
 
         pass
 
-    def onProceedUploadSymTbl(self,**kwargs):
+    def onProceedUploadSymTbl(self, **kwargs):
 
         try:
-            print ("Upload Symbol Table...");
+            print("Upload Symbol Table...");
 
             hallName = kwargs.get("hallName");
             chName = kwargs.get("chName");
@@ -2076,22 +2066,22 @@ class MainWindow(QMainWindow):
                 return;
 
             isSpecDir = kwargs.get("isSpecDir");
-            objDir = kwargs.get ("objDir");
-            mapppingFileDir = kwargs.get ("mapppingFileDir");
+            objDir = kwargs.get("objDir");
+            mapppingFileDir = kwargs.get("mapppingFileDir");
 
             if isSpecDir == True:
                 if isWin():
-                    if objDir == "" or  mapppingFileDir == "":
+                    if objDir == "" or mapppingFileDir == "":
                         rmsgbox("请选择so目录，和mapping目录");
                         return;
                 else:
                     if objDir == "":
                         rmsgbox("请选择含有 dsym 的目录");
-                        return ;
+                        return;
                 pass
 
             platConfig = gLuaPM.platConfig(hallName);
-            chConfig = gLuaPM.chConifg(hallName,chName)
+            chConfig = gLuaPM.chConifg(hallName, chName)
 
             bugly_appid = platConfig.bugly_appid;
             bugly_appkey = platConfig.bugly_appkey;
@@ -2099,7 +2089,7 @@ class MainWindow(QMainWindow):
             packagename = chConfig.name;
             vname = self.new_vname;
 
-            jarPath = os.path.join("common","buglytools","buglyqq-upload-symbol.jar");
+            jarPath = os.path.join("common", "buglytools", "buglyqq-upload-symbol.jar");
 
             if isMacOS():
                 platName = "IOS";
@@ -2110,14 +2100,14 @@ class MainWindow(QMainWindow):
                 for path, dir, filelist in all:
                     for filename in filelist:
                         if "app.dSYM" in path:
-                            si = path.find ("app.dSYM");
+                            si = path.find("app.dSYM");
                             slen = len("app.dSYM");
-                            path = path [0:(si + slen)];
+                            path = path[0:(si + slen)];
                             objDir = path
 
                             break;
 
-                print ("dSYM 目录 %s " % objDir);
+                print("dSYM 目录 %s " % objDir);
                 # print (mappingDir);
 
                 cmdstr = 'java -jar %s -appid %s -appkey %s -bundleid %s -version %s -platform %s -inputSymbol %s' % (
@@ -2134,17 +2124,17 @@ class MainWindow(QMainWindow):
                 platName = "Android";
                 platconfig = self.getPlatSettings();
 
-                dst_project_dir = os.path.join(platconfig.project_dir, "frameworks", "runtime-src","proj.studio");
-                objDir = os.path.join(dst_project_dir,"app","obj");
+                dst_project_dir = os.path.join(platconfig.project_dir, "frameworks", "runtime-src", "proj.studio");
+                objDir = os.path.join(dst_project_dir, "app", "obj");
 
                 searchDir = os.path.join(dst_project_dir, "app");
-                mappingDir = os.path.join(dst_project_dir,"app","build","tmp","compileReleaseJavaWithJavac");
+                mappingDir = os.path.join(dst_project_dir, "app", "build", "tmp", "compileReleaseJavaWithJavac");
 
-                print ("搜索 source-classes-mapping 文件");
+                print("搜索 source-classes-mapping 文件");
                 all = os.walk(searchDir);
                 for path, dir, filelist in all:
                     for filename in filelist:
-                        if "source-classes-mapping" in filename :
+                        if "source-classes-mapping" in filename:
                             mappingDir = path;
                             break;
 
@@ -2162,24 +2152,24 @@ class MainWindow(QMainWindow):
                     mappingDir
                 );
 
-            Commander().do (cmdstr);
+            Commander().do(cmdstr);
 
-            tmpPath = os.path.join(".","buglybin");
+            tmpPath = os.path.join(".", "buglybin");
             if os.path.exists(tmpPath):
                 print("remove %s" % tmpPath);
                 shutil.rmtree(tmpPath, ignore_errors=True);
 
-            tmpPath = os.path.join(".","cp_buglySymbolAndroid.jar");
+            tmpPath = os.path.join(".", "cp_buglySymbolAndroid.jar");
             if os.path.exists(tmpPath):
-                print ("remove %s" % tmpPath);
+                print("remove %s" % tmpPath);
                 os.remove(tmpPath);
 
-            tmpPath = os.path.join(".","cp_buglySymboliOS.jar");
+            tmpPath = os.path.join(".", "cp_buglySymboliOS.jar");
             if os.path.exists(tmpPath):
-                print ("remove %s" % tmpPath);
+                print("remove %s" % tmpPath);
                 os.remove(tmpPath);
 
-            tmpPath = os.path.join(".","cp_buglyQqUploadSymbolLib.jar");
+            tmpPath = os.path.join(".", "cp_buglyQqUploadSymbolLib.jar");
             if os.path.exists(tmpPath):
                 print("remove %s" % tmpPath);
                 os.remove(tmpPath);
@@ -2191,7 +2181,8 @@ class MainWindow(QMainWindow):
         pass
 
     '''导航栏回调'''
-    def handleMenu(self,text,object=None):
+
+    def handleMenu(self, text, object=None):
         # print(qaction.text() + " is triggered!")
         if text == "AppProfile":
             try:
@@ -2202,8 +2193,8 @@ class MainWindow(QMainWindow):
 
         elif text == "LangManager":
             try:
-                self.langman_dialog = LangManDialog (self,None);
-                self.langman_dialog.show ();
+                self.langman_dialog = LangManDialog(self, None);
+                self.langman_dialog.show();
             except Exception as err:
                 errmsg(err);
 
@@ -2212,7 +2203,7 @@ class MainWindow(QMainWindow):
 
         elif text == "GameProfile":
             try:
-                self.gameprofile_dialog = GameProfileDialog(self,None)
+                self.gameprofile_dialog = GameProfileDialog(self, None)
                 self.gameprofile_dialog.show();
             except Exception as err:
                 errmsg(err);
@@ -2227,15 +2218,14 @@ class MainWindow(QMainWindow):
 
         elif text == "WhiteList":
 
-            self.whiltelist_dialog = WhiteListDialog (self);
+            self.whiltelist_dialog = WhiteListDialog(self);
             self.whiltelist_dialog.show();
             pass
 
         '''Click对象名称'''
         name = "";
         if object != None:
-            name = object.objectName ();
-
+            name = object.objectName();
 
         '''视图'''
         if re.search("actioniPhone_", name):
@@ -2243,8 +2233,8 @@ class MainWindow(QMainWindow):
                 return;
 
             # 保持唯一勾选
-            if hasattr(self,"m_lastAction"):
-                self.m_lastAction.setChecked (False);
+            if hasattr(self, "m_lastAction"):
+                self.m_lastAction.setChecked(False);
             object.setChecked(True);
             self.m_lastAction = object;
 
@@ -2308,7 +2298,6 @@ class MainWindow(QMainWindow):
                 except Exception as err:
                     errmsg(err);
 
-
         '''小工具'''
         try:
             # if isMacOS():
@@ -2324,12 +2313,11 @@ class MainWindow(QMainWindow):
             #     cmd_str = object.iconText();    # 该选项文件夹名称
 
             # if cmd_str != "":
-                # cmd_str = "cd " + os.path.join(os.getcwd(), "tools", cmd_str) + " & %s & StartScript.vbs" % disk_dir;
-                # Commander().do(cmd_str);
+            # cmd_str = "cd " + os.path.join(os.getcwd(), "tools", cmd_str) + " & %s & StartScript.vbs" % disk_dir;
+            # Commander().do(cmd_str);
             pass
         except Exception as err:
             print(err);
-
 
         '''模拟器多开'''
         folderName = "simulator";
@@ -2344,7 +2332,7 @@ class MainWindow(QMainWindow):
             try:
                 index = int(name[9:]);
                 hallName = self.cbox_hall.currentText();
-                channelCfg = gLuaPM.hallConfig (hallName);
+                channelCfg = gLuaPM.hallConfig(hallName);
 
                 if channelCfg:
                     simulator_dir = os.path.join(platconfig.project_dir, folderName);
@@ -2379,7 +2367,7 @@ class MainWindow(QMainWindow):
         try:
             if not hasattr(self, 'logger_dialog'):
                 gtype = self.cbox_hall.currentText();
-                curgame = gLuaPM.hallConfig (gtype).srcname;
+                curgame = gLuaPM.hallConfig(gtype).srcname;
                 self.logger_dialog = DebugLogger(self, None);
                 self.logger_dialog.setExistedGames(self.gamelist, curgame);
             self.logger_dialog.show();
@@ -2387,7 +2375,7 @@ class MainWindow(QMainWindow):
             errmsg(err);
 
     def processtrigger(self, qaction):
-        self.handleMenu (qaction.text (), qaction);
+        self.handleMenu(qaction.text(), qaction);
 
     def onStateChanged(self):
         pass
@@ -2399,7 +2387,7 @@ class MainWindow(QMainWindow):
         if not self.isThreadEnd("check"):
             return;
 
-        thread = CheckSyntaxThread(self,None);
+        thread = CheckSyntaxThread(self, None);
         thread.start();
         self.threads["check"] = thread;
         pass
@@ -2432,10 +2420,9 @@ class MainWindow(QMainWindow):
         try:
             game_list = [];
 
-
             for row in range(self.subgame_tablistview.rowCount()):
                 gameitem = self.subgame_tablistview.item(row, 0);
-                if gameitem.checkState () == Qt.Qt.Checked:
+                if gameitem.checkState() == Qt.Qt.Checked:
                     game_list.append(gameitem.text());
 
             # print (game_list);
@@ -2465,8 +2452,7 @@ class MainWindow(QMainWindow):
 
         pass
 
-
-    def isHallExisted(self,hallname):
+    def isHallExisted(self, hallname):
         pass
 
     def onHallChanged(self):
@@ -2474,9 +2460,9 @@ class MainWindow(QMainWindow):
 
             hallName = self.cbox_hall.currentText();
             if hallName == "":
-                return ;
+                return;
 
-            print ("当前大厅 %s" %(hallName))
+            print("当前大厅 %s" % (hallName))
 
             """
             save old chconfig 
@@ -2500,7 +2486,7 @@ class MainWindow(QMainWindow):
             except Exception as err:
                 pass
 
-            chList = self.reloadChList ();
+            chList = self.reloadChList();
 
             self.cbox_ch.setCurrentIndex(-1);
             self.cbox_ch.currentIndexChanged.connect(self.onChChanged);
@@ -2510,7 +2496,7 @@ class MainWindow(QMainWindow):
                 prev_chIndex = 0;
 
             self.cbox_ch.setCurrentIndex(prev_chIndex);
-            self.refresh_version ();
+            self.refresh_version();
 
         except Exception as err:
             errmsg(err);
@@ -2524,9 +2510,9 @@ class MainWindow(QMainWindow):
 
             hallName = self.cbox_hall.currentText();
             if hallName == "":
-                return ;
+                return;
 
-            print ("当前渠道 %s" %(chName));
+            print("当前渠道 %s" % (chName));
 
             gPMConfig.setCurHallName(hallName);
             gPMConfig.setCurChName(chName);
@@ -2534,10 +2520,10 @@ class MainWindow(QMainWindow):
             self.restorePMConfig();
             self.onLoadIcon();
 
-            if self.bottom_panel.currentIndex () == 0:
+            if self.bottom_panel.currentIndex() == 0:
                 self.onFetchGameList()
 
-            if self.bottom_panel.currentIndex () == 3:
+            if self.bottom_panel.currentIndex() == 3:
                 self.loadAppList();
 
             self.refresh_version();
@@ -2546,6 +2532,7 @@ class MainWindow(QMainWindow):
             errmsg(err);
 
     '''设置配置页输入框显示状态'''
+
     def setPageConfigEditVisible(self, visible):
         self.edit_config.setVisible(visible or False);
         if visible:
@@ -2553,6 +2540,7 @@ class MainWindow(QMainWindow):
             self.edit_config.setFocus();
 
     '''配置页输入框回车事件'''
+
     def onNewPageConfig(self):
         self.setPageConfigEditVisible(False);
         text = self.edit_config.text();
@@ -2570,6 +2558,7 @@ class MainWindow(QMainWindow):
             print(err);
 
     '''配置页更改事件'''
+
     def onPageConfigChanged(self):
         text = self.cbox_config.currentText();
         if text == "配置页++":
@@ -2577,12 +2566,13 @@ class MainWindow(QMainWindow):
             self.setPageConfigEditVisible(True);
         elif text != "":
             self.text_panel.setFocus();
-            PageConfig.getInstance().load();    # 加载配置
+            PageConfig.getInstance().load();  # 加载配置
             chConfig = gPMConfig.getCurChConfig();
             chConfig.pageName = text;
         pass
 
     '''配置页刷新显示'''
+
     def refreshPageConfig(self):
         # 配置页刷新
         chConfig = gPMConfig.getCurChConfig();
@@ -2605,11 +2595,13 @@ class MainWindow(QMainWindow):
         # else:
 
     '''TreeView点击事件'''
+
     def onTreeItemClicked(self, index):
-    #    item = self.list_model.itemFromIndex(index);
+        #    item = self.list_model.itemFromIndex(index);
         pass
 
     '''TreeView勾选事件'''
+
     def onTreeItemChanged(self, item):
         try:
             # item不存在，或者不可选择
@@ -2653,17 +2645,16 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err)
 
-
-
     '''快捷键响应事件'''
+
     def keyPressEvent(self, event):
         if QApplication.keyboardModifiers() == Qt.Qt.ControlModifier:
             eventKey = event.key();
-            if eventKey == Qt.Qt.Key_S:        # Ctrl + S
+            if eventKey == Qt.Qt.Key_S:  # Ctrl + S
 
                 text = self.cbox_config.currentText();
                 if text != "":
-                    PageConfig.getInstance().save();    # 保存配置页
+                    PageConfig.getInstance().save();  # 保存配置页
                     self.onSaveSettings();
 
             elif eventKey == Qt.Qt.Key_K:
@@ -2673,9 +2664,9 @@ class MainWindow(QMainWindow):
                     if not self.isThreadEnd("logcat"):
                         print("Trying to terminate android-logcat")
                         thread = self.threads["logcat"];
-                        thread.stop ();
+                        thread.stop();
                     else:
-                        print ("Logcat Thread is not running...");
+                        print("Logcat Thread is not running...");
                         pass
 
                 except Exception as err:
@@ -2690,7 +2681,7 @@ class MainWindow(QMainWindow):
             veritem = self.subgame_tablistview.cellWidget(row, 1);
             hallitem = self.subgame_tablistview.cellWidget(row, 2);
             if hallitem:
-                hallitem.setEnabled (self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked)
+                hallitem.setEnabled(self.ckbox_lock_gamelist.checkState() != Qt.Qt.Checked)
 
     def loadAppList(self):
         try:
@@ -2719,15 +2710,15 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
 
-    def reloadGameList(self,dict):
+    def reloadGameList(self, dict):
 
         try:
-            gamelist        = dict ["list"];
-            subgame_info    = dict ["subgame"];
+            gamelist = dict["list"];
+            subgame_info = dict["subgame"];
 
             self.saveOldGameList();
 
-            self.subgame_tablistview.clearContents ();
+            self.subgame_tablistview.clearContents();
 
             hallName = self.cbox_hall.currentText();
 
@@ -2746,15 +2737,15 @@ class MainWindow(QMainWindow):
 
             for gname in dirs:
 
-                gameinfo = subgame_info [gname];
+                gameinfo = subgame_info[gname];
 
-                tlistitem = QTableWidgetItem (gname);
+                tlistitem = QTableWidgetItem(gname);
                 tlistitem.setFlags(QtCore.Qt.ItemIsUserCheckable |
-                              QtCore.Qt.ItemIsEnabled)
+                                   QtCore.Qt.ItemIsEnabled)
                 tlistitem.setCheckState(QtCore.Qt.Unchecked)
 
                 '''game'''
-                self.subgame_tablistview.setItem (rowIndex,0,tlistitem);
+                self.subgame_tablistview.setItem(rowIndex, 0, tlistitem);
 
                 '''
                 game version 
@@ -2762,8 +2753,8 @@ class MainWindow(QMainWindow):
                 vlistitem = QLineEdit(self.subgame_tablistview);
                 vlistitem.setInputMask("99.99");
 
-                if gameinfo and "version" in gameinfo and gameinfo ["version"]:
-                    vlistitem.setText(gameinfo ["version"]);
+                if gameinfo and "version" in gameinfo and gameinfo["version"]:
+                    vlistitem.setText(gameinfo["version"]);
                 else:
                     vlistitem.setText("1.0");
 
@@ -2778,15 +2769,14 @@ class MainWindow(QMainWindow):
                 # hallitem.setEnabled(False);
                 self.subgame_tablistview.setCellWidget(rowIndex, 2, hallitem);
 
-                if gameinfo and "minhall" in gameinfo and gameinfo ["minhall"]:
-                    hallitem.setText(str (gameinfo ["minhall"]));
+                if gameinfo and "minhall" in gameinfo and gameinfo["minhall"]:
+                    hallitem.setText(str(gameinfo["minhall"]));
                 else:
                     hallitem.setText("1");
 
                 rowIndex = rowIndex + 1;
 
-
-            self.onSelAllSubGameClicked ();
+            self.onSelAllSubGameClicked();
 
         except Exception as err:
             errmsg(err);
@@ -2795,7 +2785,7 @@ class MainWindow(QMainWindow):
         if text != None:
             self.text_panel.append(text);
 
-    def putErrorText(self,text):
+    def putErrorText(self, text):
         if text != None:
             self.text_panel_error.append(text);
 
@@ -2804,10 +2794,9 @@ class MainWindow(QMainWindow):
         while (i < 3):
             i = i + 1;
             self.text_panel.setText("");
-            self.text_panel_error.setText ("");
+            self.text_panel_error.setText("");
             QApplication.processEvents()
             time.sleep(0.01);
-
 
     def startThread(self):
         self.setWidgetsEnabled(False);
@@ -2825,67 +2814,69 @@ class MainWindow(QMainWindow):
         pass
 
     def vname_format(self):
-        text = self.edit_vname.displayText().strip ();
-        return text.replace (' ',"");
-
+        text = self.edit_vname.displayText().strip();
+        return text.replace(' ', "");
 
     ''''
     groupbox
     '''
-    def safeRestoreSinglePMConfigGroupBox(self,chConfig,configName,widgetName):
 
-        if not hasattr (chConfig,configName):
-            setattr(chConfig,configName,False);
+    def safeRestoreSinglePMConfigGroupBox(self, chConfig, configName, widgetName):
 
-        if hasattr (self,widgetName):
-            getattr (self,widgetName).setChecked(True
-                                                 if getattr (chConfig,configName)
-                                                    else False);
+        if not hasattr(chConfig, configName):
+            setattr(chConfig, configName, False);
+
+        if hasattr(self, widgetName):
+            getattr(self, widgetName).setChecked(True
+                                                 if getattr(chConfig, configName)
+                                                 else False);
         pass
 
-    def safeGetSinglePMConfigGroupBox(self,chConfig,configName,widgetName):
-        if hasattr (self,widgetName):
-            value = getattr (self,widgetName).isChecked () == True;
+    def safeGetSinglePMConfigGroupBox(self, chConfig, configName, widgetName):
+        if hasattr(self, widgetName):
+            value = getattr(self, widgetName).isChecked() == True;
             setattr(chConfig, configName, value);
         pass
 
     ''''
     radiobutton
     '''
-    def safeRestoreSinglePMConfigRadioButton(self,chConfig,configName,widgetName):
 
-        if not hasattr (chConfig,configName):
-            setattr(chConfig,configName,False);
+    def safeRestoreSinglePMConfigRadioButton(self, chConfig, configName, widgetName):
 
-        if hasattr (self,widgetName):
-            getattr (self,widgetName).setChecked(True
-                                                 if getattr (chConfig,configName)
-                                                    else False);
+        if not hasattr(chConfig, configName):
+            setattr(chConfig, configName, False);
+
+        if hasattr(self, widgetName):
+            getattr(self, widgetName).setChecked(True
+                                                 if getattr(chConfig, configName)
+                                                 else False);
         pass
 
-    def safeGetSinglePMConfigRadioButton(self,chConfig,configName,widgetName):
-        if hasattr (self,widgetName):
-            value = getattr (self,widgetName).isChecked () == True;
+    def safeGetSinglePMConfigRadioButton(self, chConfig, configName, widgetName):
+        if hasattr(self, widgetName):
+            value = getattr(self, widgetName).isChecked() == True;
             setattr(chConfig, configName, value);
         pass
 
     ''''
     checkbox
     '''
-    def safeRestoreSinglePMConfig(self,chConfig,configName,widgetName):
 
-        if not hasattr (chConfig,configName):
-            setattr(chConfig,configName,False);
+    def safeRestoreSinglePMConfig(self, chConfig, configName, widgetName):
 
-        if hasattr (self,widgetName):
-            getattr (self,widgetName).setCheckState(Qt.Qt.Checked
-                                                    if getattr (chConfig,configName)
+        if not hasattr(chConfig, configName):
+            setattr(chConfig, configName, False);
+
+        if hasattr(self, widgetName):
+            getattr(self, widgetName).setCheckState(Qt.Qt.Checked
+                                                    if getattr(chConfig, configName)
                                                     else Qt.Qt.Unchecked);
         pass
 
-    def safeGetSinglePMConfig(self,chConfig,configName,widgetName):
-        if hasattr (self,widgetName):
-            value = getattr (self,widgetName).checkState () == Qt.Qt.Checked;
+    def safeGetSinglePMConfig(self, chConfig, configName, widgetName):
+        if hasattr(self, widgetName):
+            value = getattr(self, widgetName).checkState() == Qt.Qt.Checked;
             setattr(chConfig, configName, value);
         pass
 
@@ -2897,43 +2888,43 @@ class MainWindow(QMainWindow):
             if chConfig == None:
                 return;
 
-            self.safeGetSinglePMConfig (chConfig,"use_pop_errbox","ckbox_use_pop_errbox");
-            self.safeGetSinglePMConfig (chConfig,"use_local_srv","ckbox_use_local");
-            self.safeGetSinglePMConfig (chConfig,"use_switch_srv","ckbox_use_switch_server");
-            self.safeGetSinglePMConfig (chConfig,"use_can_release_log","ckbox_use_release_log");
-            self.safeGetSinglePMConfig (chConfig,"use_fbinvite","ckbox_use_fbinvite");
-            self.safeGetSinglePMConfig (chConfig,"use_no_aes_php","ckbox_use_no_aes_php");
-            self.safeGetSinglePMConfig (chConfig,"use_no_gzip_php","ckbox_use_no_gzip_php");
-            self.safeGetSinglePMConfig (chConfig,"use_can_log","ckbox_use_can_log");
-            self.safeGetSinglePMConfig (chConfig,"use_game_hall_no_zip","ckbox_use_collect_hall_game");
-            self.safeGetSinglePMConfig (chConfig,"use_local_srv_ip","ckbox_use_ip_local");
+            self.safeGetSinglePMConfig(chConfig, "use_pop_errbox", "ckbox_use_pop_errbox");
+            self.safeGetSinglePMConfig(chConfig, "use_local_srv", "ckbox_use_local");
+            self.safeGetSinglePMConfig(chConfig, "use_switch_srv", "ckbox_use_switch_server");
+            self.safeGetSinglePMConfig(chConfig, "use_can_release_log", "ckbox_use_release_log");
+            self.safeGetSinglePMConfig(chConfig, "use_fbinvite", "ckbox_use_fbinvite");
+            self.safeGetSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
+            self.safeGetSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
+            self.safeGetSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
+            self.safeGetSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
+            self.safeGetSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''
             config 
             '''
-            self.safeGetSinglePMConfigGroupBox(chConfig,"use_compress_texture","compress_texture");
-            self.safeGetSinglePMConfigRadioButton (chConfig,"use_pvr","ckbox_use_pvr");
-            self.safeGetSinglePMConfigRadioButton (chConfig,"use_etc2","ckbox_use_etc2");
-            self.safeGetSinglePMConfigRadioButton (chConfig,"use_astc", "ckbox_use_astc");
+            self.safeGetSinglePMConfigGroupBox(chConfig, "use_compress_texture", "compress_texture");
+            self.safeGetSinglePMConfigRadioButton(chConfig, "use_pvr", "ckbox_use_pvr");
+            self.safeGetSinglePMConfigRadioButton(chConfig, "use_etc2", "ckbox_use_etc2");
+            self.safeGetSinglePMConfigRadioButton(chConfig, "use_astc", "ckbox_use_astc");
 
             '''
             1111
             '''
-            self.safeGetSinglePMConfig (chConfig,"use_rgba8888","ckbox_use_rgba8888");
-            self.safeGetSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
-            self.safeGetSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
-            self.safeGetSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
-            self.safeGetSinglePMConfig (chConfig,"use_slots_update","checkBox_slots_update");
+            self.safeGetSinglePMConfig(chConfig, "use_rgba8888", "ckbox_use_rgba8888");
+            self.safeGetSinglePMConfig(chConfig, "use_bones_zip", "ckbox_use_bone_zip");
+            self.safeGetSinglePMConfig(chConfig, "use_debug", "ckbox_use_debug");
+            self.safeGetSinglePMConfig(chConfig, "use_no_hotupdate", "checkBox_no_hotupdate");
+            self.safeGetSinglePMConfig(chConfig, "use_slots_update", "checkBox_slots_update");
 
-            self.safeGetSinglePMConfig (chConfig,"use_no_crypt_zip","ckbox_use_no_crypt_zip");
+            self.safeGetSinglePMConfig(chConfig, "use_no_crypt_zip", "ckbox_use_no_crypt_zip");
 
-            self.safeGetSinglePMConfig (chConfig,"use_pngquant","ckbox_use_pngquant");
-            self.safeGetSinglePMConfig (chConfig,"use_logger","ckbox_use_logger");
-            self.safeGetSinglePMConfig (chConfig,"use_filelogger","ckbox_use_filelogger");
-            self.safeGetSinglePMConfig (chConfig,"use_debug_hall_hotupdate","checkBox_use_debug_hall_hotupdate")
-            self.safeGetSinglePMConfig (chConfig,"use_debug_game_hotupdate","checkBox_use_debug_game_hotupdate")
+            self.safeGetSinglePMConfig(chConfig, "use_pngquant", "ckbox_use_pngquant");
+            self.safeGetSinglePMConfig(chConfig, "use_logger", "ckbox_use_logger");
+            self.safeGetSinglePMConfig(chConfig, "use_filelogger", "ckbox_use_filelogger");
+            self.safeGetSinglePMConfig(chConfig, "use_debug_hall_hotupdate", "checkBox_use_debug_hall_hotupdate")
+            self.safeGetSinglePMConfig(chConfig, "use_debug_game_hotupdate", "checkBox_use_debug_game_hotupdate")
 
-            chConfig.vname = self.vname_format ();
+            chConfig.vname = self.vname_format();
             chConfig.vcode = self.edit_vcode.displayText().strip();
             chConfig.hallnum = self.edit_hallnum.displayText().strip();
             chConfig.pageName = self.cbox_config.currentText();
@@ -2944,8 +2935,6 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
 
-
-
     def restorePMConfig(self):
         try:
 
@@ -2953,46 +2942,46 @@ class MainWindow(QMainWindow):
             if chConfig == None:
                 return;
 
-            self.safeRestoreSinglePMConfig (chConfig,"use_pop_errbox","ckbox_use_pop_errbox");
-            self.safeRestoreSinglePMConfig (chConfig,"use_local_srv","ckbox_use_local");
-            self.safeRestoreSinglePMConfig (chConfig,"use_switch_srv","ckbox_use_switch_server");
-            self.safeRestoreSinglePMConfig (chConfig,"use_can_release_log","ckbox_use_release_log");
-            self.safeRestoreSinglePMConfig (chConfig,"use_fbinvite","ckbox_use_fbinvite");
-            self.safeRestoreSinglePMConfig (chConfig,"use_no_aes_php","ckbox_use_no_aes_php");
-            self.safeRestoreSinglePMConfig (chConfig,"use_no_gzip_php","ckbox_use_no_gzip_php");
-            self.safeRestoreSinglePMConfig (chConfig,"use_can_log","ckbox_use_can_log");
-            self.safeRestoreSinglePMConfig (chConfig,"use_game_hall_no_zip","ckbox_use_collect_hall_game");
-            self.safeRestoreSinglePMConfig (chConfig,"use_local_srv_ip","ckbox_use_ip_local");
+            self.safeRestoreSinglePMConfig(chConfig, "use_pop_errbox", "ckbox_use_pop_errbox");
+            self.safeRestoreSinglePMConfig(chConfig, "use_local_srv", "ckbox_use_local");
+            self.safeRestoreSinglePMConfig(chConfig, "use_switch_srv", "ckbox_use_switch_server");
+            self.safeRestoreSinglePMConfig(chConfig, "use_can_release_log", "ckbox_use_release_log");
+            self.safeRestoreSinglePMConfig(chConfig, "use_fbinvite", "ckbox_use_fbinvite");
+            self.safeRestoreSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
+            self.safeRestoreSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
+            self.safeRestoreSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
+            self.safeRestoreSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
+            self.safeRestoreSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''
             save config 
             '''
             self.safeRestoreSinglePMConfigGroupBox(chConfig, "use_compress_texture", "compress_texture");
-            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_pvr","ckbox_use_pvr");
-            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_etc2","ckbox_use_etc2");
-            self.safeRestoreSinglePMConfigRadioButton (chConfig,"use_astc", "ckbox_use_astc");
+            self.safeRestoreSinglePMConfigRadioButton(chConfig, "use_pvr", "ckbox_use_pvr");
+            self.safeRestoreSinglePMConfigRadioButton(chConfig, "use_etc2", "ckbox_use_etc2");
+            self.safeRestoreSinglePMConfigRadioButton(chConfig, "use_astc", "ckbox_use_astc");
 
             '''
             111111
             '''
-            self.safeRestoreSinglePMConfig (chConfig,"use_rgba8888","ckbox_use_rgba8888");
-            self.safeRestoreSinglePMConfig (chConfig,"use_bones_zip","ckbox_use_bone_zip");
-            self.safeRestoreSinglePMConfig (chConfig,"use_debug","ckbox_use_debug");
-            self.safeRestoreSinglePMConfig (chConfig,"use_no_hotupdate","checkBox_no_hotupdate");
-            self.safeRestoreSinglePMConfig (chConfig,"use_slots_update", "checkBox_slots_update");
+            self.safeRestoreSinglePMConfig(chConfig, "use_rgba8888", "ckbox_use_rgba8888");
+            self.safeRestoreSinglePMConfig(chConfig, "use_bones_zip", "ckbox_use_bone_zip");
+            self.safeRestoreSinglePMConfig(chConfig, "use_debug", "ckbox_use_debug");
+            self.safeRestoreSinglePMConfig(chConfig, "use_no_hotupdate", "checkBox_no_hotupdate");
+            self.safeRestoreSinglePMConfig(chConfig, "use_slots_update", "checkBox_slots_update");
 
             gPMConfig.setDebug(self.ckbox_use_debug.checkState() == Qt.Qt.Checked);
 
-            self.safeRestoreSinglePMConfig (chConfig,"use_no_crypt_zip","ckbox_use_no_crypt_zip");
+            self.safeRestoreSinglePMConfig(chConfig, "use_no_crypt_zip", "ckbox_use_no_crypt_zip");
 
-            self.safeRestoreSinglePMConfig (chConfig,"use_pngquant","ckbox_use_pngquant");
-            self.safeRestoreSinglePMConfig (chConfig,"use_logger","ckbox_use_logger");
-            self.safeRestoreSinglePMConfig (chConfig,"use_filelogger","ckbox_use_filelogger");
-            self.safeRestoreSinglePMConfig (chConfig, "use_debug_hall_hotupdate", "checkBox_use_debug_hall_hotupdate")
-            self.safeRestoreSinglePMConfig (chConfig, "use_debug_game_hotupdate", "checkBox_use_debug_game_hotupdate")
+            self.safeRestoreSinglePMConfig(chConfig, "use_pngquant", "ckbox_use_pngquant");
+            self.safeRestoreSinglePMConfig(chConfig, "use_logger", "ckbox_use_logger");
+            self.safeRestoreSinglePMConfig(chConfig, "use_filelogger", "ckbox_use_filelogger");
+            self.safeRestoreSinglePMConfig(chConfig, "use_debug_hall_hotupdate", "checkBox_use_debug_hall_hotupdate")
+            self.safeRestoreSinglePMConfig(chConfig, "use_debug_game_hotupdate", "checkBox_use_debug_game_hotupdate")
 
             try:
-                self.refresh_version ();
+                self.refresh_version();
             except Exception as err:
 
                 self.edit_vname.setText(str(chConfig.vname));
@@ -3012,7 +3001,8 @@ class MainWindow(QMainWindow):
             else:
                 platconfig = gPMConfig.getPlatSettings('ios');
 
-            version_lua_path = os.path.join(platconfig.project_dir, "client", "base", "src","com","config_version.lua");
+            version_lua_path = os.path.join(platconfig.project_dir, "client", "base", "src", "com",
+                                            "config_version.lua");
             with open(version_lua_path, "r") as file:
                 content = file.read();
                 info = lua.execute(content);
@@ -3024,7 +3014,7 @@ class MainWindow(QMainWindow):
                 # self.edit_vcode.setText(str(chConfig.vcode));
                 # self.edit_hallnum.setText(str(minhall));
 
-                return (version,minhall);
+                return (version, minhall);
             pass
         except Exception as err:
 
@@ -3032,10 +3022,10 @@ class MainWindow(QMainWindow):
 
     def refresh_version(self):
         try:
-            info = self.load_version ();
-            self.edit_vname.setText(str(info [0]));
+            info = self.load_version();
+            self.edit_vname.setText(str(info[0]));
             # self.edit_vcode.setText(str(chConfig.vcode));
-            self.edit_hallnum.setText(str(info [1]));
+            self.edit_hallnum.setText(str(info[1]));
 
             pass
         except Exception as err:
@@ -3108,7 +3098,7 @@ class MainWindow(QMainWindow):
 
             dict = {};
             dict["games_info"] = self.getGamesInfo();
-            thread = PMThread(self, None,dict);
+            thread = PMThread(self, None, dict);
             thread.start();
             self.threads["pack"] = thread;
 
@@ -3116,10 +3106,10 @@ class MainWindow(QMainWindow):
         try:
 
             try:
-                if (hasattr(self,"logger_dialog") and self.logger_dialog.isVisible()):
+                if (hasattr(self, "logger_dialog") and self.logger_dialog.isVisible()):
                     MsgBox().msg("loggger窗口开启,主窗口不会关闭，将会隐藏!");
                     self.hide();
-                    e.ignore ();
+                    e.ignore();
                     return;
             except Exception as err:
                 errmsg(err);
@@ -3153,9 +3143,9 @@ class MainWindow(QMainWindow):
 
     def dropEvent(self, event):
         try:
-            path = event.mimeData().text ();
-            if path.endswith ("apk") or path.endswith ("ipa"):
-                event.accept ();
+            path = event.mimeData().text();
+            if path.endswith("apk") or path.endswith("ipa"):
+                event.accept();
                 try:
                     if not self.isThreadEnd("install"):
                         return;
@@ -3174,20 +3164,22 @@ class MainWindow(QMainWindow):
                 except Exception as err:
                     errmsg(err);
             else:
-                event.ignore ();
+                event.ignore();
 
         except Exception as err:
-            errmsg (err);
+            errmsg(err);
+
 
 """
 GameProfileDialog for base 
 """
 
-def GameProfileDialog(parent,luaglobals):
+
+def GameProfileDialog(parent, luaglobals):
     w = None;
     if isWin():
-        w = GameProfileDialogAndroid(parent,None);
+        w = GameProfileDialogAndroid(parent, None);
     elif isMacOS():
-        w = GameProfileDialogIOS(parent,None);
+        w = GameProfileDialogIOS(parent, None);
     return w;
 
