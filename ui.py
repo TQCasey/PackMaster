@@ -424,7 +424,7 @@ class SvnUploadThread(ThreadBaseClass):
             svnldr.setDelayConfigFile(delaysubmit_path)
             svnldr.setNetworkUrl(cnd_url);
 
-            if 1024 == self.askbox("\n\n需要将svn更新到最新，请仔细确认\n\n"):
+            if 1024 == self.askbox("\n需要将svn更新到最新，请仔细确认\n\n"):
                 svnldr.update();
 
             svnldr.makeCDNVerifyFile();
@@ -448,11 +448,17 @@ class SvnUploadThread(ThreadBaseClass):
                 svnldr.uploadChangeList('resource', msg);
                 if 1024 == self.askbox("\n开始验证资源可用么?\n\n"):
                     print("正在验证此次提交是否有效....")
-                    if True == svnldr.verifyNetwork():
-                        if 1024 == self.askbox("\n验证OK了，开始提交版本文件么?\n\n"):
-                            svnldr.uploadChangeList('version', msg);
-                    else:
-                        print("验证失败，请排查问题...");
+
+                    while True:
+                        if True == svnldr.verifyNetwork():
+                            if 1024 == self.askbox("\n验证OK了，开始提交版本文件么?\n\n"):
+                                svnldr.uploadChangeList('version', msg);
+                        else:
+                            if 1024 == self.askbox("\n验证失败了，重试么?\n\n"):
+                                print("验证失败，请排查问题...");
+                            else:
+                                print ("验证失败，您取消了验证，请排查问题...")
+                                break;
 
             pass
 

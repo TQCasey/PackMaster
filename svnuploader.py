@@ -133,10 +133,10 @@ class SvnUploader:
         pass
 
     def removeAllChangeLists(self):
-        print ("Remove All Changelist...")
+        print ("删除所有修改列表")
         for key in self.changeListMap:
             list = self.changeListMap [key];
-            print ("Remove Changelist %s..." % key)
+            print ("删除 Changelist %s..." % key)
             for i in range(len(list)):
                 item = list [i];
                 file = item ["file"];
@@ -145,10 +145,10 @@ class SvnUploader:
                 Commander().do (cmdstr,self.svnroot,noPrint=True);
 
         self.changeListMap = {};
-        print("Remove All Changelist Done!");
+        print("删除所有修改列表完成");
 
     def setResListChangeList(self,name):
-        print("Set Changelist %s..." % name)
+        print("设置修改列表 %s..." % name)
         for i in range(len(self.changesList)):
             info = self.changesList [i];
             file = info ["file"];
@@ -159,19 +159,22 @@ class SvnUploader:
 
             if status == "unversion":
                 # print ("%s is unversion file ,add to svn version..." % file);
+                print("添加 %s" % file)
                 cmdstr = '''svn add %s''' % (file);
                 Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
 
             elif status == "missing":
+                print("删除 %s" % file)
                 cmdstr = '''svn delete %s''' % (file);
                 Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
                 pass
 
+            print("添加修改列表 %s => %s" % (name,file))
             cmdstr = '''svn cl %s %s''' % (name,file);
 
             # print (cmdstr);
             self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
-        print("Set Changelist %s done." % name)
+        print("设置修改列表 %s 完成." % name)
         pass
 
     def dumpChangelist(self):
@@ -208,7 +211,7 @@ class SvnUploader:
             self.removeAllChangeLists();
             self.fetchChanges ();
 
-        print("Set DelayListChangelist %s..." % name)
+        print("设置修改列表 %s..." % name)
         for i in range(len(self.delayConfigs)):
             file = self.delayConfigs [i];
             # file = info ["file"];
@@ -221,18 +224,18 @@ class SvnUploader:
             # print (cmdstr);
             self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
 
-        print("Set DelayListChangelist %s done." % name)
+        print("设置修改列表 %s 完成." % name)
 
         pass
 
     def uploadChangeList(self,name,msg):
 
-        print ("Upload ChangeList %s..." % name);
+        print ("正在上传修改列表 %s..." % name);
 
         cmdstr = '''svn commit --changelist %s -m "%s"''' % (name,msg);
         # print (cmdstr);
         self.doSvnCmd (cmdstr,cwd=self.svnroot);
-        print("Upload ChangeList %s Done" % name);
+        print("上传修改列表 %s 完成" % name);
 
         pass
 
@@ -240,23 +243,23 @@ class SvnUploader:
         self.urlPrefix = url;
 
     def verifyNetwork(self):
-        print ("Verify network...");
+        print ("验证文件中...");
 
         url = self.verifyFile;
         expectMsg = self.verifyContent;
 
         url = "%s/%s" % (self.urlPrefix,url);
 
-        print ("try to access " + url);
+        print ("访问链接 " + url);
 
         resp = requests.request("get",url);
 
         if resp.status_code == 200:
             if resp.text == expectMsg:
-                print("Verify network Succeed");
+                print("验证通过");
                 return True;
 
-        print("Verify network Failed with code %d,text = %s" % (resp.status_code,resp.text));
+        print("验证失败 code %d,text = %s" % (resp.status_code,resp.text));
         return False;
 
         pass
