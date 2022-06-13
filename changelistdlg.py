@@ -28,6 +28,8 @@ class ChangeListDlg(QDialog):
             self.tableWidget_changelist = self.findChild(QTableWidget,"tableWidget_changelist")
             self.label_tips = self.findChild(QLabel,"label_tips");
 
+            self.tableWidget_changelist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
             if hasBaseAndHallChanged == False:
                 self.pushButton_add_hallnum.setVisible(False);
                 self.label_tips.setVisible (False);
@@ -54,18 +56,24 @@ class ChangeListDlg(QDialog):
 
                 changeinfo = changedlist [index];
 
-                '''filepath'''
-                tlistitem = QTableWidgetItem (changeinfo [0]);
-                self.tableWidget_changelist.setItem (index,0,tlistitem);
-                # tlistitem.setAlignment(Qt.Qt.AlignCenter)
-
                 '''mode'''
-                modstr = map [changeinfo [1]] [0];
-                color = map [changeinfo [1]] [1]
-                modeitem = QTableWidgetItem (modstr);
-                self.tableWidget_changelist.setItem (index,1,modeitem);
-                modeitem.setBackground (color)
-                # modeitem.setAlignment(Qt.Qt.AlignCenter)
+                mkey    = changeinfo [1];
+                if  mkey in map:
+                    '''filepath'''
+                    change_filepath = changeinfo [0];
+
+                    tlistitem = QTableWidgetItem (change_filepath);
+                    self.tableWidget_changelist.setItem (index,0,tlistitem);
+                    # tlistitem.setAlignment(Qt.Qt.AlignCenter)
+
+                    modstr  = map [mkey] [0];
+                    color   = map [mkey] [1];
+
+                    modeitem = QTableWidgetItem (modstr);
+                    self.tableWidget_changelist.setItem (index,1,modeitem);
+                    modeitem.setBackground (color)
+                else:
+                    errmsg("NO Key %s" % mkey);
 
             self.pushButton_remain_hallnum.clicked.connect (self.onRemainHallNum);
             self.pushButton_add_hallnum.clicked.connect (self.onAddHallNum);

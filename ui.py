@@ -16,11 +16,13 @@ from android.pack import PackAndroid, PackH5Android
 from changelistdlg import AlertChangeList
 from cmm import *
 from filterlist import FilterListDialogBase
+from inputbox import  inputdlg
 from ios.gameprofile import GameProfileDialogIOS
 from ios.pack import PackIOS, PackH5IOS
 from infodlg import JsonDialog
 from langman import LangManDialog
 from iconmaker import IconMakerDialog
+from svnuploader import SvnUploader
 from tools.Logger.logger import DebugLogger
 from loglist import LogListDialog, getRevision
 from passwddlg import PasswdDlg, getAccountInfo
@@ -37,7 +39,11 @@ class ThreadBaseClass(QThread):
         self.mainObj = parent;
         self.dict = dict;
         self.msgbox_ret = None;
+
+        self.inputInfo = None;
+
         gsignal.msg_ret_trigger.connect(self.onMsgBoxRet)
+        gsignal.input_ret_trigger.connect(self.onInputRet)
 
         start_pack();
 
@@ -45,6 +51,9 @@ class ThreadBaseClass(QThread):
         # print ("ret = %d" % (ret));
         self.msgbox_ret = ret;
         pass
+
+    def onInputRet(self,info):
+        self.inputInfo = info;
 
     def askbox(self, msg):
         raskbox(msg);
@@ -54,6 +63,15 @@ class ThreadBaseClass(QThread):
         ret = self.msgbox_ret
         self.msgbox_ret = None;
         return ret;
+
+    def inputbox(self,title):
+        rinputbox (title);
+        while self.inputInfo == None:
+            time.sleep(0.3);
+
+        info = self.inputInfo
+        self.inputInfo = None;
+        return info;
 
     def run(self):
         print("do nothing ...");
@@ -376,6 +394,75 @@ class MakeNativeProjectThread(ThreadBaseClass):
             super().saybye();
 
 
+
+"""
+提交svn
+"""
+class SvnUploadThread(ThreadBaseClass):
+    def run(self):
+
+        pmconfig = self.pmconfig;
+
+        try:
+
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(pmconfig, None, self.dict);
+            elif isWin():
+                pack = PackAndroid(pmconfig, None, self.dict);
+
+            project_dir = self.dict ["project_dir"]
+            hotupdate_dir_root = self.dict ["hotupdate_dir_root"];
+            whitelist_path = self.dict ["whitelist_path"];
+            delaysubmit_path = self.dict ["delaysubmit_path"];
+            cnd_url = self.dict ["cnd_url"];
+
+
+            svnldr = SvnUploader();
+            svnldr.setRepRoot(project_dir);
+            svnldr.setDelayConfigFile(delaysubmit_path)
+            svnldr.setNetworkUrl(cnd_url);
+
+            if not svnldr.checkCDNVerifyFile():
+                print ("找不到netverify_?文件");
+                return ;
+
+            if 1024 == self.askbox("\n需要将svn更新到最新，请仔细确认\n\n"):
+                svnldr.update();
+
+            svnldr.fetchChanges();
+            svnldr.removeAllChangeLists();
+            svnldr.fetchChanges();
+            #
+            svnldr.setResListChangeList('resource');
+            svnldr.setDelayListChangeList('version');
+
+            info = self.inputbox("准备提交资源，请务必确认一次，如果ok，请输入此次提交的内容描述:");
+            ret = info ["ret"];
+            msg = info ["msg"];
+
+            if ret >= 0:
+                if msg == "":
+                    msg = "自动提交内容 "
+
+                print ("正在提交资源部分....")
+                svnldr.uploadChangeList('resource', msg);
+                if 1024 == self.askbox("\n开始验证资源可用么?\n\n"):
+                    print("正在验证此次提交是否有效....")
+                    if True == svnldr.verifyNetwork():
+                        if 1024 == self.askbox("\n验证OK了，开始提交版本文件么?\n\n"):
+                            svnldr.uploadChangeList('version', msg);
+                    else:
+                        print("验证失败，请排查问题...");
+
+            pass
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            super().saybye();
+
 """
 发布
 """
@@ -420,28 +507,27 @@ class PublishAllThread(ThreadBaseClass):
                 pack = PackAndroid(pmconfig, None, self.dict);
             #
             pack.startPublishAll();
-            # pack.publishBaseAndHall();
-            # pack.publishGame();
-            #
-            # dict = pack.figureoutChangedInfo();
-            # gamesChangedArr = dict["gamesChangedArr"];
-            # hasBaseAndHallChanged = dict["hasBaseAndHallChanged"];
-            # hallNum = dict['hallNum'];
-            #
-            # ret = self.ask_changeList(dict);
-            # if ret == 2:
-            #     if hasBaseAndHallChanged:
-            #         hallNum = str(int(hallNum) + 1);
-            #         print("Base Hall files changed...,Hall Num : %s " % (hallNum));
-            #
-            # pack.doLastThing(self.update_version_trigger, gamesChangedArr, hallNum);
+
+            pack.publishBaseAndHall();
+            pack.publishGame();
+
+            dict = pack.figureoutChangedInfo();
+            gamesChangedArr = dict["gamesChangedArr"];
+            hasBaseAndHallChanged = dict["hasBaseAndHallChanged"];
+            hallNum = dict['hallNum'];
+
+            ret = self.ask_changeList(dict);
+            if ret == 2:
+                if hasBaseAndHallChanged:
+                    hallNum = str(int(hallNum) + 1);
+                    print("Base Hall files changed...,Hall Num : %s " % (hallNum));
+
+            pack.doLastThing(self.update_version_trigger, gamesChangedArr, hallNum);
 
             '''
             最终包1
             '''
-            hallNum = 1;
-            gamesChangedArr = "";
-            pack.doFinalThing1(self.update_version_trigger, gamesChangedArr, hallNum);
+            pack.doFinalThing1(self.update_version_trigger);
 
         except Exception as err:
             errmsg(err);
@@ -746,6 +832,7 @@ class MainWindow(QMainWindow):
         self.btn_pack = self.findChild(QPushButton, "btn_pack");
         self.btn_whitelist = self.findChild(QPushButton, "btn_whitelist");
         self.btn_publish_basehall = self.findChild(QPushButton, "btn_publish_basehall");
+        self.btn_svn_submit = self.findChild(QPushButton,"btn_svn_submit")
 
         self.btn_make_native_project = self.findChild(QPushButton, "btn_make_native_project");
         self.btn_build = self.findChild(QPushButton, "btn_build")
@@ -795,6 +882,7 @@ class MainWindow(QMainWindow):
         self.btn_sync_all_version.clicked.connect(self.onSyncAllSubGamesVersion);
         self.btn_load_publish_games.clicked.connect(self.onLoadPublishGames);
         self.checkBox_slots_update.clicked.connect(self.onSlotsUpdate)
+        self.btn_svn_submit.clicked.connect (self.onSubmitClicked)
 
         self.btn_logger.clicked.connect(self.onLogger);
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
@@ -1050,12 +1138,14 @@ class MainWindow(QMainWindow):
         signal 
         '''
         gsignal.msg_trigger.connect(self.putText);
+        gsignal.input_trigger.connect(self.onInputBox);
         gsignal.error_msg_trigger.connect(self.putErrorText);
         gsignal.clear_trigger.connect(self.clearText);
         gsignal.done_trigger.connect(self.doneThread);
         gsignal.start_trigger.connect(self.startThread);
         gsignal.msgbox_trigger.connect(self.msgboxMsg)
         gsignal.ask_box_trigger.connect(self.askboxMsg);
+        # gsignal.input_ret_trigger.connect(self.inputbox);
         gsignal.alert_changelist_trigger.connect(self.onAlertChangeList)
 
         self.btn_clr.clicked.connect(self.onClearScreen)
@@ -1170,6 +1260,67 @@ class MainWindow(QMainWindow):
         self.initLockedList();
         self.onLockHallNum();
 
+    def onSubmitClicked(self):
+
+        self.getPMConfig();
+
+        if not self.isThreadEnd("svn_list"):
+            return;
+
+        dict = {};
+
+        if (self.checkBox_whitelist.checkState() == QtCore.Qt.Checked):
+            preMsg = "##################\n 请在提交白名单热更 \n##################\n";
+            distdir = "dev";
+        else:
+            preMsg = "##################\n    正在提交热更   \n##################\n";
+            distdir = "dist";
+
+        if self.checkBox_slots_update.checkState() != Qt.Qt.Checked:
+            ret = MsgBox().yesno(
+                "%s\n请确保没有文件被占用\n是否是提交正式热更? \n\nYes) 是则提交正式热更\nNo) 否则提交测试热更\nCancel) 取消热更\n" % (preMsg));
+        else:
+            ret = MsgBox().yesno(
+                "%s\n请确保没有文件被占用\n是否是提交正式热更? \n\nYes) 是则提交正式热更\nNo) 否则提交slots热更\nCancel) 取消热更\n" % (preMsg));
+
+        if (QMessageBox.Yes == ret):
+            isDebugPublish = True;
+        elif (QMessageBox.No == ret):
+            isDebugPublish = False;
+        else:
+            return;
+
+        platconfig = self.getPlatSettings();
+
+        if isDebugPublish:
+
+            dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir);
+            dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dis");
+            dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
+            dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir,"delaysubmit.json");
+            dict["cnd_url"] = "http://hot.fg-domino.com/CynkingGame/dist"
+
+        else:
+            if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
+
+                dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir);
+                dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots");
+                dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
+                dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir,"delaysubmit.json");
+                dict["cnd_url"] = "http://172.20.11.248:8990/dev"
+
+            else:
+                dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir);
+                dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev");
+                dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
+                dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir,"delaysubmit.json");
+                dict["cnd_url"] = "http://172.20.11.248:8991/dev"
+
+        thread = SvnUploadThread (self, None, dict);
+        thread.start();
+        self.threads["svn_list"] = thread;
+        pass
+
     def onLocalServerClicked(self):
         if self.ckbox_use_local.checkState() == Qt.Qt.Unchecked:
             self.checkBox_slots_update.setCheckState(Qt.Qt.Unchecked)
@@ -1251,7 +1402,7 @@ class MainWindow(QMainWindow):
             preMsg = "##################\n    取消白名单  \n##################\n";
             distdir = "dist";
 
-        ret = MsgBox().yesno("%s\n是否修改正式白名单? \n\nYes) 是则修改正式白名单\nNo) 否则修改开发白名单\nCancel) 取消则取消修改\n" % (preMsg));
+        ret = MsgBox().yesno("%s\n是否修改正式白名单? \n\nYes) 是则修改正式白名单\nNo) 否则修改开发白名单\nCancel) 取消修改\n" % (preMsg));
         if (QMessageBox.Yes == ret):
             isDebugPublish = True;
         elif (QMessageBox.No == ret):
@@ -1329,7 +1480,7 @@ class MainWindow(QMainWindow):
                 return;
 
             if (self.checkBox_whitelist.checkState() == QtCore.Qt.Checked):
-                preMsg = "##################\n 请在发布白名单热更 \n##################\n";
+                preMsg = "##################\n  正在发布白名单热更 \n##################\n";
                 distdir = "dev";
             else:
                 preMsg = "##################\n    正在发布热更   \n##################\n";
@@ -1337,10 +1488,10 @@ class MainWindow(QMainWindow):
 
             if self.checkBox_slots_update.checkState() != Qt.Qt.Checked:
                 ret = MsgBox().yesno(
-                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布测试热更\nCancel) 取消则取消热更\n" % (preMsg));
+                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布测试热更\nCancel) 取消热更\n" % (preMsg));
             else:
                 ret = MsgBox().yesno(
-                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布slots热更\nCancel) 取消则取消热更\n" % (preMsg));
+                    "%s\n请确保没有文件被占用\n是否是发布正式热更? \n\nYes) 是则发布正式热更\nNo) 否则发布slots热更\nCancel) 则取消热更\n" % (preMsg));
 
             if (QMessageBox.Yes == ret):
                 isDebugPublish = True;
@@ -1381,14 +1532,17 @@ class MainWindow(QMainWindow):
 
             if isDebugPublish:
                 dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir);
+                dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dis");
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
             else:
                 if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
                     dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir);
+                    dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots");
                     dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots",
                                                           "navigator.json");
                 else:
                     dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir);
+                    dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev");
                     dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev",
                                                           "navigator.json");
 
@@ -1970,6 +2124,13 @@ class MainWindow(QMainWindow):
         ret = MsgBox().ask(msg);
         gsignal.msg_ret_trigger.emit(ret);
         # gsignal.msg_ret_trigger.emit (ret);
+
+
+    def onInputBox(self,title):
+        info = inputdlg (self,title);
+        msg = info ["msg"];
+        ret = info ["ret"];
+        gsignal.input_ret_trigger.emit (info);
 
     def onEtc2Clicked(self):
         # if (self.ckbox_use_etc2.checkState() == Qt.Qt.Checked):

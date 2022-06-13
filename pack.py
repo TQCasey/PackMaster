@@ -281,6 +281,9 @@ class PackCommon:
             jsonFileName32 = "%s_32_filemd5.json" % (hallName)
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b32_md5 = self._fileMd5(jsonFilePath);
+
+            # print ("==> filepath %s ,md5_32 %s" % (jsonFilePath,b32_md5))
+
             return b32_md5;
         else:
             '''
@@ -289,6 +292,8 @@ class PackCommon:
             jsonFileName32 = "%s_64_filemd5.json" % (hallName)
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b64_md5 = self._fileMd5(jsonFilePath);
+
+            # print("==> filepath %s ,md5_64 %s" % (jsonFilePath, b64_md5))
 
             return b64_md5;
 
@@ -336,6 +341,7 @@ class PackCommon:
                 32bit 
                 '''
                 md5str32 = self.makeGameFileMd5ForHallName(hallName, game, False);
+
                 if md5str32 != "":
                     hallinfo32[game] = {};
                     hallinfo32[game]['version'] = version;
@@ -483,6 +489,7 @@ return {
         '''dest dir'''
         self.publish_dir = dict["project_dir"];
         self.whitelist_path = dict ["whitelist_path"];
+        self.hotupdate_dir_root = dict ["hotupdate_dir_root"];
 
         if not os.path.exists(self.publish_dir):
             os.makedirs(self.publish_dir);
@@ -700,11 +707,12 @@ return {
 
         pass
 
-    def doFinalThing1(self,update_version_trigger,gamesChangedArr,hallNum):
+    def doFinalThing1(self,update_version_trigger):
 
         try:
 
             delaySumitFiles = [];
+            renameFileLists = [];
 
             hallList = gPMConfig.getHallList();
             for hallName in hallList:
@@ -721,7 +729,7 @@ return {
                 gamesConfig32 = gamesConfig32.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig32);
 
-                gamesConfig32 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"64"));
+                gamesConfig64 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"64"));
                 gamesConfig64 = gamesConfig64.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig64);
 
@@ -755,13 +763,57 @@ return {
                             break;
 
                     if not isIn:
-                        print ("Make %s " % filepath);
-                        file_md5 = self._fileMd5(native_filepath);
-                        new_native_filepath = native_filepath + "." +file_md5;
-                        if os.path.exists(native_filepath) and not os.path.exists(new_native_filepath):
-                            os.rename(native_filepath,new_native_filepath);
+                        renameFileLists.append(filepath);
 
                     pass
+
+            '''
+            重新命名成后缀md5文件
+            '''
+            print("重新生成md5，稍等 1-2分钟...")
+            for filepath in renameFileLists:
+                # print("发布文件 %s " % filepath);
+                file_md5 = self._fileMd5(filepath);
+                new_native_filepath = filepath + "." + file_md5;
+                if os.path.exists(filepath) and not os.path.exists(new_native_filepath):
+                    os.rename(filepath, new_native_filepath);
+
+            '''
+            生成验证文件
+            '''
+            print("删除旧CDN验证文件...")
+            dirs = os.listdir(self.publish_dir);
+            for dir in dirs:
+                if dir.find("netverify_") >= 0:
+                    os.remove(os.path.join(self.publish_dir,dir));
+                pass
+
+            print ("生成CDN验证文件...")
+            verify_file = os.path.join(self.publish_dir,"netverify_%s" % self.make_time);
+            with open (verify_file,"w+") as f:
+                f.write(self.make_time);
+
+
+            print("删除旧delaySubmit文件...")
+            dirs = os.listdir(self.publish_dir);
+            for dir in dirs:
+                if dir.find("delaysubmit") >= 0:
+                    os.remove(os.path.join(self.publish_dir,dir));
+                pass
+
+            '''
+            生成delaySubmit.txt文件
+            '''
+            print("生成延迟提交文件...")
+            pub_len = len(self.publish_dir) + 1;
+            delayJsonArr = [];
+            for filepath in delaySumitFiles:
+                sub_path = filepath[pub_len:];
+                delayJsonArr.append(sub_path);
+
+            delayConfigPath = os.path.join(self.publish_dir,"delaysubmit.json");
+            with open (delayConfigPath,"w+") as f:
+                f.write(json.dumps(delayJsonArr));
 
 
         except Exception as err:
