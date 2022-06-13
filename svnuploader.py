@@ -192,10 +192,10 @@ class SvnUploader:
         pass
 
     def update(self):
-        print ("Update Current rep to latest...");
+        print ("正在更新目录 %s " % self.svnroot);
         cmdstr = '''svn update'''
         self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
-        print("Update Current rep to latest done!");
+        print("更新完成 ");
 
     def dumpDelayConfigs(self):
         for i in range(len(self.delayConfigs)):

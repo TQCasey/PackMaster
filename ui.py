@@ -449,8 +449,10 @@ class SvnUploadThread(ThreadBaseClass):
                 if 1024 == self.askbox("\n开始验证资源可用么?\n\n"):
                     print("正在验证此次提交是否有效....")
 
-                    while True:
+                    isLoop = True;
+                    while isLoop:
                         if True == svnldr.verifyNetwork():
+                            isLoop = False;
                             if 1024 == self.askbox("\n验证OK了，开始提交版本文件么?\n\n"):
                                 svnldr.uploadChangeList('version', msg);
                         else:
@@ -458,7 +460,6 @@ class SvnUploadThread(ThreadBaseClass):
                                 print("验证失败，请排查问题...");
                             else:
                                 print ("验证失败，您取消了验证，请排查问题...")
-                                break;
 
             pass
 
