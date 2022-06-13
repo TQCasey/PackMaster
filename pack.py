@@ -11,6 +11,8 @@ import json
 
 from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
+from svnuploader import SvnUploader
+
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
@@ -494,17 +496,6 @@ return {
         if not os.path.exists(self.publish_dir):
             os.makedirs(self.publish_dir);
 
-        if not isMacOS():
-            print ("自动同步到最新时间...");
-            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
-
-        print ("自动更新到最新....");
-        if isMacOS():
-            cmdstr = '''cd %s && svn up''' % (os.path.join(self.publish_dir))
-        else:
-            cmdstr = '''cd /d %s && svn up''' % (os.path.join(self.publish_dir))
-        Commander ().do(cmdstr);
-
 
     def publishGame(self):
         try:
@@ -568,33 +559,20 @@ return {
         pass
 
     def figureoutChangedInfo(self):
-        cmdstr = '''svn status''';
-        msgs = Commander ().do(cmdstr,noPrint=True,cwd = os.path.join(self.publish_dir));
 
-        real_files = [];
-        for key in range(len(msgs)):
-            msg = msgs [key];
-            i = msg.rfind(" ");
-            k = msg.find (" ");
-            mode = msg[:k].strip(" ");
-            msg = msg [i:].strip(' ');
-            file = msg.replace("\\","/")
 
-            if "filemd5" in file or "_version" in file or "gamesVersionv2.json" in file:
-                continue;
-
-            if "config_version" in file or "config_auto" in file:
-                continue;
-
-            real_files.append((file,mode));
+        svnldr = SvnUploader();
+        svnldr.setRepRoot(self.publish_dir);
+        changeslist = svnldr.fetchChanges();
 
         hasBaseAndHallChanged = False;
         gamesChangedArr = [];
 
         # print ("##### Changed Files: ");
-        for key in range(len(real_files)):
-            file = real_files [key][0];
-            # print (file);
+        for key in range(len(changeslist)):
+            info = changeslist [key];
+
+            file = info ["file"];
 
             if file.find("base/") == 0:
                 hasBaseAndHallChanged = True;
@@ -604,7 +582,6 @@ return {
                 glen = len("game/");
                 j = file.find("/",glen);
                 gameName = file [glen:j];
-                # print ("##### %s game Changed" % (gameName));
                 gamesChangedArr.append(gameName);
             pass
         pass
@@ -612,7 +589,7 @@ return {
         dict = {};
         dict ['gamesChangedArr'] = gamesChangedArr;
         dict ['hasBaseAndHallChanged']  = hasBaseAndHallChanged;
-        dict ['changelist'] = real_files;
+        dict ['changelist'] = changeslist;
         dict ['hallNum'] = self.curChConfig.hallnum;
 
         return dict;
@@ -777,22 +754,6 @@ return {
                 new_native_filepath = filepath + "." + file_md5;
                 if os.path.exists(filepath) and not os.path.exists(new_native_filepath):
                     os.rename(filepath, new_native_filepath);
-
-            '''
-            生成验证文件
-            '''
-            print("删除旧CDN验证文件...")
-            dirs = os.listdir(self.publish_dir);
-            for dir in dirs:
-                if dir.find("netverify_") >= 0:
-                    os.remove(os.path.join(self.publish_dir,dir));
-                pass
-
-            print ("生成CDN验证文件...")
-            verify_file = os.path.join(self.publish_dir,"netverify_%s" % self.make_time);
-            with open (verify_file,"w+") as f:
-                f.write(self.make_time);
-
 
             print("删除旧delaySubmit文件...")
             dirs = os.listdir(self.publish_dir);

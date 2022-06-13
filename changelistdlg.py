@@ -43,37 +43,28 @@ class ChangeListDlg(QDialog):
             self.tableWidget_changelist.setRowCount(len(changedlist) - 0)
 
             map = {
-                "?" : ("增加",Qt.QColor (0x00,0xff,0)),
-                "A" : ("增加",Qt.QColor (0x00,0xff,0)),
-                "!" : ("删除",Qt.QColor (0xff,0,0)),
-                "D" : ("删除",Qt.QColor (0xff,0,0)),
-                "M" : ("修改",Qt.QColor (0,0,0xff)),
-                ">" : ("修改",Qt.QColor (0,0,0xff)),
-                "Summary" : ("冲突",Qt.QColor (0xff,0,0)),
-                "Text" : ("Text",Qt.QColor (0xff,0,0))
+                "add" : ("增加",Qt.QColor (0x00,0xff,0)),
+                "unversion" : ("增加",Qt.QColor (0x00,0xff,0)),
+                "missing" : ("删除",Qt.QColor (0xff,0,0)),
+                "delete" : ("删除",Qt.QColor (0xff,0,0)),
+                "modify" : ("修改",Qt.QColor (0,0,0xff)),
             }
             for index in range(len(changedlist)):
 
                 changeinfo = changedlist [index];
+                file = changeinfo ["file"];
+                status = changeinfo ["status"];
 
-                '''mode'''
-                mkey    = changeinfo [1];
-                if  mkey in map:
-                    '''filepath'''
-                    change_filepath = changeinfo [0];
+                tlistitem = QTableWidgetItem (file);
+                self.tableWidget_changelist.setItem (index,0,tlistitem);
+                # tlistitem.setAlignment(Qt.Qt.AlignCenter)
 
-                    tlistitem = QTableWidgetItem (change_filepath);
-                    self.tableWidget_changelist.setItem (index,0,tlistitem);
-                    # tlistitem.setAlignment(Qt.Qt.AlignCenter)
+                modstr  = map [status] [0];
+                color   = map [status] [1];
 
-                    modstr  = map [mkey] [0];
-                    color   = map [mkey] [1];
-
-                    modeitem = QTableWidgetItem (modstr);
-                    self.tableWidget_changelist.setItem (index,1,modeitem);
-                    modeitem.setBackground (color)
-                else:
-                    errmsg("NO Key %s" % mkey);
+                modeitem = QTableWidgetItem (modstr);
+                self.tableWidget_changelist.setItem (index,1,modeitem);
+                modeitem.setBackground (color)
 
             self.pushButton_remain_hallnum.clicked.connect (self.onRemainHallNum);
             self.pushButton_add_hallnum.clicked.connect (self.onAddHallNum);

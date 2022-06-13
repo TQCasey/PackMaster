@@ -1,6 +1,7 @@
 import json
 import os
 import re
+import time
 
 from jsonpickle import json
 
@@ -16,6 +17,7 @@ class SvnUploader:
         self.urlPrefix = "";
         self.verifyFile = "";
         self.verifyContent = "";
+        self.make_time = time.strftime("%Y%m%d%H%M%S", time.localtime());
         pass
 
     def setDelayConfigFile(self,path):
@@ -127,6 +129,7 @@ class SvnUploader:
                 # else:
                 #     print ("Skip delayFile %s" % file);
 
+        return self.changesList;
         pass
 
     def removeAllChangeLists(self):
@@ -258,16 +261,25 @@ class SvnUploader:
 
         pass
 
-    def checkCDNVerifyFile (self):
+    def makeCDNVerifyFile (self):
 
+        '''
+        生成验证文件
+        '''
+        print("删除旧CDN验证文件...")
         dirs = os.listdir(self.svnroot);
         for dir in dirs:
-            fi = dir.find("netverify_");
-            l = len("netverify_");
-            if fi >= 0:
-                content = dir[l:];
-                self.verifyFile = dir;
-                self.verifyContent = content;
+            if dir.find("netverify_") >= 0:
+                os.remove(os.path.join(self.svnroot, dir));
+            pass
 
-                return True;
-        return False;
+        print("生成CDN验证文件...")
+        filename = "netverify_%s" % self.make_time;
+        verify_file = os.path.join(self.svnroot, filename);
+        with open(verify_file, "w+") as f:
+            f.write(self.make_time);
+
+        self.verifyFile = filename;
+        self.verifyContent = self.make_time;
+
+        return True;

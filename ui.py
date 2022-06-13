@@ -424,12 +424,10 @@ class SvnUploadThread(ThreadBaseClass):
             svnldr.setDelayConfigFile(delaysubmit_path)
             svnldr.setNetworkUrl(cnd_url);
 
-            if not svnldr.checkCDNVerifyFile():
-                print ("找不到netverify_?文件");
-                return ;
-
-            if 1024 == self.askbox("\n需要将svn更新到最新，请仔细确认\n\n"):
+            if 1024 == self.askbox("\n\n需要将svn更新到最新，请仔细确认\n\n"):
                 svnldr.update();
+
+            svnldr.makeCDNVerifyFile();
 
             svnldr.fetchChanges();
             svnldr.removeAllChangeLists();
@@ -505,7 +503,19 @@ class PublishAllThread(ThreadBaseClass):
                 pack = PackIOS(pmconfig, None, self.dict);
             elif isWin():
                 pack = PackAndroid(pmconfig, None, self.dict);
-            #
+
+            if not isMacOS():
+                print("自动同步到最新时间...");
+                Commander().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
+
+            if 1024 == self.askbox ("是否将发布代码更新到最新"):
+                print("自动更新到最新....");
+                if isMacOS():
+                    cmdstr = '''cd %s && svn up''' % (os.path.join(self.publish_dir))
+                else:
+                    cmdstr = '''cd /d %s && svn up''' % (os.path.join(self.publish_dir))
+                Commander().do(cmdstr);
+
             pack.startPublishAll();
 
             pack.publishBaseAndHall();
