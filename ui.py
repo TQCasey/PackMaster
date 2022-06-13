@@ -19,13 +19,10 @@ from filterlist import FilterListDialogBase
 from inputbox import  inputdlg
 from ios.gameprofile import GameProfileDialogIOS
 from ios.pack import PackIOS, PackH5IOS
-from infodlg import JsonDialog
 from langman import LangManDialog
 from iconmaker import IconMakerDialog
 from svnuploader import SvnUploader
 from tools.Logger.logger import DebugLogger
-from loglist import LogListDialog, getRevision
-from passwddlg import PasswdDlg, getAccountInfo
 from preference import PreferDialog
 from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM
 
@@ -967,11 +964,6 @@ class MainWindow(QMainWindow):
             fileMenu.addAction(logger)
 
         """
-        svn utils 
-        """
-        gsignal.auth_trigger.connect(self.onAuthDialog);
-
-        """
         export to appstore
         """
         self.listWidget_arch = self.findChild(QListWidget, "listWidget_arch");
@@ -1695,9 +1687,6 @@ class MainWindow(QMainWindow):
         except Exception as err:
             errmsg(err);
         pass
-
-    def onAuthDialog(self):
-        getAccountInfo(self);
 
     def onUseTestHotupdate(self):
         pass
