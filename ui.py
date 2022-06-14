@@ -515,9 +515,9 @@ class PublishAllThread(ThreadBaseClass):
             if 1024 == self.askbox ("是否将发布代码更新到最新"):
                 print("自动更新到最新....");
                 if isMacOS():
-                    cmdstr = '''cd %s && svn up''' % (os.path.join(self.publish_dir))
+                    cmdstr = '''cd %s && svn up''' % (os.path.join(pack.publish_dir))
                 else:
-                    cmdstr = '''cd /d %s && svn up''' % (os.path.join(self.publish_dir))
+                    cmdstr = '''cd /d %s && svn up''' % (os.path.join(pack.publish_dir))
                 Commander().do(cmdstr);
 
             pack.startPublishAll();
