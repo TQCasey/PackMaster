@@ -512,15 +512,16 @@ class PublishAllThread(ThreadBaseClass):
                 print("自动同步到最新时间...");
                 Commander().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
 
+            pack.startPublishAll();
+
             if 1024 == self.askbox ("是否将发布代码更新到最新"):
                 print("自动更新到最新....");
                 if isMacOS():
                     cmdstr = '''cd %s && svn up''' % (os.path.join(pack.publish_dir))
                 else:
                     cmdstr = '''cd /d %s && svn up''' % (os.path.join(pack.publish_dir))
+                print (cmdstr);
                 Commander().do(cmdstr);
-
-            pack.startPublishAll();
 
             pack.publishBaseAndHall();
             pack.publishGame();

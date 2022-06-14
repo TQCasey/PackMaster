@@ -700,13 +700,24 @@ return {
                 delaySumitFiles.append(path);
 
                 '''
+                delete gamesConfig.json and gamesConfigv2.json 
+                '''
+                gamedir = os.path.join(self.publish_dir,"game");
+                print("删除旧 gamesConfig.json and gamesConfigv2.json ...")
+                dirs = os.listdir(gamedir);
+                for dir in dirs:
+                    if dir.find("gamesConfig.json") >= 0 or dir.find("gamesConfigv2.json") >= 0:
+                        os.remove(os.path.join(gamedir, dir));
+                    pass
+
+                '''
                 add gamesConfig.json
                 '''
-                gamesConfig32 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"32"));
+                gamesConfig32 = os.path.join(gamedir,"{}_{}_gamesVersionv2.json".format(hallName,"32"));
                 gamesConfig32 = gamesConfig32.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig32);
 
-                gamesConfig64 = os.path.join(self.publish_dir,"game","{}_{}_gamesVersionv2.json".format(hallName,"64"));
+                gamesConfig64 = os.path.join(gamedir,"{}_{}_gamesVersionv2.json".format(hallName,"64"));
                 gamesConfig64 = gamesConfig64.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig64);
 
