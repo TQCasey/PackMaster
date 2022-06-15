@@ -382,7 +382,7 @@ return {
 
         if isMakeGamesConfig == True:
             if isMakeAssets == True:
-                filePath = os.path.join(baseDir, "gamesVersionv2.json");
+                filePath = os.path.join(baseDir, "gamesConfig.json");
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo));
@@ -393,7 +393,7 @@ return {
                 '''
                 32bit
                 '''
-                filePath = os.path.join(baseDir, "%s_32_gamesVersionv2.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_32_gamesConfig.json" % (hallName));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo32));
@@ -403,7 +403,7 @@ return {
                 '''
                 64bit
                 '''
-                filePath = os.path.join(baseDir, "%s_64_gamesVersionv2.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_64_gamesConfig.json" % (hallName));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo64));
@@ -699,25 +699,13 @@ return {
                 path = path.replace("\\", "/");
                 delaySumitFiles.append(path);
 
-                '''
-                delete gamesConfig.json and gamesConfigv2.json 
-                '''
-                gamedir = os.path.join(self.publish_dir,"game");
-                print("删除旧 gamesConfig.json and gamesConfigv2.json ...")
-                dirs = os.listdir(gamedir);
-                for dir in dirs:
-                    if dir.find("gamesConfig.json") >= 0 or dir.find("gamesConfigv2.json") >= 0:
-                        os.remove(os.path.join(gamedir, dir));
-                    pass
+                gamedir = os.path.join(self.publish_dir, "game");
 
-                '''
-                add gamesConfig.json
-                '''
-                gamesConfig32 = os.path.join(gamedir,"{}_{}_gamesVersionv2.json".format(hallName,"32"));
+                gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
                 gamesConfig32 = gamesConfig32.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig32);
 
-                gamesConfig64 = os.path.join(gamedir,"{}_{}_gamesVersionv2.json".format(hallName,"64"));
+                gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
                 gamesConfig64 = gamesConfig64.replace("\\", "/");
                 delaySumitFiles.append(gamesConfig64);
 
@@ -755,6 +743,8 @@ return {
 
                     pass
 
+            remain_old_file = True;
+
             '''
             重新命名成后缀md5文件
             '''
@@ -764,7 +754,10 @@ return {
                 file_md5 = self._fileMd5(filepath);
                 new_native_filepath = filepath + "." + file_md5;
                 if os.path.exists(filepath) and not os.path.exists(new_native_filepath):
-                    os.rename(filepath, new_native_filepath);
+                    if remain_old_file:
+                        shutil.copyfile(filepath,new_native_filepath)
+                    else:
+                        os.rename(filepath, new_native_filepath);
 
             print("删除旧delaySubmit文件...")
             dirs = os.listdir(self.publish_dir);

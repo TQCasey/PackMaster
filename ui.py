@@ -1774,7 +1774,7 @@ class MainWindow(QMainWindow):
 
             game_dir = os.path.join(platconfig.project_dir, "client", "game");
 
-            gameConfigPath = os.path.join(game_dir, "gamesVersionv2.json");
+            gameConfigPath = os.path.join(game_dir, "gamesConfig.json");
             gamesConfig = None;
 
             if os.path.exists(gameConfigPath):

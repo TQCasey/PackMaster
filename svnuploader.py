@@ -159,17 +159,18 @@ class SvnUploader:
 
             if status == "unversion":
                 # print ("%s is unversion file ,add to svn version..." % file);
-                print("添加 %s" % file)
+                print("添加修改列表 添加 %s" % file)
                 cmdstr = '''svn add %s''' % (file);
                 Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
 
             elif status == "missing":
-                print("删除 %s" % file)
+                print("添加修改列表 删除 %s" % file)
                 cmdstr = '''svn delete %s''' % (file);
                 Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
                 pass
+            else:
+                print("添加修改列表 修改 %s => %s" % (name,file))
 
-            print("添加修改列表 %s => %s" % (name,file))
             cmdstr = '''svn cl %s %s''' % (name,file);
 
             # print (cmdstr);
