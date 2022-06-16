@@ -70,6 +70,7 @@ class SvnUploader:
             "A" : "add",
             "D" : "delete",
             "M" : "modify",
+            'N' : "",
         }
 
         changeListName = "";
@@ -94,18 +95,25 @@ class SvnUploader:
                         file = arr [1];
                         mode = arr [0];
 
-                        info["file"] = file;
-                        info["mode"] = mode;
-                        mname = map[mode];
-                        info["status"] = mname;
-                    else:
-                        file = arr[0];
-                        info["file"] = file;
-                        info["mode"] = "?";
-                        info["status"] = "unversion";
+                        if len(mode) >= 2:
+                            file_status     = mode [0];
+                            prop_status     = mode [1];
+                        else:
+                            file_status     = mode [0];
+                            prop_status     = "N";
 
-                    # print (arr);
-                    # print ("Add To changeListMap %s => %s" % (changeListName, info ["file"]))
+                        info["file"]        = file;
+                        info["mode"]        = file_status;
+                        info["status"]      = map [file_status];
+                        info["propstatus"]  = map [prop_status];
+
+                    else:
+                        file                = arr[0];
+                        info["file"]        = file;
+                        info["mode"]        = "?";
+                        info["status"]      = "unversion";
+                        info["propstatus"]  = "";
+
                     self.changeListMap[changeListName].append (info);
                     continue;
                 else:
@@ -116,18 +124,23 @@ class SvnUploader:
                     msg = msg [i:].strip(' ');
                     file = msg.replace("\\","/")
 
-                # if not self.isInDelay(file):
                     info = {};
                     info ["file"] = file;
                     info ["mode"] = mode;
 
-                    mname = map [mode];
-                    info["status"] = mname;
+                    if len(mode) >= 2:
+                        file_status = mode[0];
+                        prop_status = mode[1];
+                    else:
+                        file_status = mode[0];
+                        prop_status = "N";
 
-                    # print("Add To changeList => %s" % (info["file"]))
+                    info["file"] = file;
+                    info["mode"] = file_status;
+                    info["status"] = map[file_status];
+                    info["propstatus"] = map[prop_status];
+
                     self.changesList.append (info);
-                # else:
-                #     print ("Skip delayFile %s" % file);
 
         return self.changesList;
         pass
@@ -137,44 +150,59 @@ class SvnUploader:
         for key in self.changeListMap:
             list = self.changeListMap [key];
             print ("删除 Changelist %s..." % key)
+
+            target_file = os.path.join(self.svnroot, key);
+            if os.path.exists(target_file):
+                os.remove(target_file);
+                pass
+
             for i in range(len(list)):
                 item = list [i];
                 file = item ["file"];
 
                 cmdstr = "svn cl --remove %s" % file;
-                Commander().do (cmdstr,self.svnroot,noPrint=True);
+                self.doSvnCmd (cmdstr,self.svnroot,noPrint=True);
 
         self.changeListMap = {};
         print("删除所有修改列表完成");
 
-    def setResListChangeList(self,name):
+    def setChangeList (self,name,callback):
         print("设置修改列表 %s..." % name)
-        for i in range(len(self.changesList)):
-            info = self.changesList [i];
-            file = info ["file"];
-            status = info ["status"];
 
-            if self.isInDelay(file):
-                continue;
+        if len(self.changeListMap.keys()) > 0:
+            print ("检测到还有changelist，需要重新筛选修改列表...");
+            self.removeAllChangeLists();
+            self.fetchChanges ();
 
-            if status == "unversion":
-                # print ("%s is unversion file ,add to svn version..." % file);
-                print("添加修改列表 添加 %s" % file)
-                cmdstr = '''svn add %s''' % (file);
-                Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
+        name_add = name + "_add.tqp";
+        name_del = name + "_del.tqp";
+        name_mod = name + "_mod.tqp"
 
-            elif status == "missing":
-                print("添加修改列表 删除 %s" % file)
-                cmdstr = '''svn delete %s''' % (file);
-                Commander().do(cmdstr, cwd=self.svnroot, noPrint=True);
-                pass
-            else:
-                print("添加修改列表 修改 %s => %s" % (name,file))
+        with open(os.path.join(self.svnroot,name_add),mode="w+") as afile:
+            with open(os.path.join(self.svnroot,name_del),mode="w+") as dfile:
+                with open(os.path.join(self.svnroot,name_mod),mode="w+") as cfile:
+                    for i in range(len(self.changesList)):
+                        info = self.changesList [i];
+                        filepath = info ["file"];
+                        status = info ["status"];
 
-            cmdstr = '''svn cl %s %s''' % (name,file);
+                        if filepath.find (".tqp") >= 0:
+                            continue;
 
-            # print (cmdstr);
-            self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
+                        if callback and True == callback(filepath):
+                            continue;
+
+                        if status == "unversion":
+                            print("添加增加列表 %9s 添加 %s" % (name,filepath))
+                            afile.write(filepath + "\n");
+
+                        elif status == "missing":
+                            print("添加修改列表 %9s 删除 %s" % (name,filepath))
+                            dfile.write(filepath + "\n");
+                            # continue;
+
+                        cfile.write (filepath + "\n");
+
         print("设置修改列表 %s 完成." % name)
         pass
 
@@ -184,12 +212,36 @@ class SvnUploader:
             info = self.changesList [i];
             file = info ["file"];
             status = info ["status"];
-            print("%8s %s" % (status, file))
+            print("%12s %s" % (status, file))
 
         pass
 
     def doSvnCmd (self, cmd, cwd=None, env=None, encoding=None, noPrint=False):
-        return Commander ().do (cmd,cwd,env,encoding,noPrint);
+        msgs = Commander ().do (cmd,cwd,env,encoding,noPrint);
+
+        hasErr = False;
+        hasOutDated = False;
+
+        if noPrint == True:
+            for k in range(len(msgs)):
+                msg = msgs [k];
+                if msg.find ("svn: E") >= 0 or msg.find("svn: warning") >= 0:
+                    hasErr = True;
+
+                if msg.find("is out of date") >= 0:
+                    hasOutDated = True;
+
+            if hasErr:
+                for k in range(len(msgs)):
+                    msg = msgs[k];
+                    print (msg);
+
+        if hasOutDated:
+            print ("需要更新...")
+            self.update();
+
+        return msgs;
+
         pass
 
     def update(self):
@@ -205,38 +257,61 @@ class SvnUploader:
             # status = info ["status"];
             print("=> %s" % (file))
 
-    def setDelayListChangeList(self,name):
 
-        if len(self.changeListMap.keys()) > 0:
-            print ("Warnnig . has changeListMap . need Remove it first");
-            self.removeAllChangeLists();
-            self.fetchChanges ();
+    def _checkResouce(self,filepath):
+        return self.isInDelay(filepath);
 
-        print("设置修改列表 %s..." % name)
-        for i in range(len(self.delayConfigs)):
-            file = self.delayConfigs [i];
-            # file = info ["file"];
-            # status = info ["status"];
-            if not self.isInChangeList (file):
-               continue;
-
-            cmdstr = '''svn cl %s %s''' % (name,file);
-
-            # print (cmdstr);
-            self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
-
-        print("设置修改列表 %s 完成." % name)
-
+    def setResListChangeList(self,name):
+        self.setChangeList(name,self._checkResouce);
         pass
+
+    def _checkVersion(self,filepath):
+        return not self.isInDelay(filepath);
+
+    def setDelayListChangeList(self,name):
+        self.setChangeList(name,self._checkVersion);
+        pass
+
+    def deletFile(self,name):
+        target_file = os.path.join(self.svnroot,name);
+        if os.path.exists(target_file):
+            os.remove(target_file);
+            pass
 
     def uploadChangeList(self,name,msg):
 
-        print ("正在上传修改列表 %s..." % name);
+        name_add = name + "_add.tqp";
+        name_del = name + "_del.tqp";
+        name_mod = name + "_mod.tqp"
 
-        cmdstr = '''svn commit --changelist %s -m "%s"''' % (name,msg);
-        # print (cmdstr);
-        self.doSvnCmd (cmdstr,cwd=self.svnroot);
+        name_del_fullpath = os.path.join(self.svnroot,name_del);
+        with open(name_del_fullpath,"r") as file:
+            lines = file.readlines();
+
+        if len(lines) > 0:
+            print ("正在添加删除列表 %s..." % name);
+            cmdstr = '''svn delete --force --keep-local --targets %s ''' % (name_del);
+            self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
+            print("添加删除列表 %s 完成" % name);
+
+        name_add_fullpath = os.path.join(self.svnroot,name_add);
+        with open(name_add_fullpath,"r") as file:
+            lines = file.readlines();
+
+        if len(lines) > 0:
+            print ("正在添加修改列表 %s..." % name);
+            cmdstr = '''svn add --targets %s ''' % (name_add);
+            self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=True);
+            print("添加修改列表 %s 完成" % name);
+
+        print ("正在上传修改列表 %s..." % name);
+        cmdstr = '''svn commit --targets %s -m "%s"''' % (name_mod,msg);
+        self.doSvnCmd (cmdstr,cwd=self.svnroot,noPrint=False);
         print("上传修改列表 %s 完成" % name);
+
+        self.deletFile (name_add);
+        self.deletFile (name_del);
+        self.deletFile (name_mod);
 
         pass
 
