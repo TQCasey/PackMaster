@@ -1943,6 +1943,14 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+
+                '''
+                res cmm 
+                '''
+                if ("res/cmm/%s" % hallName) in filepathGame:
+                    list32[filepathGame] = filepathMd5;
+                    list64[filepathGame] = filepathMd5;
+
         '''
         ===========================================================================================
         == hall 
