@@ -860,6 +860,43 @@ class PageConfig(object):
             print("配置页保存OK，" + self.cbox_config.currentText() + "_Config.json saved successfully..")
         pass
 
+class ReleaseVersion:
+    def __init__(self):
+        pass
+
+    def load(self,path):
+        """
+        load lua config
+        """
+        filename = path;
+        try:
+            file = open(filename, encoding='utf-8');
+            content = file.read();
+
+            lua_func = lua.eval(
+                '''function (pyprint) 
+                    print = function (...) 
+                        local args = {...}; 
+                        pyprint (table.unpack (args)); 
+                    end  
+                end'''
+            );
+            lua_func(print);
+            self.versionTbl = lua.execute(content);
+
+        except Exception as err:
+            errmsg(err);
+
+        pass
+
+    def getVersion(self):
+        RELEASE_TIME = self.versionTbl.RELEASE_TIME;
+        # print (RELEASE_TIME);
+        return RELEASE_TIME;
+        pass
+
+gReleaseVersion = ReleaseVersion ();
+
 
 class LuaPM():
     def __init__(self):

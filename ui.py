@@ -24,7 +24,7 @@ from iconmaker import IconMakerDialog
 from svnuploader import SvnUploader
 from tools.Logger.logger import DebugLogger
 from preference import PreferDialog
-from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM
+from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion
 
 from whitelist import WhiteListDialog
 
@@ -61,8 +61,8 @@ class ThreadBaseClass(QThread):
         self.msgbox_ret = None;
         return ret;
 
-    def inputbox(self,title):
-        rinputbox (title);
+    def inputbox(self,dict):
+        rinputbox (dict);
         while self.inputInfo == None:
             time.sleep(0.3);
 
@@ -415,14 +415,15 @@ class SvnUploadThread(ThreadBaseClass):
             delaysubmit_path = self.dict ["delaysubmit_path"];
             cnd_url = self.dict ["cnd_url"];
 
+            isDebugServer = self.dict ["isDebugServer"];
+            isWhitelistUpdate = self.dict ["isWhitelistUpdate"];
 
             svnldr = SvnUploader();
             svnldr.setRepRoot(project_dir);
             svnldr.setDelayConfigFile(delaysubmit_path)
             svnldr.setNetworkUrl(cnd_url);
 
-            if 1024 == self.askbox("\n需要将svn更新到最新，请仔细确认\n\n"):
-                svnldr.update();
+            # svnldr.update();
 
             svnldr.makeCDNVerifyFile();
 
@@ -433,7 +434,10 @@ class SvnUploadThread(ThreadBaseClass):
             svnldr.setResListChangeList('resource');
             svnldr.setDelayListChangeList('version');
 
-            info = self.inputbox("准备提交资源，请务必确认一次，如果ok，请输入此次提交的内容描述:");
+            info = self.inputbox({
+                "title" : "准备提交资源，请务必确认一次，如果ok，请输入此次提交的内容描述:",
+            });
+
             ret = info ["ret"];
             msg = info ["msg"];
 
@@ -452,6 +456,34 @@ class SvnUploadThread(ThreadBaseClass):
                             isLoop = False;
                             if 1024 == self.askbox("\n验证OK了，开始提交版本文件么?\n\n"):
                                 svnldr.uploadChangeList('version', msg);
+
+                                gReleaseVersion.load(os.path.join(project_dir,"hall","domino_version.lua"));
+                                version = gReleaseVersion.getVersion();
+
+                                srvType = "内网";
+                                if not isDebugServer:
+                                    srvType = "正式服";
+
+                                typmsg = "非白名单";
+                                if isWhitelistUpdate:
+                                    typmsg = "白名单"
+
+                                # msg = "1.askoashdhasdhasdhk.\n2.ashdfkjahsjkdfhkjasdhfkahfj";
+                                text = \
+'''
+==============================================================================
+%s-%s更新,版本号 %s
+==============================================================================
+%s
+                                ''' % (srvType, typmsg, version, msg)
+
+                                self.inputbox({
+                                    "title": "恭喜了，恭喜了,提交成功，把下面的信息发布出去给小伙伴们分享吧",
+                                    "text": text,
+                                    "readonly": True,
+                                })
+                            pass
+
                         else:
                             if 1024 == self.askbox("\n验证失败了，重试么?\n\n"):
                                 print("验证失败，请排查问题...");
@@ -515,13 +547,13 @@ class PublishAllThread(ThreadBaseClass):
 
             pack.startPublishAll();
 
-            if 1024 == self.askbox ("是否将发布代码更新到最新"):
-                print("自动更新到最新....");
+            if 1024 == self.askbox ("是否将 %s 目录更新到最新" % (pack.publish_dir)):
+                print("%s 目录更新到最新...." % (pack.publish_dir));
                 if isMacOS():
                     cmdstr = '''cd %s && svn up''' % (os.path.join(pack.publish_dir))
                 else:
                     cmdstr = '''cd /d %s && svn up''' % (os.path.join(pack.publish_dir))
-                print (cmdstr);
+                # print (cmdstr);
                 Commander().do(cmdstr);
 
             pack.publishBaseAndHall();
@@ -1310,6 +1342,8 @@ class MainWindow(QMainWindow):
             dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
             dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir,"delaysubmit.json");
             dict["cnd_url"] = "http://hot.fg-domino.com/CynkingGame/" + distdir;
+            dict["isDebugServer"] = False;
+            dict["isWhitelistUpdate"] = distdir == "dev";
 
         else:
             if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
@@ -1318,7 +1352,9 @@ class MainWindow(QMainWindow):
                 dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots");
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
                 dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir,"delaysubmit.json");
-                dict["cnd_url"] = "http://172.20.11.248:8990/" + distdir
+                dict["cnd_url"] = "http://172.20.11.248:8990/" + distdir;
+                dict["isDebugServer"] = True;
+                dict["isWhitelistUpdate"] = distdir == "dev";
 
             else:
                 dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir);
@@ -1326,6 +1362,8 @@ class MainWindow(QMainWindow):
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
                 dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir,"delaysubmit.json");
                 dict["cnd_url"] = "http://172.20.11.248:8991/" + distdir
+                dict["isDebugServer"] = True;
+                dict["isWhitelistUpdate"] = distdir == "dev";
 
         thread = SvnUploadThread (self, None, dict);
         thread.start();
@@ -2134,8 +2172,8 @@ class MainWindow(QMainWindow):
         # gsignal.msg_ret_trigger.emit (ret);
 
 
-    def onInputBox(self,title):
-        info = inputdlg (self,title);
+    def onInputBox(self,dict):
+        info = inputdlg (self,dict);
         msg = info ["msg"];
         ret = info ["ret"];
         gsignal.input_ret_trigger.emit (info);
