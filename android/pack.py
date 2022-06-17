@@ -44,6 +44,7 @@ class PackAndroid(PackCommon):
         self.lua_project_dir    = os.path.join(platconfig.project_dir);
         self.lua_src_dir        = os.path.join(platconfig.project_dir,"client");
         self.publish_dir        = os.path.join(platconfig.project_dir,"client","publish");
+
         self.dst_ch_project_dir = os.path.join(self.dst_project_dir,"app");
         self.use_ios            = False;
 

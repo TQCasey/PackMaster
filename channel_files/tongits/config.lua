@@ -29,7 +29,7 @@ return {
 
     
     relese_config = {
-        hotupdate_cfg = "http://hot-update.s3.amazonaws.com";
+        hotupdate_cfg = "http://fg-domino.com:8089";
         hotupdate_zip = "http://hot.fg-domino.com";
         noticeurl     = "http://init.fg-domino.com/notices.lastest.json?r=%d";
         configurl     = "http://init.fg-domino.com/configs.network.fan_mm.json?r=%d";

@@ -28,6 +28,8 @@ class ChangeListDlg(QDialog):
             self.tableWidget_changelist = self.findChild(QTableWidget,"tableWidget_changelist")
             self.label_tips = self.findChild(QLabel,"label_tips");
 
+            self.tableWidget_changelist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
             if hasBaseAndHallChanged == False:
                 self.pushButton_add_hallnum.setVisible(False);
                 self.label_tips.setVisible (False);
@@ -41,31 +43,28 @@ class ChangeListDlg(QDialog):
             self.tableWidget_changelist.setRowCount(len(changedlist) - 0)
 
             map = {
-                "?" : ("增加",Qt.QColor (0x00,0xff,0)),
-                "A" : ("增加",Qt.QColor (0x00,0xff,0)),
-                "!" : ("删除",Qt.QColor (0xff,0,0)),
-                "D" : ("删除",Qt.QColor (0xff,0,0)),
-                "M" : ("修改",Qt.QColor (0,0,0xff)),
-                ">" : ("修改",Qt.QColor (0,0,0xff)),
-                "Summary" : ("冲突",Qt.QColor (0xff,0,0)),
-                "Text" : ("Text",Qt.QColor (0xff,0,0))
+                "add" : ("增加",Qt.QColor (0x00,0xff,0)),
+                "unversion" : ("增加",Qt.QColor (0x00,0xff,0)),
+                "missing" : ("删除",Qt.QColor (0xff,0,0)),
+                "delete" : ("删除",Qt.QColor (0xff,0,0)),
+                "modify" : ("修改",Qt.QColor (0,0,0xff)),
             }
             for index in range(len(changedlist)):
 
                 changeinfo = changedlist [index];
+                file = changeinfo ["file"];
+                status = changeinfo ["status"];
 
-                '''filepath'''
-                tlistitem = QTableWidgetItem (changeinfo [0]);
+                tlistitem = QTableWidgetItem (file);
                 self.tableWidget_changelist.setItem (index,0,tlistitem);
                 # tlistitem.setAlignment(Qt.Qt.AlignCenter)
 
-                '''mode'''
-                modstr = map [changeinfo [1]] [0];
-                color = map [changeinfo [1]] [1]
+                modstr  = map [status] [0];
+                color   = map [status] [1];
+
                 modeitem = QTableWidgetItem (modstr);
                 self.tableWidget_changelist.setItem (index,1,modeitem);
                 modeitem.setBackground (color)
-                # modeitem.setAlignment(Qt.Qt.AlignCenter)
 
             self.pushButton_remain_hallnum.clicked.connect (self.onRemainHallNum);
             self.pushButton_add_hallnum.clicked.connect (self.onAddHallNum);

@@ -21,10 +21,12 @@ class GSignal(QObject):
     done_trigger = pyqtSignal(int);
     clear_trigger = pyqtSignal();
     msgbox_trigger = pyqtSignal (str);
+    input_trigger = pyqtSignal (str);
     auth_trigger = pyqtSignal ();
 
     ask_box_trigger = pyqtSignal (str);
     msg_ret_trigger = pyqtSignal (int);
+    input_ret_trigger = pyqtSignal (dict);
 
     alert_changelist_trigger = pyqtSignal(dict);
     alert_ret_changelist_trigger = pyqtSignal (int);
@@ -49,6 +51,10 @@ def getAcctInfo():
 def rmsgbox(msg):
     if gsignal.msgbox_trigger and msg:
         gsignal.msgbox_trigger.emit (str(msg));
+
+def rinputbox(title):
+    if gsignal.input_trigger and title:
+        gsignal.input_trigger.emit (str(title));
 
 def raskbox(msg):
     if gsignal.ask_box_trigger and msg:

@@ -11,6 +11,8 @@ import json
 
 from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
+from svnuploader import SvnUploader
+
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
@@ -281,6 +283,9 @@ class PackCommon:
             jsonFileName32 = "%s_32_filemd5.json" % (hallName)
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b32_md5 = self._fileMd5(jsonFilePath);
+
+            # print ("==> filepath %s ,md5_32 %s" % (jsonFilePath,b32_md5))
+
             return b32_md5;
         else:
             '''
@@ -289,6 +294,8 @@ class PackCommon:
             jsonFileName32 = "%s_64_filemd5.json" % (hallName)
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b64_md5 = self._fileMd5(jsonFilePath);
+
+            # print("==> filepath %s ,md5_64 %s" % (jsonFilePath, b64_md5))
 
             return b64_md5;
 
@@ -336,6 +343,7 @@ class PackCommon:
                 32bit 
                 '''
                 md5str32 = self.makeGameFileMd5ForHallName(hallName, game, False);
+
                 if md5str32 != "":
                     hallinfo32[game] = {};
                     hallinfo32[game]['version'] = version;
@@ -353,7 +361,7 @@ class PackCommon:
                     hallinfo64[game]['md5info'] = md5str64;
 
                 '''
-                asserts_gamesConfig.json
+                asserts_gamesVesion.json
                 '''
                 singleGameConfigPath = os.path.join(baseDir, game, "%s_version.lua" % (hallName));
                 singlestr = '''
@@ -483,20 +491,10 @@ return {
         '''dest dir'''
         self.publish_dir = dict["project_dir"];
         self.whitelist_path = dict ["whitelist_path"];
+        self.hotupdate_dir_root = dict ["hotupdate_dir_root"];
 
         if not os.path.exists(self.publish_dir):
             os.makedirs(self.publish_dir);
-
-        if not isMacOS():
-            print ("自动同步到最新时间...");
-            Commander ().do('''w32tm /config /manualpeerlist:"210.72.145.44" /syncfromflags:manual /reliable:yes /update''');
-
-        print ("自动更新到最新....");
-        if isMacOS():
-            cmdstr = '''cd %s && svn up''' % (os.path.join(self.publish_dir))
-        else:
-            cmdstr = '''cd /d %s && svn up''' % (os.path.join(self.publish_dir))
-        Commander ().do(cmdstr);
 
 
     def publishGame(self):
@@ -561,33 +559,20 @@ return {
         pass
 
     def figureoutChangedInfo(self):
-        cmdstr = '''svn status''';
-        msgs = Commander ().do(cmdstr,noPrint=True,cwd = os.path.join(self.publish_dir));
 
-        real_files = [];
-        for key in range(len(msgs)):
-            msg = msgs [key];
-            i = msg.rfind(" ");
-            k = msg.find (" ");
-            mode = msg[:k].strip(" ");
-            msg = msg [i:].strip(' ');
-            file = msg.replace("\\","/")
 
-            if "filemd5" in file or "_version" in file or "gamesConfig.json" in file:
-                continue;
-
-            if "config_version" in file or "config_auto" in file:
-                continue;
-
-            real_files.append((file,mode));
+        svnldr = SvnUploader();
+        svnldr.setRepRoot(self.publish_dir);
+        changeslist = svnldr.fetchChanges();
 
         hasBaseAndHallChanged = False;
         gamesChangedArr = [];
 
         # print ("##### Changed Files: ");
-        for key in range(len(real_files)):
-            file = real_files [key][0];
-            # print (file);
+        for key in range(len(changeslist)):
+            info = changeslist [key];
+
+            file = info ["file"];
 
             if file.find("base/") == 0:
                 hasBaseAndHallChanged = True;
@@ -597,7 +582,6 @@ return {
                 glen = len("game/");
                 j = file.find("/",glen);
                 gameName = file [glen:j];
-                # print ("##### %s game Changed" % (gameName));
                 gamesChangedArr.append(gameName);
             pass
         pass
@@ -605,7 +589,7 @@ return {
         dict = {};
         dict ['gamesChangedArr'] = gamesChangedArr;
         dict ['hasBaseAndHallChanged']  = hasBaseAndHallChanged;
-        dict ['changelist'] = real_files;
+        dict ['changelist'] = changeslist;
         dict ['hallNum'] = self.curChConfig.hallnum;
 
         return dict;
@@ -698,6 +682,107 @@ return {
         ## make whitelist.json
         self.makeWhiteList ();
 
+        pass
+
+    def doFinalThing1(self,update_version_trigger):
+
+        try:
+
+            delaySumitFiles = [];
+            renameFileLists = [];
+
+            hallList = gPMConfig.getHallList();
+            for hallName in hallList:
+                path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
+                # print ("Hall version Path => %s" % path);
+
+                path = path.replace("\\", "/");
+                delaySumitFiles.append(path);
+
+                gamedir = os.path.join(self.publish_dir, "game");
+
+                gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
+                gamesConfig32 = gamesConfig32.replace("\\", "/");
+                delaySumitFiles.append(gamesConfig32);
+
+                gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
+                gamesConfig64 = gamesConfig64.replace("\\", "/");
+                delaySumitFiles.append(gamesConfig64);
+
+                '''
+                games
+                '''
+                list = self.game_list;
+                for i in range(len(list)):
+                    gname = list[i];
+                    if self.isInGameList(gname):
+                        gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
+                        # print ("HallGame %s ,Game %s => %s" % (hallName,gname, gpath));
+                        gpath = gpath.replace("\\", "/");
+                        delaySumitFiles.append(gpath);
+                    pass
+                pass
+            pass
+
+            all = os.walk(self.publish_dir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+                    native_filepath = os.path.join(path,filename);
+                    filepath = native_filepath.replace("\\", "/");
+                    # print(filepath);
+
+                    isIn = False;
+                    for dfilepath in delaySumitFiles:
+                        if dfilepath == filepath:
+                            isIn = True;
+                            break;
+
+                    if not isIn:
+                        renameFileLists.append(filepath);
+
+                    pass
+
+            remain_old_file = True;
+
+            '''
+            重新命名成后缀md5文件
+            '''
+            print("重新生成md5，稍等 1-2分钟...")
+            for filepath in renameFileLists:
+                # print("发布文件 %s " % filepath);
+                file_md5 = self._fileMd5(filepath);
+                new_native_filepath = filepath + "." + file_md5;
+                if os.path.exists(filepath) and not os.path.exists(new_native_filepath):
+                    if remain_old_file:
+                        shutil.copyfile(filepath,new_native_filepath)
+                    else:
+                        os.rename(filepath, new_native_filepath);
+
+            print("删除旧delaySubmit文件...")
+            dirs = os.listdir(self.publish_dir);
+            for dir in dirs:
+                if dir.find("delaysubmit") >= 0:
+                    os.remove(os.path.join(self.publish_dir,dir));
+                pass
+
+            '''
+            生成delaySubmit.txt文件
+            '''
+            print("生成延迟提交文件...")
+            pub_len = len(self.publish_dir) + 1;
+            delayJsonArr = [];
+            for filepath in delaySumitFiles:
+                sub_path = filepath[pub_len:];
+                delayJsonArr.append(sub_path);
+
+            delayConfigPath = os.path.join(self.publish_dir,"delaysubmit.json");
+            with open (delayConfigPath,"w+") as f:
+                f.write(json.dumps(delayJsonArr));
+
+
+        except Exception as err:
+            errmsg(err);
         pass
 
     def makeWhiteList(self):
