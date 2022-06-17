@@ -457,6 +457,7 @@ class SvnUploadThread(ThreadBaseClass):
                                 print("验证失败，请排查问题...");
                             else:
                                 print ("验证失败，您取消了验证，请排查问题...")
+                                isLoop = False;
 
             pass
 
@@ -1308,7 +1309,7 @@ class MainWindow(QMainWindow):
             dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dis");
             dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", "navigator.json");
             dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dis", distdir,"delaysubmit.json");
-            dict["cnd_url"] = "http://hot.fg-domino.com/CynkingGame/dist"
+            dict["cnd_url"] = "http://hot.fg-domino.com/CynkingGame/" + distdir;
 
         else:
             if self.checkBox_slots_update.checkState() == Qt.Qt.Checked:
@@ -1317,14 +1318,14 @@ class MainWindow(QMainWindow):
                 dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots");
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
                 dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir,"delaysubmit.json");
-                dict["cnd_url"] = "http://172.20.11.248:8990/dev"
+                dict["cnd_url"] = "http://172.20.11.248:8990/" + distdir
 
             else:
                 dict["project_dir"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir);
                 dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev");
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev","navigator.json");
                 dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev", distdir,"delaysubmit.json");
-                dict["cnd_url"] = "http://172.20.11.248:8991/dev"
+                dict["cnd_url"] = "http://172.20.11.248:8991/" + distdir
 
         thread = SvnUploadThread (self, None, dict);
         thread.start();
