@@ -1868,6 +1868,13 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+                '''
+                res cmm 
+                '''
+                if "res/cmm" in filepathGame:
+                    list32[filepathGame] = filepathMd5;
+                    list64[filepathGame] = filepathMd5;
+
 
         '''
         ===========================================================================================
