@@ -724,6 +724,13 @@ return {
                     if "netverify_" in filepath:
                         continue;
 
+                    '''
+                    已经打过md5
+                    '''
+                    file = os.path.splitext(filepath);
+                    if len(file[1]) > 8:
+                        continue;
+                        
                     isIn = False;
                     for dfilepath in delaySumitFiles:
                         if dfilepath == filepath:
