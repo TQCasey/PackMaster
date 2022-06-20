@@ -14,6 +14,7 @@ class SvnUploader:
         self.delayConfigs = [];
         self.changesList = [];
         self.changeListMap = {};
+        self.devChangeList = [];
         self.urlPrefix = "";
         self.verifyFile = "";
         self.verifyContent = "";
@@ -362,3 +363,34 @@ class SvnUploader:
         self.verifyContent = self.make_time;
 
         return True;
+
+    def fetchDevChange(self):
+
+        count = 0;
+        none_count = 0;
+
+        self.devChangeList = [];
+
+        for key in range(len(self.changesList)):
+            value = self.changesList [key];
+            filepath = value ['file'];
+
+            if self.isInDelay(filepath):
+                none_count = none_count + 1;
+                continue;
+
+            if "filemd5.json" in filepath:
+                none_count = none_count + 1;
+                continue;
+
+            if "src64" in filepath:
+                none_count = none_count + 1;
+                continue;
+
+            count = count + 1;
+            # print (value);
+
+            self.devChangeList.append(value);
+
+        return self.devChangeList;
+        pass

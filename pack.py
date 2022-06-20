@@ -563,7 +563,9 @@ return {
 
         svnldr = SvnUploader();
         svnldr.setRepRoot(self.publish_dir);
-        changeslist = svnldr.fetchChanges();
+        svnldr.fetchChanges();
+        svnldr.setDelayConfigFile(os.path.join(self.publish_dir,"delaysubmit.json"));
+        changeslist = svnldr.fetchDevChange();
 
         hasBaseAndHallChanged = False;
         gamesChangedArr = [];
@@ -594,7 +596,7 @@ return {
 
         return dict;
 
-    def doLastThing(self,update_version_trigger,gamesChangedArr,hallNum):
+    def doLastThing(self,update_version_trigger,hallNum):
 
         if not hallNum:
             hallNum = self.curChConfig.hallnum;
@@ -643,27 +645,6 @@ return {
         games_info = dict['games_info'];
         if not games_info:
             return;
-
-        for key in range(len(gamesChangedArr)):
-            gname = gamesChangedArr [key];
-
-            index = -1;
-            # print (dict['games_info'])
-            for i in range(len(dict['games_info'])):
-                minfo = dict['games_info'] [i];
-                if minfo ["gname"] == gname:
-                    index = i;
-                    break;
-
-            if index < 0:
-                continue;
-
-            info = dict['games_info'][index];
-            if not info:
-                info = {};
-
-            info ['hallnum'] = str(hallNum);
-            dict['games_info'] [index] = info;
 
         ## make configs
         dict ["main"] = {};

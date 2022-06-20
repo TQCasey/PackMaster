@@ -559,23 +559,15 @@ class PublishAllThread(ThreadBaseClass):
             pack.publishBaseAndHall();
             pack.publishGame();
 
-            dict = pack.figureoutChangedInfo();
-            gamesChangedArr = dict["gamesChangedArr"];
-            hasBaseAndHallChanged = dict["hasBaseAndHallChanged"];
-            hallNum = dict['hallNum'];
-
-            ret = self.ask_changeList(dict);
-            if ret == 2:
-                if hasBaseAndHallChanged:
-                    hallNum = str(int(hallNum) + 1);
-                    print("Base Hall files changed...,Hall Num : %s " % (hallNum));
-
-            pack.doLastThing(self.update_version_trigger, gamesChangedArr, hallNum);
+            pack.doLastThing(self.update_version_trigger,None);
 
             '''
             最终包1
             '''
             pack.doFinalThing1(self.update_version_trigger);
+
+            dict = pack.figureoutChangedInfo();
+            self.ask_changeList(dict);
 
         except Exception as err:
             errmsg(err);

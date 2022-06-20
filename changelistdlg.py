@@ -23,17 +23,17 @@ class ChangeListDlg(QDialog):
         try:
             loadUi(os.path.join("ui",'changelist.ui'), self)
 
-            self.pushButton_remain_hallnum = self.findChild(QPushButton,"pushButton_remain_hallnum");
-            self.pushButton_add_hallnum = self.findChild(QPushButton,"pushButton_add_hallnum");
+            # self.pushButton_remain_hallnum = self.findChild(QPushButton,"pushButton_remain_hallnum");
+            # self.pushButton_add_hallnum = self.findChild(QPushButton,"pushButton_add_hallnum");
             self.tableWidget_changelist = self.findChild(QTableWidget,"tableWidget_changelist")
             self.label_tips = self.findChild(QLabel,"label_tips");
 
             self.tableWidget_changelist.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
-            if hasBaseAndHallChanged == False:
-                self.pushButton_add_hallnum.setVisible(False);
-                self.label_tips.setVisible (False);
-                self.pushButton_remain_hallnum.setText ("OK")
+            # if hasBaseAndHallChanged == False:
+            #     self.pushButton_add_hallnum.setVisible(False);
+            #     self.label_tips.setVisible (False);
+            #     self.pushButton_remain_hallnum.setText ("OK")
 
 
             header = self.tableWidget_changelist.horizontalHeader()
@@ -66,8 +66,8 @@ class ChangeListDlg(QDialog):
                 self.tableWidget_changelist.setItem (index,1,modeitem);
                 modeitem.setBackground (color)
 
-            self.pushButton_remain_hallnum.clicked.connect (self.onRemainHallNum);
-            self.pushButton_add_hallnum.clicked.connect (self.onAddHallNum);
+            # self.pushButton_remain_hallnum.clicked.connect (self.onRemainHallNum);
+            # self.pushButton_add_hallnum.clicked.connect (self.onAddHallNum);
 
         except Exception as err:
             errmsg(err);
