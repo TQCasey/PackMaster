@@ -672,6 +672,8 @@ return {
             delaySumitFiles = [];
             renameFileLists = [];
 
+            delaySumitFiles.append("delaysubmit.json");
+
             hallList = gPMConfig.getHallList();
             for hallName in hallList:
                 path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
@@ -713,11 +715,13 @@ return {
                     filepath = native_filepath.replace("\\", "/");
                     # print(filepath);
 
-                    '''
-                    已经打过md5
-                    '''
-                    file = os.path.splitext(filepath);
-                    if len(file[1]) > 8:
+                    if ".svn" in filepath:
+                        continue;
+
+                    if ".DS_Store" in filepath:
+                        continue;
+
+                    if "netverify_" in filepath:
                         continue;
 
                     isIn = False;
@@ -736,7 +740,16 @@ return {
             '''
             重新命名成后缀md5文件
             '''
-            print("重新生成md5，稍等 1-2分钟...")
+            print("最后的步骤，稍等 1-2分钟...")
+
+            print("删除旧CDN验证文件...")
+            dirs = os.listdir(self.publish_dir);
+            for dir in dirs:
+                if dir.find("netverify_") >= 0:
+                    os.remove(os.path.join(self.publish_dir, dir));
+                pass
+
+            print("正在生成md5文件...")
             for filepath in renameFileLists:
                 # print("发布文件 %s " % filepath);
                 file_md5 = self._fileMd5(filepath);
@@ -768,6 +781,7 @@ return {
             with open (delayConfigPath,"w+") as f:
                 f.write(json.dumps(delayJsonArr));
 
+            print("生成延迟提交文件完成")
 
         except Exception as err:
             errmsg(err);
