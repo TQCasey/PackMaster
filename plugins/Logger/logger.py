@@ -7,14 +7,14 @@ import time
 
 from PyQt5.QtWidgets import (QApplication, QDialog, QPushButton, QTextBrowser, QComboBox, QStyle, QLineEdit,
                             QTableWidget, QHeaderView, QAbstractItemView, QTableWidgetItem)
-from PyQt5.QtGui import QCursor, QFont, QTextCursor, QTextBlock, QTextCharFormat, QColor
-from PyQt5.QtCore import QEvent, pyqtSignal, QPoint
+from PyQt5.QtGui import QCursor, QFont, QTextCursor, QTextCharFormat, QColor
+from PyQt5.QtCore import QEvent
 from PyQt5.uic import loadUi
 from PyQt5.Qt import Qt
 
 import jsonpickle
 from cmm import *
-from tools.Logger.main import Logger
+from plugins.Logger.main import Logger
 
 
 '''

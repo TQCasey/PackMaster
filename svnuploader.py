@@ -18,6 +18,7 @@ class SvnUploader:
         self.urlPrefix = "";
         self.verifyFile = "";
         self.verifyContent = "";
+        self.delayConfigFile = "";
         self.make_time = time.strftime("%Y%m%d%H%M%S", time.localtime());
         pass
 

@@ -1,14 +1,12 @@
-import copy
 import hashlib
 import time
 import re
 import jsonpickle
-import json
 
 import pexpect as pexpect
 from PyQt5 import Qt, QtCore, QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal, QSize, QRect, QStringListModel
-from PyQt5.QtGui import QStandardItemModel, QStandardItem, QIntValidator, QIcon
+from PyQt5.QtCore import QThread
+from PyQt5.QtGui import QIntValidator, QIcon
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUi
 from android.gameprofile import GameProfileDialogAndroid
@@ -22,7 +20,7 @@ from ios.pack import PackIOS, PackH5IOS
 from langman import LangManDialog
 from iconmaker import IconMakerDialog
 from svnuploader import SvnUploader
-from tools.Logger.logger import DebugLogger
+from plugins.Logger.logger import DebugLogger
 from preference import PreferDialog
 from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion
 
@@ -572,6 +570,7 @@ class PublishAllThread(ThreadBaseClass):
         except Exception as err:
             errmsg(err);
         finally:
+            print ("恭喜恭喜，生成大厅热更成功了 !,今天那可以买体彩大乐透");
             rmsgbox("恭喜恭喜，生成大厅热更成功了 !\n今天那可以买体彩大乐透\n");
             self.saybye();
 
