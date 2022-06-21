@@ -137,8 +137,8 @@ class DebugLogger (QDialog):
     '''读取配置表'''
     def readConfig(self):
         curgame = self.cbo_game.currentText();
-        filename = os.path.join(os.getcwd(), 'tools', 'Logger', 'config', curgame + 'Config.json')
-        configPath = os.path.join(os.getcwd(), 'tools', 'Logger', 'config.json')
+        filename = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config', curgame + 'Config.json')
+        configPath = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config.json')
 
         if os.path.exists(filename):
             with open(filename, 'r') as file:
@@ -173,7 +173,7 @@ class DebugLogger (QDialog):
             self.m_config['side_width'] = 670;
 
         curgame = self.cbo_game.currentText();
-        filename = os.path.join(os.getcwd(), 'tools', 'Logger', 'config', curgame + 'Config.json')
+        filename = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config', curgame + 'Config.json')
         if os.path.exists (filename):
             with open(filename, 'w') as file:
                 file.write(jsonpickle.encode(self.m_config))
@@ -766,7 +766,7 @@ class DebugLogger (QDialog):
             if side_width != size.width():
                 self.m_config['side_width'] = size.width();
                 curgame = self.cbo_game.currentText();
-                filename = os.path.join(os.getcwd(), 'tools', 'Logger', 'config', curgame + 'Config.json')
+                filename = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config', curgame + 'Config.json')
                 with open(filename, 'w') as file:
                     file.write(jsonpickle.encode(self.m_config))
 

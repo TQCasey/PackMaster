@@ -1007,9 +1007,9 @@ class Logger():
 
     def initConfig(self):
         try:
-            path = os.path.join(os.getcwd(), 'tools', 'Logger', 'config', self.m_game + 'Config.json')
+            path = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config', self.m_game + 'Config.json')
             if not os.path.exists(path):
-                path = os.path.join(os.getcwd(), 'tools', 'Logger', 'config.json')
+                path = os.path.join(os.getcwd(), 'plugins', 'Logger', 'config.json')
             
             with open(path, 'r') as file:
                 jsonstr = file.read();
