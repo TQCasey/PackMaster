@@ -3,6 +3,8 @@
 #import "CCLuaBridge.h"
 #import <CommonCrypto/CommonDigest.h>
 
+#import "zip/SSZipArchive.h"
+
 enum {
     ITEM_FREE,
     ITEM_DOWNLOADING,
@@ -169,8 +171,27 @@ NSMutableDictionary *url_map;
                     [data writeToFile:item.cachePath atomically:YES];
                     NSLog(@"Download OK : %@",item.cachePath);
                     path = item.cachePath;
+                    
                     // all happy
                     item.state = ITEM_DONE;
+                    
+                    //
+                    // additional operation
+                    // note that if we failed with unzipping file
+                    // we still mark the isOK be false
+                    // 2022/6/22 casey
+                    //
+                    if ([item.cachePath hasSuffix:@".zip"]) {
+                        NSLog(@"UNzip %@ to %@",item.cachePath,dirname);
+                        BOOL isSuccess = [SSZipArchive unzipFileAtPath:item.cachePath toDestination:dirname progressHandler : ^(NSString *entry, unz_file_info zipInfo, long entryNumber, long total) {
+                            
+                        } completionHandler:^(NSString *path, BOOL succeeded, NSError * _Nullable error) {
+                            if (NO == succeeded) {
+                            }
+                        }];
+                    }
+                    
+                    // if we failed with unzippping file , we still need to notify the callers succeed
                     
                 } else {
                     item.state = ITEM_FREE;
