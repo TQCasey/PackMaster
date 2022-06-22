@@ -178,7 +178,7 @@ NSMutableDictionary *url_map;
                     //
                     // additional operation
                     // note that if we failed with unzipping file
-                    // we still mark the isOK be false
+                    // we still mark the isOK be true
                     // 2022/6/22 casey
                     //
                     if ([item.cachePath hasSuffix:@".zip"]) {
