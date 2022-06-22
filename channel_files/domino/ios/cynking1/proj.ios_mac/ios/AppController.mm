@@ -73,6 +73,7 @@ NSTimer * adTimer;
 int adRetryTimes = 0;
 BOOL isPickerForHead = true;
 BOOL bHasAdLoaded = false;
+BOOL bStartVideoEnded = false;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -295,6 +296,7 @@ BOOL bHasAdLoaded = false;
             [self hideTopImage];
         }else if (item.status == AVPlayerItemStatusFailed){
             //播放失败
+            bStartVideoEnded  = true;
             NSLog(@"video play failed.");
             cocos2d::Application *app = cocos2d::Application::getInstance();
             app->run();
@@ -305,6 +307,12 @@ BOOL bHasAdLoaded = false;
 /* 播放视频结束 */
 - (void)videoFinishListener
 {
+    if (bStartVideoEnded) {
+        return;
+    }
+
+    bStartVideoEnded  = true;
+
     cocos2d::Application *app = cocos2d::Application::getInstance();
     app->run();
     
@@ -546,9 +554,11 @@ BOOL bHasAdLoaded = false;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // 继续播放
-    if (_playLayerVC)
-        [_playLayerVC.player play];
+
+    if (!bStartVideoEnded) {
+        [self videoFinishListener];
+        return ;
+    }
     
     /*
      Called as part of  transition from the background to the inactive state: here you can undo many of the changes made on entering the background.
