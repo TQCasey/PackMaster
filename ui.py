@@ -1343,7 +1343,7 @@ class MainWindow(QMainWindow):
                 dict["hotupdate_dir_root"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots");
                 dict["whitelist_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots","navigator.json");
                 dict["delaysubmit_path"] = os.path.join(platconfig.project_dir, "client_publish_dev_slots", distdir,"delaysubmit.json");
-                dict["cnd_url"] = "http://172.20.11.248:8990/" + distdir;
+                dict["cnd_url"] = "http://172.20.11.248:8992/" + distdir;
                 dict["isDebugServer"] = True;
                 dict["isWhitelistUpdate"] = distdir == "dev";
 
