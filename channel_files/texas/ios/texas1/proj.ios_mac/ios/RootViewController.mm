@@ -273,6 +273,7 @@
         
         item["result"] = LuaValue::intValue(result);
         item["uid"] = LuaValue::stringValue([userIdOrErrCode UTF8String]);
+		item["code"] = LuaValue::stringValue([code UTF8String]);
         item["token"] = LuaValue::stringValue([tokenStr UTF8String]);
         item["name"] = LuaValue::stringValue([name UTF8String]);
         LuaBridge::getStack()->pushLuaValueDict(item);
@@ -346,7 +347,7 @@
         // 可以直接登录
          NSLog(@"userIdentifier: %@", userIdentifier);
          NSLog(@"password: %@", password);
-        [self appleLoginCallBack:0 uid:userIdentifier authorizeCode:password token:nil name:nil];
+        [self appleLoginCallBack:0 uid:userIdentifier authorizeCode:@"" token:nil name:nil];
     }
 }
 
@@ -375,7 +376,7 @@ API_AVAILABLE(ios(13.0)){
             break;
     }
     NSLog(@"Authorization error: %@", errorMsg);
-    [self appleLoginCallBack:1 uid:errorMsg authorizeCode:nil token:nil name:nil];
+    [self appleLoginCallBack:1 uid:errorMsg authorizeCode:@"" token:nil name:nil];
 }
 
 -(void)checkAuthoriza API_AVAILABLE(ios(13.0)){
