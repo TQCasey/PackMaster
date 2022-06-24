@@ -728,7 +728,7 @@ return {
                     已经打过md5
                     '''
                     file = os.path.splitext(filepath);
-                    if len(file[1]) > 8:
+                    if len(file[1]) > 20:
                         continue;
                         
                     isIn = False;
