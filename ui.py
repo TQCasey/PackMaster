@@ -27,6 +27,9 @@ from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gL
 from whitelist import WhiteListDialog
 
 
+'''
+线程基类
+'''
 class ThreadBaseClass(QThread):
     def __init__(self, parent=None, luaglobals=None, dict=None):
         super(ThreadBaseClass, self).__init__();
@@ -908,6 +911,7 @@ class MainWindow(QMainWindow):
 
         self.pushButton_sym_tbl = self.findChild(QPushButton, "pushButton_sym_tbl");
         self.btn_load_publish_games = self.findChild(QPushButton, "btn_load_publish_games");
+        self.btn_sync_autotex = self.findChild(QPushButton,"btn_sync_autotex");
 
         self.compress_texture = self.findChild(QGroupBox, "compress_texture")
 
@@ -922,6 +926,7 @@ class MainWindow(QMainWindow):
         self.btn_load_publish_games.clicked.connect(self.onLoadPublishGames);
         self.checkBox_slots_update.clicked.connect(self.onSlotsUpdate)
         self.btn_svn_submit.clicked.connect (self.onSubmitClicked)
+        self.btn_sync_autotex.clicked.connect (self.onSyncAutoTex)
 
         self.btn_logger.clicked.connect(self.onLogger);
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
@@ -1293,6 +1298,10 @@ class MainWindow(QMainWindow):
         self.onShowErrorOnly();
         self.initLockedList();
         self.onLockHallNum();
+
+    def onSyncAutoTex(self):
+        print ("生成自动图集...")
+        pass
 
     def onSubmitClicked(self):
 
