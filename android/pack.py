@@ -15,15 +15,16 @@ from profile import gLuaPM
 
 class PackAndroid(PackCommon):
 
-    def __init__(self,pmconfig,luaglobals,dict,batch_pack = False):
-        super().__init__(pmconfig,None,dict,batch_pack);
+    def __init__(self,pmconfig,luaglobals = None,dict = None,batch_pack = False):
+        super().__init__(pmconfig,luaglobals,dict,batch_pack);
 
         platconfig              = self.getPlatSettings();
 
         self.aab_path           = None;
         self.engine_dir         = os.path.join(platconfig.project_dir);
         self.src_ch_project_dir = os.path.join("channel_files", self.curGameHallName,"android", self.chName);
-        
+        self.dict               = dict;
+
         # 优先使用渠道模板，然后游戏版本
         chlconfig               = gLuaPM.chConifg (self.hallName,self.chName);
 

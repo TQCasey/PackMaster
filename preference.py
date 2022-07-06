@@ -19,8 +19,6 @@ class PreferDialogBase(QDialog):
         self.btn_ndk_dir    = self.findChild(QPushButton,"btn_ndk_dir");
         self.btn_exe_dir    = self.findChild(QPushButton,"btn_exe_dir");
 
-        self.btn_quick_dir = self.findChild(QPushButton,"btn_quick_dir");
-        self.btn_ant_dir = self.findChild(QPushButton,"btn_ant_dir");
         self.btn_sdk_dir = self.findChild(QPushButton,"btn_sdk_dir");
 
         self.lineEdit_engine_dir = self.findChild(QLineEdit,"lineEdit_engine_dir");
@@ -31,8 +29,6 @@ class PreferDialogBase(QDialog):
         self.lineEdit_local_server_ip = self.findChild(QLineEdit,"lineEdit_local_server_ip");
         self.lineEdit_ndk_dir = self.findChild(QLineEdit,"lineEdit_ndk_dir");
         self.lineEdit_exe_dir = self.findChild(QLineEdit,"lineEdit_exe_dir");
-        self.lineEdit_quick_dir = self.findChild(QLineEdit,"lineEdit_quick_dir");
-        self.lineEdit_ant_dir   = self.findChild(QLineEdit,"lineEdit_ant_dir");
         self.lineEdit_sdk_dir   = self.findChild(QLineEdit,"lineEdit_sdk_dir");
         self.lineEdit_proxy_str = self.findChild(QLineEdit,"lineEdit_proxy_str");
         self.lineEdit_svn_str = self.findChild(QLineEdit,"lineEdit_svn_str");
@@ -43,8 +39,6 @@ class PreferDialogBase(QDialog):
 
         self.btn_ok         = self.findChild(QPushButton,"btn_ok");
 
-        self.btn_quick_dir.clicked.connect (self.onQuickDir);
-        self.btn_ant_dir.clicked.connect (self.onAntDir);
         self.btn_sdk_dir.clicked.connect (self.onSDKDir);
 
         self.btn_engine_dir.clicked.connect (self.onChooseEngineDir);
@@ -68,30 +62,6 @@ class PreferDialogBase(QDialog):
 
         except Exception as err:
             errmsg (err);
-        pass
-
-    def onQuickDir(self):
-
-        try:
-            # dirname = QFileDialog.getExistingDirectory(self,"选择quick3.5目录");
-            dirname = os.path.join(os.getcwd(),"quick-3.5");
-            self.lineEdit_quick_dir.setText (dirname);
-
-        except Exception as err:
-            errmsg (err);
-        pass
-
-        pass
-
-    def onAntDir(self):
-        try:
-            dirname = QFileDialog.getExistingDirectory(self,"选择ant目录");
-            self.lineEdit_ant_dir.setText (dirname);
-
-        except Exception as err:
-            errmsg (err);
-        pass
-
         pass
 
     def onGenIMEIClicked(self):
@@ -202,16 +172,6 @@ class PreferDialogBase(QDialog):
             e.ignore ();
             return ;
 
-        if self.platconfig.quick_dir == "":
-            MsgBox().msg ("Quick3.5目录为空!");
-            e.ignore ();
-            return ;
-
-        if isWin() and self.platconfig.ant_dir == "":
-            MsgBox().msg ("ANT目录为空!");
-            e.ignore ();
-            return ;
-
         if isWin() and self.platconfig.sdk_dir == "":
             MsgBox().msg ("SDK目录为空!");
             e.ignore ();
@@ -247,8 +207,6 @@ class PreferDialogBase(QDialog):
         self.platconfig.exe_dir = self.lineEdit_exe_dir.displayText ().strip ();
         self.platconfig.srv_ip = self.lineEdit_local_server_ip.displayText ().strip ();
 
-        self.platconfig.quick_dir = self.lineEdit_quick_dir.displayText ().strip ();
-        self.platconfig.ant_dir = self.lineEdit_ant_dir.displayText ().strip ();
         self.platconfig.sdk_dir = self.lineEdit_sdk_dir.displayText ().strip ();
 
         self.platconfig.proxy_str = self.lineEdit_proxy_str.displayText ().strip ();
@@ -285,8 +243,6 @@ class PreferDialogAndroid(PreferDialogBase):
         self.lineEdit_local_server_ip.setText (config.srv_ip.strip ());
         self.lineEdit_project_dir.setText (config.project_dir.strip ());
 
-        self.safeSetKey (config,"ant_dir");
-        self.safeSetKey (config,"quick_dir");
         self.safeSetKey (config,"sdk_dir");
         self.safeSetKey (config,"exe_dir");
         self.safeSetKey (config,"proxy_str");
@@ -294,8 +250,6 @@ class PreferDialogAndroid(PreferDialogBase):
         self.safeSetKey (config, "beefont_str");
 
         self.lineEdit_exe_dir.setText(config.exe_dir.strip());
-        self.lineEdit_ant_dir.setText (config.ant_dir.strip ());
-        self.lineEdit_quick_dir.setText (config.quick_dir.strip ());
         self.lineEdit_sdk_dir.setText (config.sdk_dir.strip ());
         self.lineEdit_proxy_str.setText (config.proxy_str.strip ());
         self.lineEdit_svn_str.setText(config.svn_str.strip());
@@ -326,7 +280,6 @@ class PreferDialogIOS(PreferDialogBase):
         self.lineEdit_ndk_dir.setEnabled (False);
         self.lineEdit_exe_dir.setEnabled (False);
         self.btn_sdk_dir.setEnabled (False);
-        self.btn_ant_dir.setEnabled (False);
 
         # self.btn_project_dir.setEnabled (False);
         # self.lineEdit_project_dir.setEnabled (False);
@@ -349,15 +302,11 @@ class PreferDialogIOS(PreferDialogBase):
         self.lineEdit_local_server_ip.setText (config.srv_ip.strip ());
         self.lineEdit_project_dir.setText (config.project_dir.strip ());
 
-        self.safeSetKey (config,"ant_dir");
-        self.safeSetKey (config,"quick_dir");
         self.safeSetKey (config,"sdk_dir");
         self.safeSetKey (config,"exe_dir");
         self.safeSetKey (config,"proxy_str");
 
         self.lineEdit_exe_dir.setText(config.exe_dir.strip());
-        self.lineEdit_ant_dir.setText (config.ant_dir.strip ());
-        self.lineEdit_quick_dir.setText (config.quick_dir.strip ());
         self.lineEdit_sdk_dir.setText (config.sdk_dir.strip ());
         self.lineEdit_proxy_str.setText (config.proxy_str.strip ());
         # self.lineEdit_svn_str.setText(config.svn_str.strip());
