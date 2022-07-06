@@ -194,7 +194,7 @@ class PackCommon:
                       '--format cocos2d '
                       '--data %s '
                       '--sheet %s '
-                      '--opt RGBA4444 '
+                      '--opt RGBA8888 '
                       '--max-width 4096 '
                       '--max-height 4096 '
                       '--trim-mode Trim '
@@ -202,12 +202,12 @@ class PackCommon:
                       '--algorithm MaxRects '
                       '--maxrects-heuristics Best '
                       '--pack-mode Best '
-                      '--scale 0.88 '
+                      '--scale 1 '
                       '--basic-sort-by Best '
                       '--dither-fs-alpha '
                       ' %s '
                       # ' --png-opt-level 4 '
-                      '--padding 0 %s' % (cmd,plistfile, pngfile, packdir,ext_args))
+                      '--padding 0 %s' % (cmd,plistfile, pngfile, ext_args,packdir))
 
             Commander().do(cmdstr);
 
@@ -275,6 +275,11 @@ class PackCommon:
 
                     sub_md5 = "";
 
+                    if "ext_args" in datas:
+                        ext_args = datas["ext_args"] or "";
+                    else:
+                        ext_args = "";
+
                     sub_all = os.walk(auto_dir);
                     for sub_path, sub_dir, sub_filelist in sub_all:
                         for sub_filename in sub_filelist:
@@ -296,13 +301,15 @@ class PackCommon:
                         dest_dict ["png_md5"] = png_md5
                         dest_dict ["plist_md5"] = plist_md5
                         dest_dict ["dir_md5"] = content_md5;
+                        dest_dict ["ext_args"] = ext_args;
                     else:
                         '''
                         检测md5，如果subdir的md5变化了，那么重新生成png和plist
                         '''
                         if content_md5 != datas ["dir_md5"]:
                             print ("检测到散图变化，将会重新生成图集");
-                            self.repackTex(plist_file,png_file,auto_dir,"");
+
+                            self.repackTex(plist_file,png_file,auto_dir,ext_args);
 
                             png_md5 = self._fileMd5(png_file);
                             plist_md5 = self._fileMd5(plist_file);
@@ -310,6 +317,7 @@ class PackCommon:
                             dest_dict["dir_md5"] = content_md5;
                             dest_dict["plist_md5"] = plist_md5
                             dest_dict["png_md5"] = png_md5;
+                            dest_dict["ext_args"] = ext_args;
 
                             pass
                         else:
