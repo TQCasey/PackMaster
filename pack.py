@@ -275,7 +275,7 @@ class PackCommon:
 
                     sub_md5 = "";
 
-                    if "ext_args" in datas:
+                    if datas and "ext_args" in datas:
                         ext_args = datas["ext_args"] or "";
                     else:
                         ext_args = "";
