@@ -306,7 +306,7 @@ class PackCommon:
                         '''
                         检测md5，如果subdir的md5变化了，那么重新生成png和plist
                         '''
-                        if content_md5 != datas ["dir_md5"]:
+                        if not datas or content_md5 != datas ["dir_md5"]:
                             print ("检测到散图变化，将会重新生成图集");
 
                             self.repackTex(plist_file,png_file,auto_dir,ext_args);
