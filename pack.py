@@ -251,6 +251,11 @@ class PackCommon:
 
                     if not os.path.exists(auto_dir):
                         errmsg("存在yaml文件，但散图目录不存在 %s ,自动拆解散图" % auto_dir)
+
+                        if not os.path.exists(plist_file) or not os.path.exists(png_file):
+                            errmsg("警告 ==> 拆解散图，没有找到 png 或者 plist 文件，视为无效自动图集");
+                            continue;
+
                         UnpackPngSheet (auto_dir,auto_dir)
                         errmsg("自动拆解完成 %s " % auto_dir)
 
