@@ -11,6 +11,7 @@ from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
 from svnuploader import SvnUploader
 
+from plugins.unpacktex.unpacktex import UnpackPngSheet
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
@@ -245,14 +246,16 @@ class PackCommon:
                     filen,filext = os.path.splitext(filename);
                     auto_dir = os.path.join(lua_dir,path,filen);
 
+                    png_file = yaml_file.replace(".yaml",".png");
+                    plist_file = yaml_file.replace(".yaml",".plist");
+
                     if not os.path.exists(auto_dir):
-                        errmsg("警告 ==> 存在yaml文件，但是文件散图目录不存在 %s " % auto_dir)
-                        continue;
+                        errmsg("存在yaml文件，但散图目录不存在 %s ,自动拆解散图" % auto_dir)
+                        UnpackPngSheet (auto_dir,auto_dir)
+                        errmsg("自动拆解完成 %s " % auto_dir)
 
                     dest_dict = {};
 
-                    png_file = yaml_file.replace(".yaml",".png");
-                    plist_file = yaml_file.replace(".yaml",".plist");
                     if (not os.path.exists(png_file) or not os.path.exists(plist_file)) and isSetup:
                         errmsg("警告 ==> 存在yaml文件，初始化模式下，图集资源不存在 %s ,将会依据散图生成图集" % png_file)
                         isInit = False;
