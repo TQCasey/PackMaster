@@ -175,10 +175,16 @@ public class AdMobileUtil {
                                 }
 
                             @Override
-                            public void onAdVideoError(TPAdInfo tpAdInfo) {
+                            public void onAdVideoError(TPAdInfo tpAdInfo, TPAdError tpAdError) {
                                 Log.i(TRAD_PLUS_TAG, "onAdVideoError: " + tpAdInfo.toString());
                                 isFBReardLoading = true;
                             }
+
+                            @Override
+                            public void onAdPlayAgainReward(TPAdInfo tpAdInfo) {
+                                // play again
+                            }
+
                         });
                     } else {
                         mTpReward.loadAd();
