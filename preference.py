@@ -14,7 +14,6 @@ class PreferDialogBase(QDialog):
         self.loadSettings ();
 
         self.btn_engine_dir = self.findChild(QPushButton,"btn_engine_dir");
-        self.btn_aapt_dir   = self.findChild(QPushButton,"btn_aapt_dir");
         self.btn_project_dir = self.findChild(QPushButton,"btn_project_dir");
         self.btn_ndk_dir    = self.findChild(QPushButton,"btn_ndk_dir");
         self.btn_exe_dir    = self.findChild(QPushButton,"btn_exe_dir");
@@ -24,7 +23,6 @@ class PreferDialogBase(QDialog):
         self.lineEdit_engine_dir = self.findChild(QLineEdit,"lineEdit_engine_dir");
         self.lineEdit_imei = self.findChild(QLineEdit,"lineEdit_imei");
         self.lineEdit_macid = self.findChild(QLineEdit,"lineEdit_macid");
-        self.lineEdit_aapt_dir = self.findChild(QLineEdit,"lineEdit_aapt_dir");
         self.lineEdit_project_dir = self.findChild(QLineEdit,"lineEdit_project_dir");
         self.lineEdit_local_server_ip = self.findChild(QLineEdit,"lineEdit_local_server_ip");
         self.lineEdit_ndk_dir = self.findChild(QLineEdit,"lineEdit_ndk_dir");
@@ -42,7 +40,6 @@ class PreferDialogBase(QDialog):
         self.btn_sdk_dir.clicked.connect (self.onSDKDir);
 
         self.btn_engine_dir.clicked.connect (self.onChooseEngineDir);
-        self.btn_aapt_dir.clicked.connect (self.onChooseAAPTDir);
         self.btn_project_dir.clicked.connect (self.onChooseProjectDir);
         self.btn_ndk_dir.clicked.connect (self.onChooseNDKDir);
         self.btn_exe_dir.clicked.connect (self.onChooseExeDir);
@@ -85,14 +82,6 @@ class PreferDialogBase(QDialog):
 
         except Exception as err:
             errmsg (err);
-        pass
-
-    def onChooseAAPTDir(self):
-        try:
-            dirname = QFileDialog.getExistingDirectory(self,"选择aapt.exe目录");
-            self.lineEdit_aapt_dir.setText(dirname);
-        except Exception as err:
-            errmsg(err);
         pass
 
     def onChooseProjectDir(self):
@@ -200,7 +189,6 @@ class PreferDialogBase(QDialog):
     def getSettings (self):
         self.platconfig.engine_dir = self.lineEdit_engine_dir.displayText ().strip ();
         self.platconfig.project_dir = self.lineEdit_project_dir.displayText ().strip ();
-        self.platconfig.aapt_dir = self.lineEdit_aapt_dir.displayText ().strip ();
         self.platconfig.macid = self.lineEdit_macid.displayText ().strip ();
         self.platconfig.imei = self.lineEdit_imei.displayText ().strip ();
         self.platconfig.ndk_dir = self.lineEdit_ndk_dir.displayText ().strip ();
@@ -238,7 +226,6 @@ class PreferDialogAndroid(PreferDialogBase):
         self.lineEdit_engine_dir.setText (config.engine_dir.strip ());
         self.lineEdit_imei.setText (config.imei.strip ());
         self.lineEdit_macid.setText (config.macid.strip ());
-        self.lineEdit_aapt_dir.setText(config.aapt_dir.strip ());
         self.lineEdit_ndk_dir.setText (config.ndk_dir.strip ());
         self.lineEdit_local_server_ip.setText (config.srv_ip.strip ());
         self.lineEdit_project_dir.setText (config.project_dir.strip ());
@@ -272,10 +259,6 @@ class PreferDialogIOS(PreferDialogBase):
     def __init__(self, parent=None):
         super(PreferDialogIOS, self).__init__(parent)
 
-        ## special for IOS
-        self.btn_aapt_dir.setEnabled (False);
-        self.lineEdit_aapt_dir.setEnabled (False);
-
         self.btn_ndk_dir.setEnabled (False);
         self.lineEdit_ndk_dir.setEnabled (False);
         self.lineEdit_exe_dir.setEnabled (False);
@@ -297,7 +280,6 @@ class PreferDialogIOS(PreferDialogBase):
         self.lineEdit_engine_dir.setText (config.engine_dir.strip ());
         self.lineEdit_imei.setText (config.imei.strip ());
         self.lineEdit_macid.setText (config.macid.strip ());
-        self.lineEdit_aapt_dir.setText(config.aapt_dir.strip ());
         self.lineEdit_ndk_dir.setText (config.ndk_dir.strip ());
         self.lineEdit_local_server_ip.setText (config.srv_ip.strip ());
         self.lineEdit_project_dir.setText (config.project_dir.strip ());
