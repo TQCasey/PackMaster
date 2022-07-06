@@ -350,7 +350,7 @@ class Commander:
 
         new_env = os.environ.copy()
 
-        quick_dir = os.path.join("quick-3.5")
+        quick_dir = os.path.join(os.getcwd(),"quick-3.5");
 
         new_env['NDK_ROOT'] = platconfig.ndk_dir;
         new_env['ANDROID_SDK_ROOT'] = platconfig.sdk_dir;
