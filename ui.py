@@ -212,6 +212,37 @@ class ExportIpaThread(ThreadBaseClass):
             done_pack(0);
 
 
+'''
+生成自动图集
+'''
+class SyncAutoTexThread(ThreadBaseClass):
+
+    def __init__(self, parent,luaglobals,dict):
+        super(SyncAutoTexThread, self).__init__(parent,luaglobals,dict);
+        self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
+        self.mainObj = parent;
+        self.dict = dict;
+
+        start_pack();
+
+    def run(self):
+
+        try:
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(self.pmconfig,None, self.dict);
+            elif isWin():
+                pack = PackAndroid(self.pmconfig,None, self.dict);
+
+            pack.syncAutoTex();
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            done_pack(0);
+
+
 """
 检查语法线程
 """
@@ -317,8 +348,6 @@ class MakeConfigThread(ThreadBaseClass):
 """
 生成assets线程
 """
-
-
 class MakeAssetsThread(ThreadBaseClass):
     def run(self):
 
@@ -785,7 +814,7 @@ class MakePushCertThread(ThreadBaseClass):
             done_pack(0);
 
 """
-生成ios推送参数线程
+清理Xcode Profile 文件缓存
 """
 class CleanProfileThread(ThreadBaseClass):
     def run(self):
@@ -1300,7 +1329,36 @@ class MainWindow(QMainWindow):
         self.onLockHallNum();
 
     def onSyncAutoTex(self):
-        print ("生成自动图集...")
+
+        self.getPMConfig();
+
+        if not self.isThreadEnd("auto_tex"):
+            return;
+
+        dict = {};
+
+        msg = '''
+################## 正在生成自动图集    ##################   
+
+请确保没有文件被占用
+请选择生成模式 
+
+Yes)    则刷新自动图集，将会根据散图和配置覆盖生成图集
+No )    否则初始化模式，将会兼容现有图集
+Cancel) 取消则退出
+
+        '''
+        ret = MsgBox().yesno(msg);
+        if (QMessageBox.Yes == ret):
+            dict ["isSetup"] = False;
+        elif (QMessageBox.No == ret):
+            dict ["isSetup"] = True;
+        else:
+            return;
+
+        thread = SyncAutoTexThread(self,None,dict);
+        thread.start();
+        self.threads["auto_tex"] = thread;
         pass
 
     def onSubmitClicked(self):
@@ -1313,7 +1371,7 @@ class MainWindow(QMainWindow):
         dict = {};
 
         if (self.checkBox_whitelist.checkState() == QtCore.Qt.Checked):
-            preMsg = "##################\n 请在提交白名单热更 \n##################\n";
+            preMsg = "##################\n 正在提交白名单热更 \n##################\n";
             distdir = "dev";
         else:
             preMsg = "##################\n    正在提交热更   \n##################\n";

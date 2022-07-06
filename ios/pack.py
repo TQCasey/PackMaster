@@ -7,8 +7,8 @@ from profile import *
 
 
 class PackIOS(PackCommon):
-    def __init__(self, pmconfig, luaglobals,batch_pack = False):
-        super().__init__(pmconfig, None,batch_pack);
+    def __init__(self, pmconfig, luaglobals = None,dict = None,batch_pack = False):
+        super().__init__(pmconfig, luaglobals,dict,batch_pack);
 
         platconfig = self.getPlatSettings();
         path = platconfig.engine_dir;
@@ -29,6 +29,7 @@ class PackIOS(PackCommon):
         self.ipa_path = "";
         self.arch_path = "";
         self.use_ios    = True;
+        self.dict = dict;
 
         self.plist_group = self.luaChConfig.plist_group;
         if not self.plist_group:
