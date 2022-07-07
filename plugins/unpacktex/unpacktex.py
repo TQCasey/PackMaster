@@ -1,5 +1,5 @@
 import plistlib
-# from cmm import *
+from cmm import *
 
 import os, sys
 import errno
@@ -136,6 +136,32 @@ def gen_png_from_plist(plist_filename, png_filename):
     if (len(images_info_dict) > 0):
         do_crop_images(big_image, file_path, images_info_dict)
 
+def is_supported_plist(plist_filename, png_filename):
+    root = ElementTree.fromstring(open(plist_filename, 'r',encoding='utf8').read())
+    plist_dict = tree_to_dict(root[0])
+
+    if "metadata" not in plist_dict:
+        return False;
+
+    if "format" not in plist_dict["metadata"]:
+        return False;
+
+    plist_format = plist_dict["metadata"]["format"]
+
+    isSupported = False;
+    if (plist_format == 0):
+        isSupported = True;
+    elif (plist_format == 1):
+        isSupported = True;
+    elif (plist_format == 2):
+        isSupported = True;
+    elif (plist_format == 3):
+        isSupported = False;
+    else:
+        isSupported = False;
+
+    return isSupported;
+
 
 if __name__ == '__main__':
     # filename = 'D:\\HYGame\\client\\base\\res\\style\\dark\\AdMob\\JBguanggao0'
@@ -148,44 +174,26 @@ if __name__ == '__main__':
         print
         "make sure you have boith plist and png files in the same directory"
 
-# 生成图片
-def UnpackPngSheet(file_name, export_path):
-    # 检查文件是否存在
+def UnpackPngSheet(file_name):
     plist = file_name + '.plist'
     if not os.path.exists(plist):
-        print('plist文件【%s】不存在！请检查' % plist)
+        print('plist %s 不存在' % plist)
         return
 
     png = file_name + '.png'
     if not os.path.exists(png):
-        print('png文件【%s】不存在！请检查' % plist)
+        print('png %s 不存在' % png)
         return
 
     gen_png_from_plist(plist, png)
 
-    # # 检查导出目录
-    # if not os.path.exists(export_path):
-    #     try:
-    #         os.mkdir(export_path)
-    #     except Exception as e:
-    #         print(e)
-    #         return
-    #
-    # # 使用plistlib库加载 plist 文件
-    # lp = plistlib.load(open(plist, 'rb'))
-    # # 加载 png 图片文件
-    # img = Image.open(file_name + '.png')
-    #
-    # # 读取所有小图数据
-    # frames = lp['frames']
-    # for key in frames:
-    #     item = get_frame(frames[key])
-    #     export_image(img, os.path.join(export_path, key), item)
+def IsSupportedList(file_name):
+    plist = file_name + '.plist'
+    if not os.path.exists(plist):
+        return False
 
+    png = file_name + '.png'
+    if not os.path.exists(png):
+        return False;
 
-# Press the green button in the gutter to run the script.
-# if __name__ == '__main__':
-#     if len(sys.argv) == 3:
-#         filename = sys.argv[1]
-#         exportPath = sys.argv[2]
-#         gen_image(filename, exportPath)
+    return is_supported_plist(plist, png)

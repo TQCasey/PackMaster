@@ -22,7 +22,7 @@ from iconmaker import IconMakerDialog
 from svnuploader import SvnUploader
 from plugins.Logger.logger import DebugLogger
 from preference import PreferDialog
-from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion
+from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion,get_home_dir
 
 from whitelist import WhiteListDialog
 
@@ -242,6 +242,35 @@ class SyncAutoTexThread(ThreadBaseClass):
         finally:
             done_pack(0);
 
+'''
+生成图集yaml
+'''
+class MakeYamlThread(ThreadBaseClass):
+
+    def __init__(self, parent,luaglobals,dict):
+        super(MakeYamlThread, self).__init__(parent,luaglobals,dict);
+        self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
+        self.mainObj = parent;
+        self.dict = dict;
+
+        start_pack();
+
+    def run(self):
+
+        try:
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(self.pmconfig,None, self.dict);
+            elif isWin():
+                pack = PackAndroid(self.pmconfig,None, self.dict);
+
+            pack.makeYaml();
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            done_pack(0);
 
 """
 检查语法线程
@@ -941,6 +970,7 @@ class MainWindow(QMainWindow):
         self.pushButton_sym_tbl = self.findChild(QPushButton, "pushButton_sym_tbl");
         self.btn_load_publish_games = self.findChild(QPushButton, "btn_load_publish_games");
         self.btn_sync_autotex = self.findChild(QPushButton,"btn_sync_autotex");
+        self.btn_make_yaml = self.findChild(QPushButton,"btn_make_yaml");
 
         self.compress_texture = self.findChild(QGroupBox, "compress_texture")
 
@@ -958,6 +988,7 @@ class MainWindow(QMainWindow):
         self.btn_sync_autotex.clicked.connect (self.onSyncAutoTex)
 
         self.btn_logger.clicked.connect(self.onLogger);
+        self.btn_make_yaml.clicked.connect (self.onMakeYaml)
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
 
         # 搜索按钮
@@ -1327,6 +1358,18 @@ class MainWindow(QMainWindow):
         self.onShowErrorOnly();
         self.initLockedList();
         self.onLockHallNum();
+
+    def onMakeYaml(self):
+        self.getPMConfig();
+
+        if not self.isThreadEnd("make_yaml"):
+            return;
+
+        dict = {};
+
+        thread = MakeYamlThread(self, None, dict);
+        thread.start();
+        self.threads["make_yaml"] = thread;
 
     def onSyncAutoTex(self):
 
@@ -2487,6 +2530,20 @@ Cancel) 取消则退出
             self.whiltelist_dialog.show();
             pass
 
+        elif text == "LoadSettings":
+            print ("加載配置文件")
+            try:
+                filename, filetype = QFileDialog.getOpenFileName(self, "选择配置文件",
+                                                                 get_home_dir(),
+                                                                 "Json Files (*.json)");
+                print(filename);
+                print(filetype);
+
+            except Exception as err:
+                errmsg(err)
+
+            pass
+
         '''Click对象名称'''
         name = "";
         if object != None:
@@ -3161,7 +3218,6 @@ Cancel) 取消则退出
             self.safeGetSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
             self.safeGetSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
             self.safeGetSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
-            self.safeGetSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
             self.safeGetSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''
@@ -3215,7 +3271,6 @@ Cancel) 取消则退出
             self.safeRestoreSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
             self.safeRestoreSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
             self.safeRestoreSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
-            self.safeRestoreSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
             self.safeRestoreSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''

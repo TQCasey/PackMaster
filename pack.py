@@ -11,7 +11,7 @@ from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
 from svnuploader import SvnUploader
 
-from plugins.unpacktex.unpacktex import UnpackPngSheet
+from plugins.unpacktex.unpacktex import UnpackPngSheet,IsSupportedList
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
@@ -214,6 +214,58 @@ class PackCommon:
         except Exception as err:
             errmsg(err);
 
+    def makeYaml(self):
+        try:
+
+            lua_dir = self.lua_src_dir;
+
+            all = os.walk(lua_dir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+
+                    if not filename.endswith(".plist"):
+                        continue;
+
+
+                    plist_file = os.path.join(lua_dir, path, filename);
+
+                    png_file = plist_file.replace(".plist", ".png");
+                    yaml_file = plist_file.replace(".plist", ".yaml");
+
+                    '''
+                    已经有yaml
+                    '''
+                    if os.path.exists(yaml_file):
+                        continue;
+
+                    '''
+                    检测是否有png
+                    '''
+                    if not os.path.exists(png_file):
+                        continue;
+
+
+                    '''
+                    检测是否是支持的plist 
+                    '''
+                    filen, filext = os.path.splitext(filename);
+                    check_name = os.path.join(lua_dir, path, filen);
+                    if not IsSupportedList(check_name):
+                        continue;
+
+
+                    '''
+                    创建yaml
+                    '''
+                    print ("创建 %s " % (yaml_file))
+                    with open(yaml_file, "w+") as file:
+                        pass
+            pass
+
+        except Exception as err:
+            errmsg(err);
+
     def syncAutoTex(self):
         try:
 
@@ -256,7 +308,7 @@ class PackCommon:
                             errmsg("警告 ==> 拆解散图，没有找到 png 或者 plist 文件，视为无效自动图集");
                             continue;
 
-                        UnpackPngSheet (auto_dir,auto_dir)
+                        UnpackPngSheet (auto_dir)
                         errmsg("自动拆解完成 %s " % auto_dir)
 
                     dest_dict = {};

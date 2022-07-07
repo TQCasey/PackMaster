@@ -77,7 +77,6 @@ class PKConfig(object):
         self.use_no_aes_php = False;
         self.use_no_gzip_php = False;
         self.use_can_log = False;
-        self.use_game_hall_no_zip = False;
         self.use_local_srv_ip = False;
         self.use_pvr = False;
         self.use_rgba8888 = False;
@@ -684,12 +683,27 @@ gWhiteList = WhiteList(white_list_path);
 gWhiteList.load();
 
 
+def get_home_dir():
+    '''
+    获得家目录
+    :return:
+    '''
+    if sys.platform == 'win32':
+        homedir = os.environ['USERPROFILE']
+    elif sys.platform == 'linux' or sys.platform == 'darwin':
+        homedir = os.environ['HOME']
+    else:
+        raise NotImplemented(f'Error! Not this system. {sys.platform}')
+    return homedir
+
 """
 pmconfig 
 """
-gPMConfig = PMConfig("./settings.json");
 
+if os.path.exists("settings.json"):
+    shutil.move("settings.json",os.path.join(get_home_dir (),"settings.json"));
 
+gPMConfig = PMConfig(os.path.join(get_home_dir (),"settings.json"));
 
 '''
 Page Config about
