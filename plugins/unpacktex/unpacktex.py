@@ -1,5 +1,5 @@
 import plistlib
-from cmm import *
+# from cmm import *
 
 import os, sys
 import errno
@@ -73,10 +73,10 @@ def do_unpack_format_2(plist_dict):
                y + height)
         sourceSize = (int(sourceSize[0]), int(sourceSize[1]))
         result_box = (
-            (sourceSize[0] - width) / 2,
-            (sourceSize[1] - height) / 2,
-            (sourceSize[0] + width) / 2,
-            (sourceSize[1] + height) / 2,
+            int ((sourceSize[0] - width) / 2),
+            int ((sourceSize[1] - height) / 2),
+            int ((sourceSize[0] + width) / 2),
+            int ((sourceSize[1] + height) / 2),
         )
         data = {
             "box": box,
@@ -102,15 +102,12 @@ def do_crop_images(big_image, file_path, images_info_dict):
         rect_on_big = big_image.crop(v["box"])
         image_size = v["size"]
         result_image = Image.new('RGBA', image_size, (0, 0, 0, 0))
-        if hasattr(v,"result_box"):
+        if "result_box" in v:
             result_box = v["result_box"]
         else:
             result_box = (0, 0, image_size[0], image_size[1])
-        print (rect_on_big);
-        print (result_box);
-        print ("============")
         result_image.paste(rect_on_big, result_box, mask=0)
-        if hasattr(v,"rotated") and v["rotated"] == True:
+        if "rotated" in v and v["rotated"] == True:
             result_image = result_image.rotate(90)
         save_image_file(result_image, file_path, k)
 
@@ -118,7 +115,7 @@ def do_crop_images(big_image, file_path, images_info_dict):
 def gen_png_from_plist(plist_filename, png_filename):
     file_path = plist_filename.replace('.plist', '')
     big_image = Image.open(png_filename)
-    root = ElementTree.fromstring(open(plist_filename, 'r').read())
+    root = ElementTree.fromstring(open(plist_filename, 'r',encoding='utf8').read())
     plist_dict = tree_to_dict(root[0])
 
     plist_format = plist_dict["metadata"]["format"]
@@ -141,7 +138,8 @@ def gen_png_from_plist(plist_filename, png_filename):
 
 
 if __name__ == '__main__':
-    filename = sys.argv[1]
+    # filename = 'D:\\HYGame\\client\\base\\res\\style\\dark\\AdMob\\JBguanggao0'
+    filename = 'D:\\HYGame\\client\\base\\res\\style\\dark\\AdMob\\JBguanggao0'
     plist_filename = filename + '.plist'
     png_filename = filename + '.png'
     if (os.path.exists(plist_filename) and os.path.exists(png_filename)):
