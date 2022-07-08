@@ -1,5 +1,6 @@
 import plistlib
-from cmm import *
+if __name__ != '__main__':
+    from cmm import *
 
 import os, sys
 import errno
@@ -54,35 +55,37 @@ def do_unpack_format_0(plist_dict):
 
 
 def do_unpack_format_2(plist_dict):
-    to_list = lambda x: x.replace('{', '').replace('}', '').split(',')
     info = {}
     for k, v in plist_dict['frames'].items():
-        box = to_list(v["frame"])
-        x = int(box[0])
-        y = int(box[1])
-        rotated = v["rotated"]
-        width = int(box[3] if rotated else box[2])
-        height = int(box[2] if rotated else box[3])
-        # width = int(box[2])
-        # height = int(box[3])
 
-        sourceSize = to_list(v["sourceSize"])
-        box = (x,
-               y,
-               x + width,
-               y + height)
-        sourceSize = (int(sourceSize[0]), int(sourceSize[1]))
+        item = {};
+        item['frame'] = v['frame'].replace('}', '').replace('{', '').split(',')
+        item['sourceSize'] = v['sourceSize'].replace('}', '').replace('{', '').split(',')
+        item['sourceColorRect'] = v['sourceColorRect'].replace('}', '').replace('{', '').split(',')
+        item['rotated'] = v['rotated']
+
+        # 去透明后的子图矩形
+        x, y, w, h = tuple(map(int, item ['frame']))
+
+        # 子图原始大小
+        size = tuple(map(int, item['sourceSize']))
+        # 子图在原始图片中的偏移
+        ox, oy, _, _ = tuple(map(int, item ['sourceColorRect']))
+
+        # 获取子图左上角，右下角
+        if item ['rotated']:
+            box = (x, y, x + h, y + w)
+        else:
+            box = (x, y, x + w, y + h)
+
         result_box = (
-            int ((sourceSize[0] - width) / 2),
-            int ((sourceSize[1] - height) / 2),
-            int ((sourceSize[0] + width) / 2),
-            int ((sourceSize[1] + height) / 2),
+            ox,oy
         )
         data = {
             "box": box,
-            "size": sourceSize,
+            "size": size,
             "result_box": result_box,
-            "rotated": v["rotated"]
+            "rotated": item ["rotated"]
         }
         info[k] = data
     return info
@@ -104,19 +107,31 @@ def do_crop_images(big_image, file_path, images_info_dict):
         result_image = Image.new('RGBA', image_size, (0, 0, 0, 0))
         if "result_box" in v:
             result_box = v["result_box"]
+            if "rotated" in v and v["rotated"] == True:
+                rect_on_big = rect_on_big.transpose(Image.ROTATE_90)
+            result_image.paste(rect_on_big, result_box, mask=0)
         else:
             result_box = (0, 0, image_size[0], image_size[1])
-        result_image.paste(rect_on_big, result_box, mask=0)
-        if "rotated" in v and v["rotated"] == True:
-            result_image = result_image.rotate(90)
-        save_image_file(result_image, file_path, k)
+            result_image.paste(rect_on_big, result_box, mask=0)
+            if "rotated" in v and v["rotated"] == True:
+                result_image = result_image.rotate(90)
 
+        if k.find (".jpg") >= 0:
+            result_image = result_image.convert('RGB')
+
+        save_image_file(result_image, file_path, k)
 
 def gen_png_from_plist(plist_filename, png_filename):
     file_path = plist_filename.replace('.plist', '')
     big_image = Image.open(png_filename)
     root = ElementTree.fromstring(open(plist_filename, 'r',encoding='utf8').read())
     plist_dict = tree_to_dict(root[0])
+
+    if "metadata" not in plist_dict:
+        return False;
+
+    if "format" not in plist_dict["metadata"]:
+        return False;
 
     plist_format = plist_dict["metadata"]["format"]
 
@@ -150,8 +165,10 @@ def is_supported_plist(plist_filename, png_filename):
 
     isSupported = False;
     if (plist_format == 0):
+        print ("formate 0 %s" % plist_filename)
         isSupported = True;
     elif (plist_format == 1):
+        print("formate 1 %s" % plist_filename)
         isSupported = True;
     elif (plist_format == 2):
         isSupported = True;
@@ -165,7 +182,7 @@ def is_supported_plist(plist_filename, png_filename):
 
 if __name__ == '__main__':
     # filename = 'D:\\HYGame\\client\\base\\res\\style\\dark\\AdMob\\JBguanggao0'
-    filename = 'D:\\HYGame\\client\\base\\res\\style\\dark\\AdMob\\JBguanggao0'
+    filename = 'D:\\CynkingGame\\client\\base\\res\\style\\cat\\Bankrupt\\DailyDeal'
     plist_filename = filename + '.plist'
     png_filename = filename + '.png'
     if (os.path.exists(plist_filename) and os.path.exists(png_filename)):
