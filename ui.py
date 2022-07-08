@@ -3115,6 +3115,8 @@ Cancel) 取消则退出
         i = 0;
         while (i < 3):
             i = i + 1;
+            self.text_panel.setStyleSheet("color:black;");
+            self.text_panel_error.setStyleSheet("color:black;");
             self.text_panel.setText("");
             self.text_panel_error.setText("");
             QApplication.processEvents()
