@@ -277,10 +277,22 @@ class PackCommon:
             else:
                 print("正在刷新自动图集...");
 
+            curHall = gPMConfig.getCurHallName();
+            curCh = gPMConfig.getCurChName();
+            style = self.luaHallConfig.style;
+
+            style_str = "style/%s" % style;
+
             all = os.walk(lua_dir);
 
             for path, dir, filelist in all:
                 for filename in filelist:
+
+                    fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
+                    if "/style/" in fullPath:
+                        if style_str not in fullPath:
+                            continue;
+
                     if not filename.endswith(".yaml"):
                         continue;
 
@@ -373,7 +385,7 @@ class PackCommon:
 
                             pass
                         else:
-                            print ("散图无变化，忽略");
+                            # print ("散图无变化，忽略");
                             continue;
 
                     with open(yaml_file,"w+") as file:
