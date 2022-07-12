@@ -297,6 +297,7 @@ class PackCommon:
                         continue;
 
                     isInit = isSetup;
+                    noPngPlist = False;
 
                     yaml_file = os.path.join(lua_dir,path,filename);
 
@@ -328,6 +329,7 @@ class PackCommon:
                     if (not os.path.exists(png_file) or not os.path.exists(plist_file)) and isSetup:
                         errmsg("警告 ==> 存在yaml文件，初始化模式下，图集资源不存在 %s ,将会依据散图生成图集" % png_file)
                         isInit = False;
+                        noPngPlist = True;
                         # continue;
 
                     png_md5 = self._fileMd5(png_file);
@@ -383,7 +385,7 @@ class PackCommon:
                         '''
                         检测md5，如果subdir的md5变化了，那么重新生成png和plist
                         '''
-                        if not datas or content_md5 != datas ["dir_md5"]:
+                        if not datas or content_md5 != datas ["dir_md5"] or noPngPlist == True:
                             print ("检测到散图变化，将会重新生成图集");
 
                             self.repackTex(plist_file,png_file,auto_dir,ext_args);
