@@ -345,19 +345,32 @@ class PackCommon:
                         ext_args = "";
 
                     sub_all = os.walk(auto_dir);
+
+                    md5_arr = [];
+
                     for sub_path, sub_dir, sub_filelist in sub_all:
                         for sub_filename in sub_filelist:
                             if not sub_filename.endswith(".png"):
                                 continue;
 
                             fpath = os.path.join(sub_path, sub_filename);
-                            sub_md5 = sub_md5 + self._fileMd5(fpath);
+                            fmd5 = self._fileMd5(fpath);
+                            md5_arr.append(fmd5);
+
+                            # sub_md5 = sub_md5 + self._fileMd5(fpath);
 
                             auto_len = len(auto_dir) + 1;
                             pngfile = fpath [auto_len:];
                             pngfile = pngfile.replace("\\", "/");
 
                             dest_dict["frames"].append (pngfile);
+
+                    '''
+                    sort 
+                    '''
+                    ordered_md5_arr = sorted(md5_arr);
+                    for k in range(len(ordered_md5_arr)):
+                        sub_md5 += ordered_md5_arr [k];
 
                     content_md5 = self._contentMd5 (sub_md5)
 
