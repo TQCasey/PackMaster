@@ -84,7 +84,7 @@ class PackCommon:
             errmsg(err);
         pass
 
-    def _fileMd5(self, filepath):
+    def _fileMd5(self, filepath,bConvert = False):
         try:
 
             if not os.path.exists(filepath):
@@ -93,6 +93,10 @@ class PackCommon:
             md5 = hashlib.md5();
             file = open(filepath, "rb");
             content = file.read();
+
+            if bConvert:
+                content = convertToLF (content);
+
             md5.update(content);
             file.close();
             return md5.hexdigest();
@@ -266,7 +270,7 @@ class PackCommon:
         except Exception as err:
             errmsg(err);
 
-    def syncAutoTex(self):
+    def syncAutoTex(self,isAll = False):
         try:
 
             lua_dir = self.lua_src_dir;
@@ -289,9 +293,11 @@ class PackCommon:
                 for filename in filelist:
 
                     fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
-                    if "/style/" in fullPath:
-                        if style_str not in fullPath:
-                            continue;
+
+                    if not isAll:
+                        if "/style/" in fullPath:
+                            if style_str not in fullPath:
+                                continue;
 
                     if not filename.endswith(".yaml"):
                         continue;
@@ -333,7 +339,7 @@ class PackCommon:
                         # continue;
 
                     png_md5 = self._fileMd5(png_file);
-                    plist_md5 = self._fileMd5(plist_file);
+                    plist_md5 = self._fileMd5(plist_file,True);
 
                     dest_dict["frames"] = [];
 
