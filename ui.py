@@ -22,11 +22,14 @@ from iconmaker import IconMakerDialog
 from svnuploader import SvnUploader
 from plugins.Logger.logger import DebugLogger
 from preference import PreferDialog
-from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion
+from profile import PMConfig, gFilterList, gPMConfig, PageConfig, gWhiteList, gLuaPM,  gReleaseVersion,get_home_dir
 
 from whitelist import WhiteListDialog
 
 
+'''
+线程基类
+'''
 class ThreadBaseClass(QThread):
     def __init__(self, parent=None, luaglobals=None, dict=None):
         super(ThreadBaseClass, self).__init__();
@@ -209,6 +212,66 @@ class ExportIpaThread(ThreadBaseClass):
             done_pack(0);
 
 
+'''
+生成自动图集
+'''
+class SyncAutoTexThread(ThreadBaseClass):
+
+    def __init__(self, parent,luaglobals,dict):
+        super(SyncAutoTexThread, self).__init__(parent,luaglobals,dict);
+        self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
+        self.mainObj = parent;
+        self.dict = dict;
+
+        start_pack();
+
+    def run(self):
+
+        try:
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(self.pmconfig,None, self.dict);
+            elif isWin():
+                pack = PackAndroid(self.pmconfig,None, self.dict);
+
+            pack.syncAutoTex();
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            done_pack(0);
+
+'''
+生成图集yaml
+'''
+class MakeYamlThread(ThreadBaseClass):
+
+    def __init__(self, parent,luaglobals,dict):
+        super(MakeYamlThread, self).__init__(parent,luaglobals,dict);
+        self.pmconfig = PMConfig(gPMConfig.configCurrentToString(), 0);
+        self.mainObj = parent;
+        self.dict = dict;
+
+        start_pack();
+
+    def run(self):
+
+        try:
+            pack = None;
+
+            if isMacOS() == True:
+                pack = PackIOS(self.pmconfig,None, self.dict);
+            elif isWin():
+                pack = PackAndroid(self.pmconfig,None, self.dict);
+
+            pack.makeYaml();
+
+        except Exception as err:
+            errmsg(err);
+        finally:
+            done_pack(0);
+
 """
 检查语法线程
 """
@@ -314,8 +377,6 @@ class MakeConfigThread(ThreadBaseClass):
 """
 生成assets线程
 """
-
-
 class MakeAssetsThread(ThreadBaseClass):
     def run(self):
 
@@ -782,7 +843,7 @@ class MakePushCertThread(ThreadBaseClass):
             done_pack(0);
 
 """
-生成ios推送参数线程
+清理Xcode Profile 文件缓存
 """
 class CleanProfileThread(ThreadBaseClass):
     def run(self):
@@ -908,6 +969,8 @@ class MainWindow(QMainWindow):
 
         self.pushButton_sym_tbl = self.findChild(QPushButton, "pushButton_sym_tbl");
         self.btn_load_publish_games = self.findChild(QPushButton, "btn_load_publish_games");
+        self.btn_sync_autotex = self.findChild(QPushButton,"btn_sync_autotex");
+        self.btn_make_yaml = self.findChild(QPushButton,"btn_make_yaml");
 
         self.compress_texture = self.findChild(QGroupBox, "compress_texture")
 
@@ -922,8 +985,10 @@ class MainWindow(QMainWindow):
         self.btn_load_publish_games.clicked.connect(self.onLoadPublishGames);
         self.checkBox_slots_update.clicked.connect(self.onSlotsUpdate)
         self.btn_svn_submit.clicked.connect (self.onSubmitClicked)
+        self.btn_sync_autotex.clicked.connect (self.onSyncAutoTex)
 
         self.btn_logger.clicked.connect(self.onLogger);
+        self.btn_make_yaml.clicked.connect (self.onMakeYaml)
         # self.pushButton_sym_tbl.clicked.connect (self.onUploadSymTbl);
 
         # 搜索按钮
@@ -1294,6 +1359,51 @@ class MainWindow(QMainWindow):
         self.initLockedList();
         self.onLockHallNum();
 
+    def onMakeYaml(self):
+        self.getPMConfig();
+
+        if not self.isThreadEnd("make_yaml"):
+            return;
+
+        dict = {};
+
+        thread = MakeYamlThread(self, None, dict);
+        thread.start();
+        self.threads["make_yaml"] = thread;
+
+    def onSyncAutoTex(self):
+
+        self.getPMConfig();
+
+        if not self.isThreadEnd("auto_tex"):
+            return;
+
+        dict = {};
+
+        msg = '''
+################## 正在生成自动图集    ##################   
+
+请确保没有文件被占用
+请选择生成模式 
+
+Yes)    则刷新自动图集，将会根据散图和配置覆盖生成图集
+No )    否则初始化模式，将会兼容现有图集
+Cancel) 取消则退出
+
+        '''
+        ret = MsgBox().yesno(msg);
+        if (QMessageBox.Yes == ret):
+            dict ["isSetup"] = False;
+        elif (QMessageBox.No == ret):
+            dict ["isSetup"] = True;
+        else:
+            return;
+
+        thread = SyncAutoTexThread(self,None,dict);
+        thread.start();
+        self.threads["auto_tex"] = thread;
+        pass
+
     def onSubmitClicked(self):
 
         self.getPMConfig();
@@ -1304,7 +1414,7 @@ class MainWindow(QMainWindow):
         dict = {};
 
         if (self.checkBox_whitelist.checkState() == QtCore.Qt.Checked):
-            preMsg = "##################\n 请在提交白名单热更 \n##################\n";
+            preMsg = "##################\n 正在提交白名单热更 \n##################\n";
             distdir = "dev";
         else:
             preMsg = "##################\n    正在提交热更   \n##################\n";
@@ -2420,6 +2530,20 @@ class MainWindow(QMainWindow):
             self.whiltelist_dialog.show();
             pass
 
+        elif text == "LoadSettings":
+            print ("加載配置文件")
+            try:
+                filename, filetype = QFileDialog.getOpenFileName(self, "选择配置文件",
+                                                                 get_home_dir(),
+                                                                 "Json Files (*.json)");
+                print(filename);
+                print(filetype);
+
+            except Exception as err:
+                errmsg(err)
+
+            pass
+
         '''Click对象名称'''
         name = "";
         if object != None:
@@ -2991,6 +3115,8 @@ class MainWindow(QMainWindow):
         i = 0;
         while (i < 3):
             i = i + 1;
+            self.text_panel.setStyleSheet("color:black;");
+            self.text_panel_error.setStyleSheet("color:black;");
             self.text_panel.setText("");
             self.text_panel_error.setText("");
             QApplication.processEvents()
@@ -3094,7 +3220,6 @@ class MainWindow(QMainWindow):
             self.safeGetSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
             self.safeGetSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
             self.safeGetSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
-            self.safeGetSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
             self.safeGetSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''
@@ -3148,7 +3273,6 @@ class MainWindow(QMainWindow):
             self.safeRestoreSinglePMConfig(chConfig, "use_no_aes_php", "ckbox_use_no_aes_php");
             self.safeRestoreSinglePMConfig(chConfig, "use_no_gzip_php", "ckbox_use_no_gzip_php");
             self.safeRestoreSinglePMConfig(chConfig, "use_can_log", "ckbox_use_can_log");
-            self.safeRestoreSinglePMConfig(chConfig, "use_game_hall_no_zip", "ckbox_use_collect_hall_game");
             self.safeRestoreSinglePMConfig(chConfig, "use_local_srv_ip", "ckbox_use_ip_local");
 
             '''

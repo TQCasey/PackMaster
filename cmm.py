@@ -350,16 +350,18 @@ class Commander:
 
         new_env = os.environ.copy()
 
+        quick_dir = os.path.join(os.getcwd(),"quick-3.5");
+
         new_env['NDK_ROOT'] = platconfig.ndk_dir;
         new_env['ANDROID_SDK_ROOT'] = platconfig.sdk_dir;
-        new_env['ANT_ROOT'] = platconfig.ant_dir;
+        new_env['ANT_ROOT'] = os.path.join("common","apache-ant-1.9.3") ; ## platconfig.ant_dir;
 
-        newPath = platconfig.quick_dir;
+        newPath = quick_dir;
         cocosRoot = os.path.dirname(newPath);
         new_env['COCOS_X_ROOT'] = cocosRoot;
-        new_env['COCOS_CONSOLE_ROOT'] = path.join(platconfig.quick_dir, "tools", "cocos2d-console", "bin");
-        new_env['COCOS_TEMPLATES_ROOT'] = path.join(platconfig.quick_dir, "templates");
-        new_env['QUICK_V3_ROOT'] = platconfig.quick_dir;
+        new_env['COCOS_CONSOLE_ROOT'] = path.join(quick_dir, "tools", "cocos2d-console", "bin");
+        new_env['COCOS_TEMPLATES_ROOT'] = path.join(quick_dir, "templates");
+        new_env['QUICK_V3_ROOT'] = quick_dir;
 
         if (platconfig.proxy_str != ""):
             new_env['HTTP_PROXY'] = "http://" + platconfig.proxy_str;

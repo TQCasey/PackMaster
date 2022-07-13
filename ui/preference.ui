@@ -85,27 +85,11 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>64</x>
-     <y>172</y>
-     <width>101</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>AAPT 目录</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
      <x>64</x>
-     <y>212</y>
+     <y>172</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -121,7 +105,7 @@
    <property name="geometry">
     <rect>
      <x>64</x>
-     <y>244</y>
+     <y>204</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -137,7 +121,7 @@
    <property name="geometry">
     <rect>
      <x>64</x>
-     <y>282</y>
+     <y>242</y>
      <width>101</width>
      <height>16</height>
     </rect>
@@ -179,19 +163,6 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>212</y>
-     <width>301</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_aapt_dir">
-   <property name="geometry">
-    <rect>
-     <x>184</x>
      <y>172</y>
      <width>301</width>
      <height>16</height>
@@ -218,7 +189,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>244</y>
+     <y>204</y>
      <width>301</width>
      <height>21</height>
     </rect>
@@ -237,7 +208,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>282</y>
+     <y>242</y>
      <width>301</width>
      <height>16</height>
     </rect>
@@ -270,26 +241,6 @@
    <property name="geometry">
     <rect>
      <x>494</x>
-     <y>204</y>
-     <width>41</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>folder.ico</normaloff>folder.ico</iconset>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_aapt_dir">
-   <property name="geometry">
-    <rect>
-     <x>494</x>
      <y>164</y>
      <width>41</width>
      <height>31</height>
@@ -310,7 +261,7 @@
    <property name="geometry">
     <rect>
      <x>494</x>
-     <y>272</y>
+     <y>232</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -389,7 +340,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>320</y>
+     <y>280</y>
      <width>145</width>
      <height>16</height>
     </rect>
@@ -405,7 +356,7 @@
    <property name="geometry">
     <rect>
      <x>494</x>
-     <y>312</y>
+     <y>272</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -431,130 +382,20 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>320</y>
+     <y>280</y>
      <width>301</width>
      <height>16</height>
     </rect>
    </property>
    <property name="readOnly">
     <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_quick_dir">
-   <property name="geometry">
-    <rect>
-     <x>184</x>
-     <y>356</y>
-     <width>301</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_9">
-   <property name="geometry">
-    <rect>
-     <x>44</x>
-     <y>356</y>
-     <width>121</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>quick3.5目录(*)</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_quick_dir">
-   <property name="geometry">
-    <rect>
-     <x>494</x>
-     <y>348</y>
-     <width>41</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>folder.ico</normaloff>folder.ico</iconset>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit_ant_dir">
-   <property name="geometry">
-    <rect>
-     <x>184</x>
-     <y>392</y>
-     <width>301</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="readOnly">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="btn_ant_dir">
-   <property name="geometry">
-    <rect>
-     <x>494</x>
-     <y>384</y>
-     <width>41</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>folder.ico</normaloff>folder.ico</iconset>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="flat">
-    <bool>false</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_10">
-   <property name="geometry">
-    <rect>
-     <x>64</x>
-     <y>392</y>
-     <width>101</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>ant目录(*)</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_sdk_dir">
    <property name="geometry">
     <rect>
      <x>494</x>
-     <y>420</y>
+     <y>314</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -580,7 +421,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>428</y>
+     <y>322</y>
      <width>145</width>
      <height>16</height>
     </rect>
@@ -596,7 +437,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>428</y>
+     <y>322</y>
      <width>301</width>
      <height>16</height>
     </rect>
@@ -609,7 +450,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>464</y>
+     <y>358</y>
      <width>145</width>
      <height>16</height>
     </rect>
@@ -625,7 +466,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>464</y>
+     <y>358</y>
      <width>301</width>
      <height>16</height>
     </rect>
@@ -638,7 +479,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>500</y>
+     <y>394</y>
      <width>145</width>
      <height>16</height>
     </rect>
@@ -654,7 +495,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>500</y>
+     <y>394</y>
      <width>301</width>
      <height>16</height>
     </rect>
@@ -667,7 +508,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>536</y>
+     <y>430</y>
      <width>145</width>
      <height>16</height>
     </rect>
@@ -683,7 +524,7 @@
    <property name="geometry">
     <rect>
      <x>184</x>
-     <y>536</y>
+     <y>430</y>
      <width>301</width>
      <height>16</height>
     </rect>

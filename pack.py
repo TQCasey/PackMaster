@@ -2,23 +2,21 @@
 the common pack procedure here
 """
 import hashlib
-import struct
 import time
 import zipfile
 import socket
-import re
-import json
+import yaml
 
 from cmm import *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
 from svnuploader import SvnUploader
 
+from plugins.unpacktex.unpacktex import UnpackPngSheet,IsSupportedList
 
 class PackCommon:
     def __init__(self, pmconfig, luaglobals, dict,batch_pack=False):
 
         self.pmconfig = pmconfig;
-        self.ArmPlatCfg = ["android_32", "android_64", "ios_64"];
 
         try:
             # print ("Checking argument...");
@@ -101,6 +99,14 @@ class PackCommon:
         except Exception as err:
             errmsg(err);
 
+    def _contentMd5(self,content):
+        try:
+            md5 = hashlib.md5();
+            md5.update(content.encode());
+            return md5.hexdigest();
+        except Exception as err:
+            errmsg(err);
+
     def onMakeNativeProject(self):
 
         # prepare
@@ -136,7 +142,7 @@ class PackCommon:
 
         ## res
         self.prepareResDir();
-        self.deletePlatformRes();
+        self.simplifyResDir();
         self.cryptResFiles();
 
         ## md5files
@@ -170,6 +176,245 @@ class PackCommon:
         pass
 
     def exportIpa(self,archPath):
+        pass
+
+    def _md5dir(self,path):
+        pass
+
+    def repackTex(self,plistfile,pngfile,packdir,ext_args):
+        try:
+
+            if isWin():
+                cmd = os.path.join("common","texturepacker","windows","TexturePacker")
+            else:
+                cmd = "TexturePacker"
+
+            cmdstr = ('%s '
+                      '--texture-format png '
+                      '--format cocos2d '
+                      '--data %s '
+                      '--sheet %s '
+                      '--opt RGBA8888 '
+                      '--max-width 2048 '
+                      '--max-height 2048 '
+                      '--trim-mode Trim '
+                      '--size-constraints NPOT '
+                      '--algorithm MaxRects '
+                      '--maxrects-heuristics Best '
+                      '--pack-mode Best '
+                      '--scale 1 '
+                      '--basic-sort-by Best '
+                      '--dither-fs-alpha '
+                      ' %s '
+                      # ' --png-opt-level 4 '
+                      '--padding 0 %s' % (cmd,plistfile, pngfile, ext_args,packdir))
+
+            Commander().do(cmdstr);
+
+        except Exception as err:
+            errmsg(err);
+
+    def makeYaml(self):
+        try:
+
+            lua_dir = self.lua_src_dir;
+
+            all = os.walk(lua_dir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+
+                    if not filename.endswith(".plist"):
+                        continue;
+
+
+                    plist_file = os.path.join(lua_dir, path, filename);
+
+                    png_file = plist_file.replace(".plist", ".png");
+                    yaml_file = plist_file.replace(".plist", ".yaml");
+
+                    '''
+                    已经有yaml
+                    '''
+                    if os.path.exists(yaml_file):
+                        continue;
+
+                    '''
+                    检测是否有png
+                    '''
+                    if not os.path.exists(png_file):
+                        continue;
+
+
+                    '''
+                    检测是否是支持的plist 
+                    '''
+                    filen, filext = os.path.splitext(filename);
+                    check_name = os.path.join(lua_dir, path, filen);
+                    if not IsSupportedList(check_name):
+                        continue;
+
+
+                    '''
+                    创建yaml
+                    '''
+                    print ("创建 %s " % (yaml_file))
+                    with open(yaml_file, "w+") as file:
+                        pass
+            pass
+
+        except Exception as err:
+            errmsg(err);
+
+    def syncAutoTex(self):
+        try:
+
+            lua_dir = self.lua_src_dir;
+
+            isSetup = self.dict ["isSetup"];
+            if isSetup:
+                print("正在初始化自动图集...");
+            else:
+                print("正在刷新自动图集...");
+
+            curHall = gPMConfig.getCurHallName();
+            curCh = gPMConfig.getCurChName();
+            style = self.luaHallConfig.style;
+
+            style_str = "style/%s" % style;
+
+            all = os.walk(lua_dir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+
+                    fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
+                    if "/style/" in fullPath:
+                        if style_str not in fullPath:
+                            continue;
+
+                    if not filename.endswith(".yaml"):
+                        continue;
+
+                    isInit = isSetup;
+                    noPngPlist = False;
+
+                    yaml_file = os.path.join(lua_dir,path,filename);
+
+                    if not os.path.exists(yaml_file):
+                        continue;
+
+                    with open(yaml_file,'r') as file:
+                        content = file.read();
+
+                    datas = yaml.load(content,Loader=yaml.FullLoader)
+                    filen,filext = os.path.splitext(filename);
+                    auto_dir = os.path.join(lua_dir,path,filen);
+
+                    png_file = yaml_file.replace(".yaml",".png");
+                    plist_file = yaml_file.replace(".yaml",".plist");
+
+                    if not os.path.exists(auto_dir):
+                        errmsg("存在yaml文件，但散图目录不存在 %s ,自动拆解散图" % auto_dir)
+
+                        if not os.path.exists(plist_file) or not os.path.exists(png_file):
+                            errmsg("警告 ==> 拆解散图，没有找到 png 或者 plist 文件，视为无效自动图集");
+                            continue;
+
+                        UnpackPngSheet (auto_dir)
+                        errmsg("自动拆解完成 %s " % auto_dir)
+
+                    dest_dict = {};
+
+                    if (not os.path.exists(png_file) or not os.path.exists(plist_file)) and isSetup:
+                        errmsg("警告 ==> 存在yaml文件，初始化模式下，图集资源不存在 %s ,将会依据散图生成图集" % png_file)
+                        isInit = False;
+                        noPngPlist = True;
+                        # continue;
+
+                    png_md5 = self._fileMd5(png_file);
+                    plist_md5 = self._fileMd5(plist_file);
+
+                    dest_dict["frames"] = [];
+
+                    print ("生成 %s" % (yaml_file))
+
+                    sub_md5 = "";
+
+                    if datas and "ext_args" in datas:
+                        ext_args = datas["ext_args"] or "";
+                    else:
+                        ext_args = "";
+
+                    sub_all = os.walk(auto_dir);
+
+                    md5_arr = [];
+
+                    for sub_path, sub_dir, sub_filelist in sub_all:
+                        for sub_filename in sub_filelist:
+                            if not sub_filename.endswith(".png"):
+                                continue;
+
+                            fpath = os.path.join(sub_path, sub_filename);
+                            fmd5 = self._fileMd5(fpath);
+                            md5_arr.append(fmd5);
+
+                            # sub_md5 = sub_md5 + self._fileMd5(fpath);
+
+                            auto_len = len(auto_dir) + 1;
+                            pngfile = fpath [auto_len:];
+                            pngfile = pngfile.replace("\\", "/");
+
+                            dest_dict["frames"].append (pngfile);
+
+                    '''
+                    sort 
+                    '''
+                    ordered_md5_arr = sorted(md5_arr);
+                    for k in range(len(ordered_md5_arr)):
+                        sub_md5 += ordered_md5_arr [k];
+
+                    content_md5 = self._contentMd5 (sub_md5)
+
+                    if isInit:
+                        dest_dict ["png_md5"] = png_md5
+                        dest_dict ["plist_md5"] = plist_md5
+                        dest_dict ["dir_md5"] = content_md5;
+                        dest_dict ["ext_args"] = ext_args;
+                    else:
+                        '''
+                        检测md5，如果subdir的md5变化了，那么重新生成png和plist
+                        '''
+                        if not datas or content_md5 != datas ["dir_md5"] or noPngPlist == True:
+                            print ("检测到散图变化，将会重新生成图集");
+
+                            self.repackTex(plist_file,png_file,auto_dir,ext_args);
+
+                            png_md5 = self._fileMd5(png_file);
+                            plist_md5 = self._fileMd5(plist_file);
+
+                            dest_dict["dir_md5"] = content_md5;
+                            dest_dict["plist_md5"] = plist_md5
+                            dest_dict["png_md5"] = png_md5;
+                            dest_dict["ext_args"] = ext_args;
+
+                            pass
+                        else:
+                            # print ("散图无变化，忽略");
+                            continue;
+
+                    with open(yaml_file,"w+") as file:
+                        yaml.dump(dest_dict, file)
+
+            if isSetup:
+                print("初始化自动图集完成");
+            else:
+                print("刷新自动图集完成");
+            pass
+
+        except Exception as err:
+            errmsg (err);
+
         pass
 
     def onCheckSyntaxImpl(self,cmdexe="common\\luac\\luac.exe"):
@@ -517,7 +762,7 @@ return {
 
             ## res
             self.prepareResGameDir();
-            # self.deletePlatformRes();
+            self.simplifyResDir();
             self.cryptPublishGameFiles ();
 
             pass
@@ -552,7 +797,7 @@ return {
         ## res
         # self.prepareResDir();
         self.prepareBaseAndHallResDir ();
-        # self.deletePlatformRes();
+        self.simplifyResDir();
         self.cryptResFiles("base");
         self.cryptResFiles("hall");
 
@@ -847,7 +1092,7 @@ return {
 
         ## res
         self.prepareResDir();
-        self.deletePlatformRes();
+        self.simplifyResDir();
         self.cryptResFiles();
 
         ## md5files
@@ -1571,10 +1816,26 @@ return {
                             pvr_full_path = os.path.join(path, pvr_filename);
 
                             print("compress and crypt pngres %s to pvr.ccz(%s)..." % (filename, use_rgba));
-                            cmdstr = ('TexturePacker %s --format cocos2d --sheet %s %s  --opt %s  \
-                                                --dither-fs-alpha --disable-rotation  --content-protection %s  \
-                                                --size-constraints AnySize --no-trim --padding 0 %s' \
-                                      % (filepath, pvr_full_path, filepath, use_rgba, key, redirect))
+                            cmdstr = (
+                                        'TexturePacker %s '
+                                        '--format cocos2d '
+                                        '--sheet %s %s '
+                                        '--opt %s '
+                                        '--dither-fs-alpha '
+                                        '--disable-rotation '
+                                        '--content-protection %s '
+                                        '--size-constraints AnySize'
+                                        '--no-trim '
+                                        '--padding 0 %s'
+                                      % (
+                                            filepath,
+                                            pvr_full_path,
+                                            filepath,
+                                            use_rgba,
+                                            key,
+                                            redirect
+                                        )
+                                    )
 
                             Commander().do(cmdstr);
 
@@ -2216,18 +2477,31 @@ return {
 
         pass
 
-    def deletePlatformRes(self):
-        print("deletePlatformRes ...");
-        if isWin():
-            self.deleteResButPlatform("android")
-        else:
-            self.deleteResButPlatform("ios")
-        pass
+    def simplifyResDir(self):
+        print("精简资源目录 %s " % self.publish_dir);
 
-    ###删除平台资源，_all_res_表示所有语言的资源文件夹都会做相同处理
-    def deleteResButPlatform(self, platform):
         try:
-            pass
+            pubdir = self.publish_dir;
+            all = os.walk(pubdir);
+
+            for path, dir, filelist in all:
+                for filename in filelist:
+                    if not filename.endswith(".yaml"):
+                        continue;
+
+                    yaml_file = os.path.join(pubdir,path,filename);
+
+                    if os.path.exists(yaml_file):
+                        print ("删除 yaml 文件 %s" % yaml_file)
+                        os.remove(yaml_file);
+
+                    filen, filext = os.path.splitext(filename);
+                    auto_dir = os.path.join(pubdir,path,filen);
+
+                    if os.path.exists(auto_dir):
+                        shutil.rmtree(auto_dir,ignore_errors=True)
+                        print ("删除散图子目录 %s" % auto_dir);
+
         except Exception as err:
             errmsg(err);
 
