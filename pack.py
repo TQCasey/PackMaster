@@ -95,7 +95,7 @@ class PackCommon:
             content = file.read();
 
             if bConvert:
-                content = convertToLF (content);
+                content = bytearray (convertToLF (content));
 
             md5.update(content);
             file.close();
