@@ -24,6 +24,17 @@ return {
         "domino_bandar";
     };
 
+    relese_config 		= {
+        hotupdate_cfg 	= "http://hotupdate.tkhot.club/CynkingGame";
+        hotupdate_zip 	= "http://hotupdate.tkhot.club";
+        noticeurl 		= "http://init.fg-domino.com/notices.lastest.json?r=%d";
+        configurl 		= "http://init.fg-domino.com/configs.network.fan_mm.json?r=%d";
+        phpurl 			= "http://api.tkhot.club/api.php";
+        backup 			= "8.8.8.8";
+        ipv6			= "8.8.8.8"; -- ipv6域名暂时缺失
+    };
+
+
     android = {
 
         oldpname 		= "com.zhijian.domino";
