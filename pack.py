@@ -84,7 +84,7 @@ class PackCommon:
             errmsg(err);
         pass
 
-    def _fileMd5(self, filepath):
+    def _fileMd5(self, filepath,bConvert = False):
         try:
 
             if not os.path.exists(filepath):
@@ -93,6 +93,10 @@ class PackCommon:
             md5 = hashlib.md5();
             file = open(filepath, "rb");
             content = file.read();
+
+            if bConvert:
+                content = bytearray (convertToLF (content));
+
             md5.update(content);
             file.close();
             return md5.hexdigest();
@@ -259,14 +263,14 @@ class PackCommon:
                     创建yaml
                     '''
                     print ("创建 %s " % (yaml_file))
-                    with open(yaml_file, "w+") as file:
+                    with open(yaml_file, "w+",encoding='utf8') as file:
                         pass
             pass
 
         except Exception as err:
             errmsg(err);
 
-    def syncAutoTex(self):
+    def syncAutoTex(self,isAll = False):
         try:
 
             lua_dir = self.lua_src_dir;
@@ -289,9 +293,11 @@ class PackCommon:
                 for filename in filelist:
 
                     fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
-                    if "/style/" in fullPath:
-                        if style_str not in fullPath:
-                            continue;
+
+                    if not isAll:
+                        if "/style/" in fullPath:
+                            if style_str not in fullPath:
+                                continue;
 
                     if not filename.endswith(".yaml"):
                         continue;
@@ -333,7 +339,7 @@ class PackCommon:
                         # continue;
 
                     png_md5 = self._fileMd5(png_file);
-                    plist_md5 = self._fileMd5(plist_file);
+                    plist_md5 = self._fileMd5(plist_file,True);
 
                     dest_dict["frames"] = [];
 
@@ -403,8 +409,12 @@ class PackCommon:
                             # print ("散图无变化，忽略");
                             continue;
 
-                    with open(yaml_file,"w+") as file:
-                        yaml.dump(dest_dict, file)
+                    yaml_str = yaml.dump(dest_dict,Dumper=yaml.Dumper);
+                    yaml_content = convertToLF(yaml_str.encode('utf8'));
+
+                    with open(yaml_file,"wb+") as file:
+                        file.write(bytearray(yaml_content));
+
 
             if isSetup:
                 print("初始化自动图集完成");

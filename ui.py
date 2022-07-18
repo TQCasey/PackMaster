@@ -235,7 +235,14 @@ class SyncAutoTexThread(ThreadBaseClass):
             elif isWin():
                 pack = PackAndroid(self.pmconfig,None, self.dict);
 
-            pack.syncAutoTex();
+            isAll = False;
+
+            if 1024 == self.askbox("\n是否生成所有的style?\n\n是 则生成所有 \n否则生成当前的style"):
+                isAll = True;
+            else:
+                isAll = False;
+
+            pack.syncAutoTex(isAll);
 
         except Exception as err:
             errmsg(err);

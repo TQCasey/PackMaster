@@ -165,10 +165,10 @@ def is_supported_plist(plist_filename, png_filename):
 
     isSupported = False;
     if (plist_format == 0):
-        print ("formate 0 %s" % plist_filename)
+        # print ("formate 0 %s" % plist_filename)
         isSupported = True;
     elif (plist_format == 1):
-        print("formate 1 %s" % plist_filename)
+        # print("formate 1 %s" % plist_filename)
         isSupported = True;
     elif (plist_format == 2):
         isSupported = True;
