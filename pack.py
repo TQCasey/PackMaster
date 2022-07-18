@@ -385,7 +385,7 @@ class PackCommon:
         except Exception as err:
             errmsg(err);
 
-    def syncAutoTex(self,isAll = False,yaml_file = None):
+    def syncAutoTex(self,isAll = False,yaml_path = None):
 
         isSetup = self.dict["isSetup"];
         if isSetup:
@@ -395,24 +395,26 @@ class PackCommon:
 
         try:
 
-            lua_dir = self.lua_src_dir;
+            res_dir = self.lua_src_dir;
 
-            if yaml_file:
-                self.syncAutoTexSingle (yaml_file,isSetup);
+            if os.path.isdir(yaml_path):
+                res_dir = yaml_path;
+            else:
+                self.syncAutoTexSingle (yaml_path,isSetup);
                 return ;
 
             style = self.luaHallConfig.style;
 
             style_str = "style/%s" % style;
 
-            all = os.walk(lua_dir);
+            all = os.walk(res_dir);
 
             for path, dir, filelist in all:
                 for filename in filelist:
 
-                    fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
+                    fullPath = os.path.join(path,filename).replace("\\", "/");
 
-                    if not isAll:
+                    if not isAll and yaml_path == None:
                         if "/style/" in fullPath:
                             if style_str not in fullPath:
                                 continue;

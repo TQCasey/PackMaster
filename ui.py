@@ -3479,11 +3479,29 @@ Cancel 取消则退出
             if text.endswith("apk") or text.endswith('ipa'):
                 event.accept();
 
-            elif text.endswith (".yaml"):
-                event.accept();
-
             else:
-                event.ignore();
+
+                hasYaml = False;
+                path = text[8:];
+
+                if os.path.isdir(path):
+
+                    all = os.walk(path);
+
+                    for path, dir, filelist in all:
+                        for filename in filelist:
+                            if filename.endswith(".yaml"):
+                                hasYaml = True;
+
+                else:
+                    if path.endswith(".yaml"):
+                        hasYaml = True;
+
+                if hasYaml:
+                    event.accept ();
+                else:
+                    event.ignore();
+
         except Exception as err:
             errmsg(err);
 
@@ -3510,15 +3528,28 @@ Cancel 取消则退出
                 except Exception as err:
                     errmsg(err);
 
-            elif path.endswith(".yaml"):
-
-                path = path[8:];
-                self.onSyncAutoTex (path);
-
-                pass
-
             else:
-                event.ignore();
+
+                hasYaml = False;
+                dirpath = path[8:];
+
+                if os.path.isdir(dirpath):
+
+                    all = os.walk(dirpath);
+
+                    for path, dir, filelist in all:
+                        for filename in filelist:
+                            if filename.endswith(".yaml"):
+                                hasYaml = True;
+
+                else:
+                    if path.endswith(".yaml"):
+                        hasYaml = True;
+
+                if hasYaml:
+                    self.onSyncAutoTex (dirpath);
+                else:
+                    event.ignore();
 
         except Exception as err:
             errmsg(err);
