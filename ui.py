@@ -242,7 +242,7 @@ class SyncAutoTexThread(ThreadBaseClass):
 
             isAll = False;
 
-            if yaml_path == None:
+            if not yaml_path:
                 if 1024 == self.askbox("\n是否生成所有的style?\n\n是 则生成所有 \n否则生成当前的style"):
                     isAll = True;
                 else:
