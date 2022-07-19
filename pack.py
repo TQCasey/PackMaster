@@ -193,26 +193,81 @@ class PackCommon:
             else:
                 cmd = "TexturePacker"
 
-            cmdstr = ('%s '
-                      '--texture-format png '
-                      '--format cocos2d '
-                      '--data %s '
-                      '--sheet %s '
-                      '--opt RGBA8888 '
-                      '--max-width 2048 '
-                      '--max-height 2048 '
-                      '--trim-mode Trim '
-                      '--size-constraints NPOT '
-                      '--algorithm MaxRects '
-                      '--maxrects-heuristics Best '
-                      '--pack-mode Best '
-                      '--scale 1 '
-                      '--basic-sort-by Best '
-                      '--dither-fs-alpha '
-                      ' %s '
-                      # ' --png-opt-level 4 '
-                      '--padding 0 %s' % (cmd,plistfile, pngfile, ext_args,packdir))
+            defArgs = [
+                '--texture-format png ',
+                '--format cocos2d ',
+                '--opt RGBA8888 ',
+                '--max-width 2048 ',
+                '--max-height 2048 ',
+                '--trim-mode Trim ',
+                '--size-constraints NPOT ',
+                '--algorithm MaxRects ',
+                '--maxrects-heuristics Best ',
+                '--pack-mode Best ',
+                '--scale 1 ',
+                '--basic-sort-by Best ',
+                '--dither-fs-alpha ',
+                '--padding 0',
+            ]
 
+            '''
+            默认
+            '''
+            defArgsMap = [];
+            for k in range(len(defArgs)):
+                info = defArgs [k];
+                info_arr = info.split();
+                defArgsMap.append(info_arr);
+                pass
+
+            '''
+            扩展
+            '''
+            extArgsMap = [];
+            extArgs = ext_args.split(',');
+            for k in range(len(extArgs)):
+                info = extArgs [k];
+                info_arr = info.split();
+                extArgsMap.append(info_arr);
+                pass
+
+            def getExtArg(arg):
+                for k in range(len(extArgsMap)):
+                    info = extArgsMap [k];
+                    if info [0] == arg:
+                        return info;
+
+                return None;
+
+            '''
+            过滤
+            '''
+            newArgsMap = defArgsMap;
+            for k in range(len(extArgsMap)):
+                info = extArgsMap [k];
+
+                findIndex = -1;
+                for m in range(len(newArgsMap)):
+                    m_info = newArgsMap [m];
+                    if len(m_info) > 0 and len(info) > 0 and m_info [0] == info [0]:
+                        findIndex = m;
+                        break;
+
+                if findIndex >= 0:
+                    newArgsMap [findIndex] = info;
+                else:
+                    newArgsMap.append(info);
+
+            '''
+            组合
+            '''
+            new_args = [];
+            for k in range(len(newArgsMap)):
+                new_args.append(' '.join(newArgsMap [k]))
+
+            all_args = ' '.join(new_args)
+
+            cmdstr = ('%s --data %s --sheet %s  %s %s' % (cmd,plistfile, pngfile, all_args,packdir))
             Commander().do(cmdstr);
 
         except Exception as err:
@@ -270,31 +325,152 @@ class PackCommon:
         except Exception as err:
             errmsg(err);
 
-    def syncAutoTex(self,isAll = False):
+    def syncAutoTexSingle(self,yaml_file,isSetup):
+        try:
+            isInit = isSetup;
+            noPngPlist = False;
+
+            if not os.path.exists(yaml_file):
+                return;
+
+            with open(yaml_file, 'r') as file:
+                content = file.read();
+
+            datas = yaml.load(content, Loader=yaml.FullLoader)
+            filen, filext = os.path.splitext(yaml_file);
+            auto_dir = filen ###os.path.join(lua_dir, path, filen);
+
+            png_file = yaml_file.replace(".yaml", ".png");
+            plist_file = yaml_file.replace(".yaml", ".plist");
+
+            if not os.path.exists(auto_dir):
+                errmsg("存在yaml文件，但散图目录不存在 %s ,自动拆解散图" % auto_dir)
+
+                if not os.path.exists(plist_file) or not os.path.exists(png_file):
+                    errmsg("警告 ==> 拆解散图，没有找到 png 或者 plist 文件，视为无效自动图集");
+                    return;
+
+                UnpackPngSheet(auto_dir)
+                errmsg("自动拆解完成 %s " % auto_dir)
+
+            dest_dict = {};
+
+            if (not os.path.exists(png_file) or not os.path.exists(plist_file)) and isSetup:
+                errmsg("警告 ==> 存在yaml文件，初始化模式下，图集资源不存在 %s ,将会依据散图生成图集" % png_file)
+                isInit = False;
+                noPngPlist = True;
+                # continue;
+
+            png_md5 = self._fileMd5(png_file);
+            plist_md5 = self._fileMd5(plist_file, True);
+
+            dest_dict["frames"] = [];
+
+            print("生成 %s" % (yaml_file))
+
+            sub_md5 = "";
+
+            if datas and "ext_args" in datas:
+                ext_args = datas["ext_args"] or "";
+            else:
+                ext_args = "";
+
+            sub_all = os.walk(auto_dir);
+
+            md5_arr = [];
+
+            for sub_path, sub_dir, sub_filelist in sub_all:
+                for sub_filename in sub_filelist:
+                    if not sub_filename.endswith(".png"):
+                        continue;
+
+                    fpath = os.path.join(sub_path, sub_filename);
+                    fmd5 = self._fileMd5(fpath);
+                    md5_arr.append(fmd5);
+
+                    # sub_md5 = sub_md5 + self._fileMd5(fpath);
+
+                    auto_len = len(auto_dir) + 1;
+                    pngfile = fpath[auto_len:];
+                    pngfile = pngfile.replace("\\", "/");
+
+                    dest_dict["frames"].append(pngfile);
+
+            '''
+            sort 
+            '''
+            ordered_md5_arr = sorted(md5_arr);
+            for k in range(len(ordered_md5_arr)):
+                sub_md5 += ordered_md5_arr[k];
+
+            content_md5 = self._contentMd5(sub_md5)
+
+            if isInit:
+                dest_dict["png_md5"] = png_md5
+                dest_dict["plist_md5"] = plist_md5
+                dest_dict["dir_md5"] = content_md5;
+                dest_dict["ext_args"] = ext_args;
+            else:
+                '''
+                检测md5，如果subdir的md5变化了，那么重新生成png和plist
+                '''
+                if not datas or content_md5 != datas["dir_md5"] or noPngPlist == True:
+                    print("检测到散图变化，将会重新生成图集");
+
+                    self.repackTex(plist_file, png_file, auto_dir, ext_args);
+
+                    png_md5 = self._fileMd5(png_file);
+                    plist_md5 = self._fileMd5(plist_file);
+
+                    dest_dict["dir_md5"] = content_md5;
+                    dest_dict["plist_md5"] = plist_md5
+                    dest_dict["png_md5"] = png_md5;
+                    dest_dict["ext_args"] = ext_args;
+
+                    pass
+                else:
+                    # print ("散图无变化，忽略");
+                    return;
+
+            yaml_str = yaml.dump(dest_dict, Dumper=yaml.Dumper);
+            yaml_content = convertToLF(yaml_str.encode('utf8'));
+
+            with open(yaml_file, "wb+") as file:
+                file.write(bytearray(yaml_content));
+        except Exception as err:
+            errmsg(err);
+
+    def syncAutoTex(self,isAll = False,yaml_path = None):
+
+        isSetup = self.dict["isSetup"];
+        if isSetup:
+            print("正在初始化自动图集...");
+        else:
+            print("正在刷新自动图集...");
+
         try:
 
-            lua_dir = self.lua_src_dir;
+            res_dir = self.lua_src_dir;
 
-            isSetup = self.dict ["isSetup"];
-            if isSetup:
-                print("正在初始化自动图集...");
-            else:
-                print("正在刷新自动图集...");
+            if yaml_path:
+                if os.path.isdir(yaml_path):
+                    res_dir = yaml_path;
+                else:
+                    self.syncAutoTexSingle (yaml_path,isSetup);
+                    return ;
 
-            curHall = gPMConfig.getCurHallName();
-            curCh = gPMConfig.getCurChName();
             style = self.luaHallConfig.style;
 
             style_str = "style/%s" % style;
 
-            all = os.walk(lua_dir);
+            all = os.walk(res_dir);
 
             for path, dir, filelist in all:
                 for filename in filelist:
 
-                    fullPath = os.path.join(lua_dir,path,filename).replace("\\", "/");
+                    fullPath = os.path.join(path,filename).replace("\\", "/");
 
-                    if not isAll:
+                    if not isAll and yaml_path == None:
                         if "/style/" in fullPath:
                             if style_str not in fullPath:
                                 continue;
@@ -302,128 +478,17 @@ class PackCommon:
                     if not filename.endswith(".yaml"):
                         continue;
 
-                    isInit = isSetup;
-                    noPngPlist = False;
+                    self.syncAutoTexSingle (fullPath,isSetup);
 
-                    yaml_file = os.path.join(lua_dir,path,filename);
+        except Exception as err:
+            errmsg (err);
 
-                    if not os.path.exists(yaml_file):
-                        continue;
-
-                    with open(yaml_file,'r') as file:
-                        content = file.read();
-
-                    datas = yaml.load(content,Loader=yaml.FullLoader)
-                    filen,filext = os.path.splitext(filename);
-                    auto_dir = os.path.join(lua_dir,path,filen);
-
-                    png_file = yaml_file.replace(".yaml",".png");
-                    plist_file = yaml_file.replace(".yaml",".plist");
-
-                    if not os.path.exists(auto_dir):
-                        errmsg("存在yaml文件，但散图目录不存在 %s ,自动拆解散图" % auto_dir)
-
-                        if not os.path.exists(plist_file) or not os.path.exists(png_file):
-                            errmsg("警告 ==> 拆解散图，没有找到 png 或者 plist 文件，视为无效自动图集");
-                            continue;
-
-                        UnpackPngSheet (auto_dir)
-                        errmsg("自动拆解完成 %s " % auto_dir)
-
-                    dest_dict = {};
-
-                    if (not os.path.exists(png_file) or not os.path.exists(plist_file)) and isSetup:
-                        errmsg("警告 ==> 存在yaml文件，初始化模式下，图集资源不存在 %s ,将会依据散图生成图集" % png_file)
-                        isInit = False;
-                        noPngPlist = True;
-                        # continue;
-
-                    png_md5 = self._fileMd5(png_file);
-                    plist_md5 = self._fileMd5(plist_file,True);
-
-                    dest_dict["frames"] = [];
-
-                    print ("生成 %s" % (yaml_file))
-
-                    sub_md5 = "";
-
-                    if datas and "ext_args" in datas:
-                        ext_args = datas["ext_args"] or "";
-                    else:
-                        ext_args = "";
-
-                    sub_all = os.walk(auto_dir);
-
-                    md5_arr = [];
-
-                    for sub_path, sub_dir, sub_filelist in sub_all:
-                        for sub_filename in sub_filelist:
-                            if not sub_filename.endswith(".png"):
-                                continue;
-
-                            fpath = os.path.join(sub_path, sub_filename);
-                            fmd5 = self._fileMd5(fpath);
-                            md5_arr.append(fmd5);
-
-                            # sub_md5 = sub_md5 + self._fileMd5(fpath);
-
-                            auto_len = len(auto_dir) + 1;
-                            pngfile = fpath [auto_len:];
-                            pngfile = pngfile.replace("\\", "/");
-
-                            dest_dict["frames"].append (pngfile);
-
-                    '''
-                    sort 
-                    '''
-                    ordered_md5_arr = sorted(md5_arr);
-                    for k in range(len(ordered_md5_arr)):
-                        sub_md5 += ordered_md5_arr [k];
-
-                    content_md5 = self._contentMd5 (sub_md5)
-
-                    if isInit:
-                        dest_dict ["png_md5"] = png_md5
-                        dest_dict ["plist_md5"] = plist_md5
-                        dest_dict ["dir_md5"] = content_md5;
-                        dest_dict ["ext_args"] = ext_args;
-                    else:
-                        '''
-                        检测md5，如果subdir的md5变化了，那么重新生成png和plist
-                        '''
-                        if not datas or content_md5 != datas ["dir_md5"] or noPngPlist == True:
-                            print ("检测到散图变化，将会重新生成图集");
-
-                            self.repackTex(plist_file,png_file,auto_dir,ext_args);
-
-                            png_md5 = self._fileMd5(png_file);
-                            plist_md5 = self._fileMd5(plist_file);
-
-                            dest_dict["dir_md5"] = content_md5;
-                            dest_dict["plist_md5"] = plist_md5
-                            dest_dict["png_md5"] = png_md5;
-                            dest_dict["ext_args"] = ext_args;
-
-                            pass
-                        else:
-                            # print ("散图无变化，忽略");
-                            continue;
-
-                    yaml_str = yaml.dump(dest_dict,Dumper=yaml.Dumper);
-                    yaml_content = convertToLF(yaml_str.encode('utf8'));
-
-                    with open(yaml_file,"wb+") as file:
-                        file.write(bytearray(yaml_content));
-
-
+        finally:
             if isSetup:
                 print("初始化自动图集完成");
             else:
                 print("刷新自动图集完成");
             pass
-
-        except Exception as err:
-            errmsg (err);
 
         pass
 
@@ -1489,6 +1554,11 @@ return {
         for path, dir, filelist in all:
             for filename in filelist:
                 if filename.endswith("lua"):
+
+                    if "config.lua" in filename or "config_auto.lua" in filename:
+                        continue;
+
+                    print ("save Cache for %s" %(filename));
 
                     luac_filename = filename.replace(".lua",".luac");
 

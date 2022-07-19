@@ -230,6 +230,11 @@ class SyncAutoTexThread(ThreadBaseClass):
         try:
             pack = None;
 
+            yaml_path = None;
+
+            if "yaml_path" in self.dict:
+                yaml_path = self.dict ["yaml_path"];
+
             if isMacOS() == True:
                 pack = PackIOS(self.pmconfig,None, self.dict);
             elif isWin():
@@ -237,12 +242,13 @@ class SyncAutoTexThread(ThreadBaseClass):
 
             isAll = False;
 
-            if 1024 == self.askbox("\n是否生成所有的style?\n\n是 则生成所有 \n否则生成当前的style"):
-                isAll = True;
-            else:
-                isAll = False;
+            if yaml_path == None:
+                if 1024 == self.askbox("\n是否生成所有的style?\n\n是 则生成所有 \n否则生成当前的style"):
+                    isAll = True;
+                else:
+                    isAll = False;
 
-            pack.syncAutoTex(isAll);
+            pack.syncAutoTex(isAll,yaml_path);
 
         except Exception as err:
             errmsg(err);
@@ -1378,7 +1384,7 @@ class MainWindow(QMainWindow):
         thread.start();
         self.threads["make_yaml"] = thread;
 
-    def onSyncAutoTex(self):
+    def onSyncAutoTex(self,yaml_path = None):
 
         self.getPMConfig();
 
@@ -1387,17 +1393,22 @@ class MainWindow(QMainWindow):
 
         dict = {};
 
+        msg_pre = "";
+        if yaml_path:
+            msg_pre = "单个"
+
         msg = '''
-################## 正在生成自动图集    ##################   
+############## 正在生成%s自动图集 ##############
 
 请确保没有文件被占用
 请选择生成模式 
 
-Yes)    则刷新自动图集，将会根据散图和配置覆盖生成图集
-No )    否则初始化模式，将会兼容现有图集
-Cancel) 取消则退出
+Yes    则刷新自动图集，将根据配置覆盖生成图集
+No     否则初始化模式，将会兼容现有图集
+Cancel 取消则退出
 
-        '''
+        ''' %(msg_pre)
+
         ret = MsgBox().yesno(msg);
         if (QMessageBox.Yes == ret):
             dict ["isSetup"] = False;
@@ -1405,6 +1416,8 @@ Cancel) 取消则退出
             dict ["isSetup"] = True;
         else:
             return;
+
+        dict ["yaml_path"] = yaml_path;
 
         thread = SyncAutoTexThread(self,None,dict);
         thread.start();
@@ -3465,8 +3478,30 @@ Cancel) 取消则退出
             text = event.mimeData().text();
             if text.endswith("apk") or text.endswith('ipa'):
                 event.accept();
+
             else:
-                event.ignore();
+
+                hasYaml = False;
+                path = text[8:];
+
+                if os.path.isdir(path):
+
+                    all = os.walk(path);
+
+                    for path, dir, filelist in all:
+                        for filename in filelist:
+                            if filename.endswith(".yaml"):
+                                hasYaml = True;
+
+                else:
+                    if path.endswith(".yaml"):
+                        hasYaml = True;
+
+                if hasYaml:
+                    event.accept ();
+                else:
+                    event.ignore();
+
         except Exception as err:
             errmsg(err);
 
@@ -3492,8 +3527,29 @@ Cancel) 取消则退出
                     self.threads["install"] = thread;
                 except Exception as err:
                     errmsg(err);
+
             else:
-                event.ignore();
+
+                hasYaml = False;
+                dirpath = path[8:];
+
+                if os.path.isdir(dirpath):
+
+                    all = os.walk(dirpath);
+
+                    for path, dir, filelist in all:
+                        for filename in filelist:
+                            if filename.endswith(".yaml"):
+                                hasYaml = True;
+
+                else:
+                    if path.endswith(".yaml"):
+                        hasYaml = True;
+
+                if hasYaml:
+                    self.onSyncAutoTex (dirpath);
+                else:
+                    event.ignore();
 
         except Exception as err:
             errmsg(err);
