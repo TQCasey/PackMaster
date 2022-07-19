@@ -249,7 +249,7 @@ class PackCommon:
                 findIndex = -1;
                 for m in range(len(newArgsMap)):
                     m_info = newArgsMap [m];
-                    if m_info [0] == info [0]:
+                    if len(m_info) > 0 and len(info) > 0 and m_info [0] == info [0]:
                         findIndex = m;
                         break;
 
@@ -452,11 +452,12 @@ class PackCommon:
 
             res_dir = self.lua_src_dir;
 
-            if os.path.isdir(yaml_path):
-                res_dir = yaml_path;
-            else:
-                self.syncAutoTexSingle (yaml_path,isSetup);
-                return ;
+            if yaml_path:
+                if os.path.isdir(yaml_path):
+                    res_dir = yaml_path;
+                else:
+                    self.syncAutoTexSingle (yaml_path,isSetup);
+                    return ;
 
             style = self.luaHallConfig.style;
 
