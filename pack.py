@@ -242,13 +242,19 @@ class PackCommon:
             '''
             过滤
             '''
-            newArgsMap = [];
-            for k in range(len(defArgsMap)):
-                info = defArgsMap [k];
-                extInfo = getExtArg(info [0])
-                if extInfo:
-                    newArgsMap.append(extInfo)
-                    pass
+            newArgsMap = defArgsMap;
+            for k in range(len(extArgsMap)):
+                info = extArgsMap [k];
+
+                findIndex = -1;
+                for m in range(len(newArgsMap)):
+                    m_info = newArgsMap [m];
+                    if m_info [0] == info [0]:
+                        findIndex = m;
+                        break;
+
+                if findIndex >= 0:
+                    newArgsMap [findIndex] = info;
                 else:
                     newArgsMap.append(info);
 
@@ -261,12 +267,7 @@ class PackCommon:
 
             all_args = ' '.join(new_args)
 
-            cmdstr = ('%s '
-                      '--data %s '
-                      '--sheet %s '
-                      ' %s '
-                      ' %s' % (cmd,plistfile, pngfile, all_args,packdir))
-
+            cmdstr = ('%s --data %s --sheet %s  %s %s' % (cmd,plistfile, pngfile, all_args,packdir))
             Commander().do(cmdstr);
 
         except Exception as err:
