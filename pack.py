@@ -1499,6 +1499,11 @@ return {
             for filename in filelist:
                 if filename.endswith("lua"):
 
+                    if "config.lua" in filename or "config_auto.lua" in filename:
+                        continue;
+
+                    print ("save Cache for %s" %(filename));
+
                     luac_filename = filename.replace(".lua",".luac");
 
                     lua_src_file_path = os.path.join(path, filename);
