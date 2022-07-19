@@ -193,25 +193,79 @@ class PackCommon:
             else:
                 cmd = "TexturePacker"
 
+            defArgs = [
+                '--texture-format png ',
+                '--format cocos2d ',
+                '--opt RGBA8888 ',
+                '--max-width 2048 ',
+                '--max-height 2048 ',
+                '--trim-mode Trim ',
+                '--size-constraints NPOT ',
+                '--algorithm MaxRects ',
+                '--maxrects-heuristics Best ',
+                '--pack-mode Best ',
+                '--scale 1 ',
+                '--basic-sort-by Best ',
+                '--dither-fs-alpha ',
+                '--padding 0',
+            ]
+
+            '''
+            默认
+            '''
+            defArgsMap = [];
+            for k in range(len(defArgs)):
+                info = defArgs [k];
+                info_arr = info.split();
+                defArgsMap.append(info_arr);
+                pass
+
+            '''
+            扩展
+            '''
+            extArgsMap = [];
+            extArgs = ext_args.split(',');
+            for k in range(len(extArgs)):
+                info = extArgs [k];
+                info_arr = info.split();
+                extArgsMap.append(info_arr);
+                pass
+
+            def getExtArg(arg):
+                for k in range(len(extArgsMap)):
+                    info = extArgsMap [k];
+                    if info [0] == arg:
+                        return info;
+
+                return None;
+
+            '''
+            过滤
+            '''
+            newArgsMap = [];
+            for k in range(len(defArgsMap)):
+                info = defArgsMap [k];
+                extInfo = getExtArg(info [0])
+                if extInfo:
+                    newArgsMap.append(extInfo)
+                    pass
+                else:
+                    newArgsMap.append(info);
+
+            '''
+            组合
+            '''
+            new_args = [];
+            for k in range(len(newArgsMap)):
+                new_args.append(' '.join(newArgsMap [k]))
+
+            all_args = ' '.join(new_args)
+
             cmdstr = ('%s '
-                      '--texture-format png '
-                      '--format cocos2d '
                       '--data %s '
                       '--sheet %s '
-                      '--opt RGBA8888 '
-                      '--max-width 2048 '
-                      '--max-height 2048 '
-                      '--trim-mode Trim '
-                      '--size-constraints NPOT '
-                      '--algorithm MaxRects '
-                      '--maxrects-heuristics Best '
-                      '--pack-mode Best '
-                      '--scale 1 '
-                      '--basic-sort-by Best '
-                      '--dither-fs-alpha '
                       ' %s '
-                      # ' --png-opt-level 4 '
-                      '--padding 0 %s' % (cmd,plistfile, pngfile, ext_args,packdir))
+                      ' %s' % (cmd,plistfile, pngfile, all_args,packdir))
 
             Commander().do(cmdstr);
 
