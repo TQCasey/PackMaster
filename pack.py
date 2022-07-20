@@ -1809,9 +1809,6 @@ return {
             fileMd5 = self._fileMd5(filepath);
             dir, filename = os.path.split (filepath);
 
-            if "shouzhi0.png" in filepath:
-                print ("FUCK YOU MAN")
-
             """
             turbo boost up !!
             """
@@ -1952,11 +1949,6 @@ return {
                 for filename in filelist:
                     if filename.endswith("png"):
                         if self.isInRawResList(filename) or self.isInRGBA888List(filename):
-                            # if self.use_pngquant and not self.isInRGBA888List(filename):
-                            #     print("compress raw pngfiles %s with pngquant" % (filename));
-                            #     self._pngquantResFile(os.path.join(path, filename), redirect);
-                            # else:
-                            #     pass
                             print("no need to compress,need raw png res %s (rawPNG)" % filename);
                             continue;
 
@@ -2024,14 +2016,6 @@ return {
             for path, dir, filelist in all:
                 for filename in filelist:
                     if filename.endswith("png"):
-                        # if self.isInRawResList(filename) or self.isInRGBA888List(filename):
-                        #     # if self.use_pngquant and not self.isInRGBA888List(filename):
-                        #     #     print("compress raw pngfiles %s with pngquant" % (filename));
-                        #     #     self._pngquantResFile(os.path.join(path, filename), redirect);
-                        #     # else:
-                        #     #     pass
-                        #     print("no need to compress,need raw png res %s (rawPNG)" % filename);
-                        #     continue;
 
                         filepath = os.path.join(path, filename);
                         fileMd5 = self._fileMd5(filepath);

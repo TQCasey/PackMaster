@@ -104,6 +104,12 @@ class SvnUploader:
                             file_status     = mode [0];
                             prop_status     = "N";
 
+                        if file_status == "L":
+                            '''
+                            dir
+                            '''
+                            continue;
+
                         info["file"]        = file;
                         info["mode"]        = file_status;
                         info["status"]      = map [file_status];
@@ -136,6 +142,12 @@ class SvnUploader:
                     else:
                         file_status = mode[0];
                         prop_status = "N";
+
+                    if file_status == "L":
+                        '''
+                        dir
+                        '''
+                        continue;
 
                     info["file"] = file;
                     info["mode"] = file_status;
