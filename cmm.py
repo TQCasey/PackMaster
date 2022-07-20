@@ -112,9 +112,6 @@ def done_pack(retcode):
     if gsignal.done_trigger != None:
         gsignal.done_trigger.emit(retcode);
 
-def PackManVersion():
-    return 3;
-
 def getCacheDir():
     path = "./cache";
     if not os.path.exists(path):
