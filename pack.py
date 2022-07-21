@@ -203,6 +203,8 @@ class PackCommon:
                 '--trim-mode Trim ',
                 '--size-constraints NPOT ',
                 '--algorithm MaxRects ',
+                '--shape-padding 2',
+                '--border-padding 2',
                 '--maxrects-heuristics Best ',
                 '--pack-mode Best ',
                 '--scale 1 ',
