@@ -202,6 +202,8 @@ class PackCommon:
                 '--trim-mode Trim ',
                 '--size-constraints NPOT ',
                 '--algorithm MaxRects ',
+                '--shape-padding 2',
+                '--border-padding 2',
                 '--maxrects-heuristics Best ',
                 '--pack-mode Best ',
                 '--scale 1 ',
@@ -1809,9 +1811,6 @@ return {
             fileMd5 = self._fileMd5(filepath);
             dir, filename = os.path.split (filepath);
 
-            if "shouzhi0.png" in filepath:
-                print ("FUCK YOU MAN")
-
             """
             turbo boost up !!
             """
@@ -1857,7 +1856,8 @@ return {
                 for filename in filelist:
                     if filename.endswith("png"):
 
-                        if self.isInRawResList(filename):
+                        filepath = os.path.join(path, filename);
+                        if self.isInRawResList(filename) or "raw_res" in filepath:
                             if self.use_pngquant and not self.isInRGBA888List(filename):
                                 self._pngquantResFile(os.path.join(path, filename), redirect);
                             else:
@@ -1868,7 +1868,6 @@ return {
                             use_rgba = "RGBA8888";
 
                         filen, fileext = os.path.splitext(filename);
-                        filepath = os.path.join(path, filename);
                         fileMd5 = self._fileMd5(filepath);
 
                         cache_dir = "";
@@ -1951,16 +1950,12 @@ return {
             for path, dir, filelist in all:
                 for filename in filelist:
                     if filename.endswith("png"):
-                        if self.isInRawResList(filename) or self.isInRGBA888List(filename):
-                            # if self.use_pngquant and not self.isInRGBA888List(filename):
-                            #     print("compress raw pngfiles %s with pngquant" % (filename));
-                            #     self._pngquantResFile(os.path.join(path, filename), redirect);
-                            # else:
-                            #     pass
+
+                        filepath = os.path.join(path, filename);
+                        if self.isInRawResList(filename) or self.isInRGBA888List(filename) or "raw_res" in filepath:
                             print("no need to compress,need raw png res %s (rawPNG)" % filename);
                             continue;
 
-                        filepath = os.path.join(path, filename);
                         fileMd5 = self._fileMd5(filepath);
 
                         """
@@ -2024,14 +2019,6 @@ return {
             for path, dir, filelist in all:
                 for filename in filelist:
                     if filename.endswith("png"):
-                        # if self.isInRawResList(filename) or self.isInRGBA888List(filename):
-                        #     # if self.use_pngquant and not self.isInRGBA888List(filename):
-                        #     #     print("compress raw pngfiles %s with pngquant" % (filename));
-                        #     #     self._pngquantResFile(os.path.join(path, filename), redirect);
-                        #     # else:
-                        #     #     pass
-                        #     print("no need to compress,need raw png res %s (rawPNG)" % filename);
-                        #     continue;
 
                         filepath = os.path.join(path, filename);
                         fileMd5 = self._fileMd5(filepath);
@@ -2094,10 +2081,10 @@ return {
                         """
                         if in raw files list , do nothing 
                         """
-                        if gFilterList.isInRawList(filename):
+                        filepath = os.path.join(path, filename);
+                        if gFilterList.isInRawList(filename) or "raw_res" in filepath:
                             continue;
 
-                        filepath = os.path.join(path,filename);
                         self._pngquantResFile(filepath,"");
                         pass
 
