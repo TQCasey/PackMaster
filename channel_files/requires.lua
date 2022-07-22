@@ -18,4 +18,5 @@ return {
     "texaspt";
     "baccarat";
     "tongits";
+    "hygame";
 }
