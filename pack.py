@@ -753,7 +753,7 @@ return {
                 '''
                 asserts_gamesVesion.json
                 '''
-                singleGameConfigPath = os.path.join(baseDir, game, "%s_version.lua" % (hallName));
+                singleGameConfigPath = os.path.join(baseDir, game, "%s_version_V%s.lua" % (hallName,FILEMD5_VER));
                 singlestr = '''
 return {
     version = "%s";
@@ -1114,13 +1114,32 @@ return {
 
                 gamedir = os.path.join(self.publish_dir, "game");
 
-                gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
-                gamesConfig32 = gamesConfig32.replace("\\", "/");
-                delaySumitFiles.append(gamesConfig32);
+                '''
+                old way
+                '''
+                if COMPAT_WITH_OLDFILEMD5:
+                    gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
+                    if os.path.exists(gamesConfig32):
+                        gamesConfig32 = gamesConfig32.replace("\\", "/");
+                        delaySumitFiles.append(gamesConfig32);
 
-                gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
-                gamesConfig64 = gamesConfig64.replace("\\", "/");
-                delaySumitFiles.append(gamesConfig64);
+                    gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
+                    if os.path.exists(gamesConfig64):
+                        gamesConfig64 = gamesConfig64.replace("\\", "/");
+                        delaySumitFiles.append(gamesConfig64);
+
+                '''
+                new way
+                '''
+                new_gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig_V{}.json".format(hallName, "32",FILEMD5_VER));
+                if os.path.exists(new_gamesConfig32):
+                    new_gamesConfig32 = new_gamesConfig32.replace("\\", "/");
+                    delaySumitFiles.append(new_gamesConfig32);
+
+                new_gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig_V{}.json".format(hallName, "64",FILEMD5_VER));
+                if os.path.exists(new_gamesConfig64):
+                    new_gamesConfig64 = new_gamesConfig64.replace("\\", "/");
+                    delaySumitFiles.append(new_gamesConfig64);
 
                 '''
                 games
@@ -1129,10 +1148,22 @@ return {
                 for i in range(len(list)):
                     gname = list[i];
                     if self.isInGameList(gname):
-                        gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
-                        # print ("HallGame %s ,Game %s => %s" % (hallName,gname, gpath));
-                        gpath = gpath.replace("\\", "/");
-                        delaySumitFiles.append(gpath);
+                        '''
+                        old way
+                        '''
+                        if COMPAT_WITH_OLDFILEMD5:
+                            gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
+                            if os.path.exists(gpath):
+                                gpath = gpath.replace("\\", "/");
+                                delaySumitFiles.append(gpath);
+
+                        '''
+                        new way
+                        '''
+                        new_gpath = os.path.join(self.publish_dir, "game", gname, "{}_version_V{}.lua".format(hallName,FILEMD5_VER));
+                        if os.path.exists(new_gpath):
+                            new_gpath = new_gpath.replace("\\", "/");
+                            delaySumitFiles.append(new_gpath);
                     pass
                 pass
             pass
