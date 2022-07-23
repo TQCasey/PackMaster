@@ -1,7 +1,7 @@
 -- capsa - android
 return {
 
-    srcname         = "capsa";
+    srcname         = "hygame";
 
     style           = "dark";
     cmm_style       = "cmm_ina";
