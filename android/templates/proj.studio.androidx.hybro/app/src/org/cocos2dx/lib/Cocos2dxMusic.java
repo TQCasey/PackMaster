@@ -44,9 +44,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import org.jetbrains.annotations.NotNull;
-
-
 public class Cocos2dxMusic {
     // ===========================================================
     // Constants
@@ -264,7 +261,7 @@ public class Cocos2dxMusic {
 
                 mWorkerHandler = new Handler(mHandlerThread.getLooper()) {
                     @Override
-                    public void handleMessage(@NonNull @NotNull Message msg) {
+                    public void handleMessage(@NonNull Message msg) {
                         super.handleMessage(msg);
                         try {
                             Bundle item = null;
@@ -322,7 +319,7 @@ public class Cocos2dxMusic {
 
                 mHandlerThread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                     @Override
-                    public void uncaughtException(@NonNull @NotNull Thread t, @NonNull @NotNull Throwable e) {
+                    public void uncaughtException(@NonNull Thread t, @NonNull Throwable e) {
                         e.printStackTrace();
                     }
                 });

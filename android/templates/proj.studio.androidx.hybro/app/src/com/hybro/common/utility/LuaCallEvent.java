@@ -20,9 +20,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.adjust.sdk.Adjust;
-import com.adjust.sdk.AdjustEvent;
-import com.appsflyer.AppsFlyerLib;
 import com.cynking.capsa.R;
 import com.facebook.appevents.AppEventsConstants;
 import com.lahm.library.EasyProtectorLib;
@@ -31,7 +28,6 @@ import com.hybro.common.iap.google.GooglePay;
 
 import org.cocos2dx.lib.Cocos2dxLuaJavaBridge;
 import org.cocos2dx.lib.WebHandler;
-import org.cocos2dx.lib.emulator.FindEmulator;
 import org.cocos2dx.lua.AppActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,8 +80,6 @@ public class LuaCallEvent {
 		map.put("language", getLanguage());       //系统语言
 		map.put("brand", android.os.Build.BRAND);       //手机型号
 		map.put("androidId", DeviceInfo.getInstance().getAndroidID());       //AndroidID
-		map.put("appsflyerId", AppsFlyerLib.getInstance().getAppsFlyerUID(AppActivity.mActivity));
-		map.put("adjustId", Adjust.getAdid());
 		map.put("gms_adid", MyApplication.gms_adid);
 		// String pushRid = AppActivity.mActivity.rid;
 		// String pushTid = AppActivity.mActivity.tid;
@@ -94,7 +88,6 @@ public class LuaCallEvent {
 		// map.put("pushRid", pushRid);
 		// map.put("pushTid", pushTid);
 		// }
-		map.put("isSimulator", FindEmulator.isSimulator(AppActivity.mActivity)?"1":"0");
 		map.put("trick_param", getTrickParams());
 
 		String accessToken = AppActivity.mActivity.accessToken;
@@ -573,7 +566,6 @@ public class LuaCallEvent {
 			ev.put(key, value);
 		}
 
-		AppsFlyerLib.getInstance().trackEvent(AppActivity.mActivity, evt_type, ev);
 	}
 
 	/*
@@ -581,11 +573,7 @@ public class LuaCallEvent {
 	 * @param eventToken 事件token
 	 */
 	public static void adjust_tracklog(final String eventToken, final String subEvent) {
-		if (eventToken != null && !eventToken.equals("")){
-			AdjustEvent adjustEvent = new AdjustEvent(eventToken);
-			adjustEvent.addCallbackParameter("subEvent", subEvent);
-			Adjust.trackEvent(adjustEvent);
-		}
+
 	}
 	
 	/*

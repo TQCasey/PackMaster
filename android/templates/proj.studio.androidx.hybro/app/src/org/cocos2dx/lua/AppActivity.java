@@ -70,8 +70,6 @@ import android.widget.RelativeLayout;
 import android.graphics.Color;
 import android.view.ViewGroup;
 
-import com.adjust.sdk.Adjust;
-import com.appsflyer.AppsFlyerLib;
 import com.facebook.appevents.AppEventsConstants;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -590,9 +588,7 @@ public class AppActivity extends Cocos2dxActivity {
 			if (token == null || token.equals("")) {
 				m_regIdLuaFuncId = luaFuncId;
 			}else{
-				Adjust.setPushToken(token);
 				final int luaFunc = luaFuncId;
-				AppsFlyerLib.getInstance().updateServerUninstallToken(getApplicationContext(), token);
 				AppActivity.mActivity.runOnGLThread(new Runnable() {
 			        @Override
 			        public void run() {
@@ -611,8 +607,6 @@ public class AppActivity extends Cocos2dxActivity {
     }
 
 	public void uploadGcmId(final String token){
-		Adjust.setPushToken(token);
-		AppsFlyerLib.getInstance().updateServerUninstallToken(getApplicationContext(), token);
 		if(m_regIdLuaFuncId >= 0){
 			AppActivity.mActivity.runOnGLThread(new Runnable() {
 				@Override

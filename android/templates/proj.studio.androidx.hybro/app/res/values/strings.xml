@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Capsa</string>
+    <string name="facebook_app_id" translatable="false">1015910851904798</string>
+    <string name="facebook_ads_id" translatable="false">1015910851904798</string>
+    <string name="facebook_share_title" translatable="false">Undang teman langsung dpt chip 20M!</string>
+    <string name="facebook_share_msg" translatable="false">Teman yg berhasil diundang login ke game dgn akun FB ,segera dapat chip 20M/teman.Undang makin banyak,Bonus makin besar, Bonus chip max 500M tiap hari </string>
+    <string name="base64EncodedPublicKey" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtNqSHhteBHENo9yaGlwOb+pwy1PhNQJa4vjt21bOLI+rU9X0/VA4WFCzLJ9qKglCgjfy94Az2e76KztsCwBW1BxGE7jL/yM8UK+4H32i/Um4jak7X4wBo6ONLu6METXn4is/fa3BDtjirxew1CwhCQN8ns3EgLhz+EDr8XA2wdI5UVAZPRXGH9ppG72UAb/uyYzicj+cwomrI0AgSGaZTvK9Z3BlJ++chekt71BLCGFsPlR/NMpQW13QswU3PRSM5sO01S48RjyCCc0s6bH3DCW2nLInVl6WeTkInpHdh4Df2hFhdWlO/zJsqG8MVnwvYjtLyE36UmSQ1VYTIeAj3wIDAQAB</string>
+    <string name="SENDER_ID" translatable="false">887692418916</string>
+    <string name="ACTION_ON_REGISTERED" translatable="false">com.cynking.capsa.ON_REGISTERED</string>
+    <string name="appsflyer_dev_key" translatable="false">PeQQENGhdszwD59r999Px7</string>
+    <string name="admob_unit_id" translatable="false">ca-app-pub-7908513253977535/7526858191</string>
+    <string name="admob_id" translatable="false">ca-app-pub-7908513253977535~1289602964</string>
+    <string name="help">Bantuan</string>
+    <string name="string_help_text">Jika ingin buka, silahkan membuka otoritas dengan mengklik pengaturan lalu otoritas. Klik 2x untuk kembali</string>
+    <string name="quit">Pengaturan</string>
+    <string name="settings">Keluar</string>
+    <string name="fb_instream_place_id">1015910851904798_1244430525719495</string>
+    <string name="fb_reward_place_id">1015910851904798_1244427049053176</string>
+
+
+</resources>

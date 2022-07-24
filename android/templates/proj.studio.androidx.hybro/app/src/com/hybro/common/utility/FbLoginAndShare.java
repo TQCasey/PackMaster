@@ -32,7 +32,7 @@ import com.facebook.share.model.GameRequestContent;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.GameRequestDialog;
 import com.facebook.share.widget.ShareDialog;
-import com.zhijian.domino.R;
+import com.cynking.capsa.R;
 
 public class FbLoginAndShare {
 	private static FbLoginAndShare mInstance = null;

@@ -21,7 +21,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.zhijian.domino.R;
+import com.cynking.capsa.R;
 import com.hybro.common.utility.LuaCallEvent;
 import com.hybro.common.utility.PermissionsChecker;
 
@@ -79,7 +79,7 @@ public class LoginAcitivity extends AppCompatActivity {
 //		view.addView(bgImg, layoutParams);
 
 		startIcon = new ImageView(this);
-		startIcon.setImageResource(R.drawable.start_screen_icon);
+		startIcon.setImageResource(R.drawable.logo);
 		int IconWidth = 448*screen_height/1080;
 		int IconHeight = 501*screen_height/1080;
 		RelativeLayout.LayoutParams loadIconLayout = new RelativeLayout.LayoutParams(IconWidth,IconHeight);

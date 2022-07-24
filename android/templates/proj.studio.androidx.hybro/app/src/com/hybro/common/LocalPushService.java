@@ -13,7 +13,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
 
-import com.zhijian.domino.R;
+import com.cynking.capsa.R;
 
 import org.cocos2dx.lua.AppActivity;
 import org.json.JSONArray;

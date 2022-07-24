@@ -87,15 +87,36 @@ public class AppStartDialog extends AlertDialog {
 		m_bgImgae = bgImg;
 		m_startIcon = startIcon;
 
-		onEndPlayLaunchVideo ();
-
         setContentView(view);
 
 		//设置全屏
 		getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+		FakeEndVideo ();
 	}
 	
-	
+
+	private void FakeEndVideo () {
+
+		try {
+
+			Handler handler = new Handler();
+			handler.postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						onEndPlayLaunchVideo ();
+					} catch (Exception e ) {
+						e.printStackTrace();
+					}
+				}
+			}, 1500);  // 延迟一帧
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void onEndPlayLaunchVideo () {
 
 		try {
@@ -130,7 +151,7 @@ public class AppStartDialog extends AlertDialog {
 						e.printStackTrace();
 					}
 				}
-			}, 20);  // 延迟一帧
+			}, 200);  // 延迟一帧
 
 		} catch (Exception e) {
 			e.printStackTrace();
