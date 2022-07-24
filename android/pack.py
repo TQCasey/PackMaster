@@ -237,13 +237,15 @@ class PackAndroid(PackCommon):
             if not self.isThaiLang:
                 print("prepare for FireBase files ...");
                 gpath = os.path.join(full_path, "com", "AppFireBaseInstanceIDService.java");
-                replaceFileContent(gpath, oldpname, channeldata.name);
-                shutil.copy(gpath, npath);
-                os.remove(gpath);
+                if os.path.exists(gpath):
+                    replaceFileContent(gpath, oldpname, channeldata.name);
+                    shutil.copy(gpath, npath);
+                    os.remove(gpath);
 
             print ("prepare for AppActivity file...")
             gpath = os.path.join(full_path,"org","cocos2dx","lua","AppActivity.java");
-            replaceFileContent(gpath,oldpname,channeldata.name);
+            if os.path.exists(gpath):
+                replaceFileContent(gpath,oldpname,channeldata.name);
 
             print ("Prepare for new act center ...");
             gpath = os.path.join(full_path, "com", "act");
@@ -262,15 +264,17 @@ class PackAndroid(PackCommon):
 
             print ("replacing with new package name(%s ==> %s) ..." %(oldpname,channeldata.name));
             gpath = os.path.join(full_path,"com","MyFirebaseMessagingService.java");
-            replaceFileContent(gpath, oldpname, channeldata.name);
-            shutil.copy(gpath,npath);
-            os.remove(gpath);
+            if os.path.exists(gpath):
+                replaceFileContent(gpath, oldpname, channeldata.name);
+                shutil.copy(gpath,npath);
+                os.remove(gpath);
 
             print ("WebHandler.java : replacing with new package name(%s ==> %s) ..." %(oldpname,channeldata.name));
             gpath = os.path.join(full_path,"org","cocos2dx","lib","WebHandler.java");
-            replaceFileContent(gpath, oldpname, channeldata.name);
-            shutil.copy(gpath,npath);
-            os.remove(gpath);
+            if os.path.exists(gpath):
+                replaceFileContent(gpath, oldpname, channeldata.name);
+                shutil.copy(gpath,npath);
+                os.remove(gpath);
 
             print ("replace all %s.R files to %s.R" % (oldpname,channeldata.name));
             all = os.walk(full_path);
@@ -291,7 +295,8 @@ class PackAndroid(PackCommon):
             self._modifyAndroidManifestFile (path,False);
 
             ## replace again ....
-            replaceFileContent(path,oldpackname,channeldata.name + ".R");
+            if os.path.exists(path):
+                replaceFileContent(path,oldpackname,channeldata.name + ".R");
 
             # clean project
             print(" ----------------- gradle clean project ----------------- ")

@@ -52,7 +52,7 @@ return {
                 channel = 0x01027250;
                 encrypt_char = "CP";
                 visitor_sid = 11;
-                template_proj = "proj.studio.androidx.ina";
+                template_proj = "proj.studio.androidx.hybro";
                 copyres = {
                 }
             }

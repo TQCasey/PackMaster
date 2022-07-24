@@ -19,11 +19,11 @@
 
         <ImageView
             android:id="@+id/imageView_str_bk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:alpha="0.7"
+            android:layout_width="260dp"
+            android:layout_height="128dp"
+            android:layout_centerInParent="true"
+            android:scaleType="fitXY"
+            android:alpha="0.4"
             android:src="@drawable/common_loading_bg" />
 
         <RelativeLayout

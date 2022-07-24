@@ -1,40 +1,33 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android" package="com.cynking.capsa" android:versionCode="2300" android:versionName="2.3.0" android:installLocation="auto">
+<?xml version="1.0" encoding="utf-8"?><manifest android:installLocation="auto" android:versionCode="22240" android:versionName="2.22.4.0" package="com.cynking.capsa" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
     <uses-sdk android:minSdkVersion="18" android:targetSdkVersion="29"/>
     <uses-feature android:glEsVersion="0x00020000"/>
-    <application android:label="@string/app_name" tools:replace="android:fullBackupContent" android:fullBackupContent="true" android:icon="@drawable/icon" android:name="com.zhijian.common.MyApplication" android:usesCleartextTraffic="true" android:requestLegacyExternalStorage="true">
+    <application android:fullBackupContent="true" android:icon="@drawable/icon" android:label="@string/app_name" android:name="com.hybro.common.MyApplication" android:requestLegacyExternalStorage="true" android:usesCleartextTraffic="true" tools:replace="android:fullBackupContent">
         <!-- Tell Cocos2dxActivity the name of our .so -->
         <meta-data android:name="android.app.lib_name" android:value="cocos2dlua"/>
-        <activity android:name="com.zhijian.common.LoginAcitivity" android:configChanges="orientation" android:label="@string/app_name" android:screenOrientation="landscape" android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:configChanges="orientation" android:label="@string/app_name" android:name="com.hybro.common.LoginAcitivity" android:screenOrientation="landscape" android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="org.cocos2dx.lua.AppActivity" android:label="@string/app_name" android:screenOrientation="landscape" android:theme="@style/Theme.AppCompat.NoActionBar" android:launchMode="singleTask" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation">
+        <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:launchMode="singleTask" android:name="org.cocos2dx.lua.AppActivity" android:screenOrientation="landscape" android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.facebook.FacebookActivity" android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name"/>
-        <provider android:name="com.facebook.FacebookContentProvider" android:authorities="com.facebook.app.FacebookContentProvider1051333554898444" android:exported="true"/>
-        <provider android:name="androidx.core.content.FileProvider" android:authorities="com.cynking.capsa.myprovider" android:exported="false" android:grantUriPermissions="true">
+        <activity android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation" android:label="@string/app_name" android:name="com.facebook.FacebookActivity"/>
+        <provider android:authorities="com.facebook.app.FacebookContentProvider1051333554898444" android:exported="true" android:name="com.facebook.FacebookContentProvider"/>
+        <provider android:authorities="com.hybro.hall.myprovider" android:exported="false" android:grantUriPermissions="true" android:name="androidx.core.content.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
         </provider>
-        <service
-            android:name="com.cynking.capsa.MyFirebaseMessagingService">
+        <service android:name="com.hybro.hall.MyFirebaseMessagingService">
           <intent-filter>
             <action android:name="com.google.firebase.MESSAGING_EVENT"/>
           </intent-filter>
         </service>
-        	<service 
-		android:name="com.zhijian.common.LocalPushService" 
-		android:process=":LocalPushService"
-		android:enabled="true"
-	/>
-        <service
-            android:name="com.cynking.capsa.AppFireBaseInstanceIDService">
+        	
+        <service android:name="com.hybro.hall.AppFireBaseInstanceIDService">
           <intent-filter>
             <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
           </intent-filter>
@@ -49,12 +42,9 @@
         <!-- <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="ca-app-pub-3940256099942544~3347511713"/> -->
         <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/admob_id"/>
 
-        <receiver
-            android:name="com.adjust.sdk.AdjustReferrerReceiver"
-            android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
+        <receiver android:exported="true" android:name="com.adjust.sdk.AdjustReferrerReceiver" android:permission="android.permission.INSTALL_PACKAGES">
             <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
+                <action android:name="com.android.vending.INSTALL_REFERRER"/>
             </intent-filter>
         </receiver>
 
@@ -77,7 +67,7 @@
     <!-- 添加快捷方式 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
     <!--Gcm start,需要改成相应包名 -->
-    <permission android:name="com.cynking.capsa.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
+    <permission android:name="com.hybro.hall.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <!--Gcm end-->

@@ -1,0 +1,31 @@
+{
+    "ndk_module_path" :[
+        "../../cocos2d-x",
+        "../../cocos2d-x/cocos/",
+        "../../cocos2d-x/external",
+        "../../cocos2d-x/cocos/scripting",
+        "../../cocos2d-x/cocos/quick_libs"
+    ],
+    "copy_resources": [
+        {
+            "from": "../../../client/publish/base",
+            "to": "base"
+        }
+		,
+        {
+            "from": "../../../client/publish/hall",
+            "to": "hall"
+        }
+		,
+        {
+            "from": "../../../client/publish/game",
+            "to": "game"
+        }
+    ],
+    "must_copy_resources": [
+        {
+            "from": "../../../config.json",
+            "to": ""
+        }
+    ]
+}
