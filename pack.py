@@ -1106,11 +1106,24 @@ return {
 
             hallList = gPMConfig.getHallList();
             for hallName in hallList:
-                path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
-                # print ("Hall version Path => %s" % path);
 
-                path = path.replace("\\", "/");
-                delaySumitFiles.append(path);
+                '''
+                old way
+                '''
+                if COMPAT_WITH_OLDFILEMD5:
+                    path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
+                    if os.path.exists(path):
+                        path = path.replace("\\", "/");
+                        delaySumitFiles.append(path);
+
+                '''
+                new way
+                '''
+                path = os.path.join(self.publish_dir,"hall","{}_version_V{}.lua".format(hallName,FILEMD5_VER));
+                if os.path.exists(path):
+                    path = path.replace("\\", "/");
+                    delaySumitFiles.append(path);
+
 
                 gamedir = os.path.join(self.publish_dir, "game");
 
