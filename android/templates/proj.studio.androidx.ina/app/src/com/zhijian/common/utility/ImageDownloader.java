@@ -277,6 +277,7 @@ public class ImageDownloader {
             URL url = new URL (item.url);
             conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(item.tmo * 1000);
+            conn.setReadTimeout(item.tmo * 1000);
             conn.setRequestProperty("Accept-Encoding", "identity");
             conn.connect();
 
