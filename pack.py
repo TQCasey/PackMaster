@@ -664,6 +664,13 @@ class PackCommon:
             if game not in self.game_list:
                 continue;
 
+
+            oldMd5Str32 = "";
+            oldMd5Str64 = "";
+
+            newMd5Str32 = "";
+            newMd5Str64 = "";
+
             '''
             ====================================================================================
             old game version 
@@ -679,23 +686,23 @@ class PackCommon:
                     '''
                     32bit 
                     '''
-                    md5str32 = self.makeGameFileMd5ForHallName(hallName, game, False,False);
+                    oldMd5Str32 = self.makeGameFileMd5ForHallName(hallName, game, False,False);
 
-                    if md5str32 != "":
+                    if oldMd5Str32 != "":
                         hallinfo32[game] = {};
                         hallinfo32[game]['version'] = version;
                         hallinfo32[game]['minhall'] = str(hallnum);
-                        hallinfo32[game]['md5info'] = md5str32;
+                        hallinfo32[game]['md5info'] = oldMd5Str32;
 
                     '''
                     64bit
                     '''
-                    md5str64 = self.makeGameFileMd5ForHallName(hallName, game, True,False);
-                    if md5str64 != "":
+                    oldMd5Str64 = self.makeGameFileMd5ForHallName(hallName, game, True,False);
+                    if oldMd5Str64 != "":
                         hallinfo64[game] = {};
                         hallinfo64[game]['version'] = version;
                         hallinfo64[game]['minhall'] = str(hallnum);
-                        hallinfo64[game]['md5info'] = md5str64;
+                        hallinfo64[game]['md5info'] = oldMd5Str64;
 
                     '''
                     asserts_gamesVesion.json
@@ -708,7 +715,7 @@ return {
     md532 = '%s';
     md564 = '%s';
 }                    
-    '''             % (version, hallnum, md5str32, md5str64);
+    '''             % (version, hallnum, oldMd5Str32, oldMd5Str64);
 
                     with open(singleGameConfigPath, "wb") as file:
 
@@ -732,23 +739,25 @@ return {
                 '''
                 32bit 
                 '''
-                md5str32 = self.makeGameFileMd5ForHallName(hallName, game, False,True);
+                newMd5Str32 = self.makeGameFileMd5ForHallName(hallName, game, False,True);
 
-                if md5str32 != "":
+                if newMd5Str32 != "":
                     hallinfo32[game] = {};
                     hallinfo32[game]['version'] = version;
                     hallinfo32[game]['minhall'] = str(hallnum);
-                    hallinfo32[game]['md5info'] = md5str32;
+                    hallinfo32[game]['md5info'] = newMd5Str32;
+                    hallinfo32[game]['v1_md5info'] = oldMd5Str32;
 
                 '''
                 64bit
                 '''
-                md5str64 = self.makeGameFileMd5ForHallName(hallName, game, True,True);
-                if md5str64 != "":
+                newMd5Str64 = self.makeGameFileMd5ForHallName(hallName, game, True,True);
+                if newMd5Str64 != "":
                     hallinfo64[game] = {};
                     hallinfo64[game]['version'] = version;
                     hallinfo64[game]['minhall'] = str(hallnum);
-                    hallinfo64[game]['md5info'] = md5str64;
+                    hallinfo64[game]['md5info'] = newMd5Str64;
+                    hallinfo64[game]['v1_md5info'] = oldMd5Str64;
 
                 '''
                 asserts_gamesVesion.json
@@ -761,7 +770,7 @@ return {
     md532 = '%s';
     md564 = '%s';
 }                    
-            ''' % (version, hallnum, md5str32, md5str64);
+            ''' % (version, hallnum, newMd5Str32, newMd5Str64);
 
                 with open(singleGameConfigPath, "wb") as file:
 
