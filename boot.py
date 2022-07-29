@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from android.ui import MainWindowAndroid
 from cmm import *
 from ios.ui import MainWindowIOS
+# import qdarkstyle
 
 if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True);
@@ -15,6 +16,7 @@ if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 app = QApplication(sys.argv);
+# app.setStyleSheet(qdarkstyle.load_stylesheet())
 
 def mainLoop():
     app.setApplicationName("PackMan3")

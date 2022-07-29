@@ -8,6 +8,7 @@ import socket
 import yaml
 
 from cmm import *
+from config import  *
 from profile import gFilterList, PageConfig, gWhiteList, gPMConfig, gLuaPM
 from svnuploader import SvnUploader
 
@@ -596,13 +597,17 @@ class PackCommon:
 
         pass
 
-    def makeGameFileMd5ForHallName(self,hallName,game,isBit64):
+    def makeGameFileMd5ForHallName(self,hallName,game,isBit64,isNewVer = False):
 
         if not isBit64:
             '''
             32bit
             '''
             jsonFileName32 = "%s_32_filemd5.json" % (hallName)
+
+            if isNewVer:
+                jsonFileName32 = "%s_32_filemd5_V%s.json" % (hallName,FILEMD5_VER)
+
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b32_md5 = self._fileMd5(jsonFilePath);
 
@@ -614,6 +619,10 @@ class PackCommon:
             64bit
             '''
             jsonFileName32 = "%s_64_filemd5.json" % (hallName)
+
+            if isNewVer:
+                jsonFileName32 = "%s_64_filemd5_V%s.json" % (hallName,FILEMD5_VER)
+
             jsonFilePath = os.path.join(self.publish_dir, "game", game, jsonFileName32);
             b64_md5 = self._fileMd5(jsonFilePath);
 
@@ -655,6 +664,72 @@ class PackCommon:
             if game not in self.game_list:
                 continue;
 
+
+            oldMd5Str32 = "";
+            oldMd5Str64 = "";
+
+            newMd5Str32 = "";
+            newMd5Str64 = "";
+
+            '''
+            ====================================================================================
+            old game version 
+            ====================================================================================
+            '''
+            if COMPAT_WITH_OLDFILEMD5:
+                if isMakeAssets == True:
+                    hallinfo[game] = {};
+                    hallinfo[game]['version'] = version;
+                    hallinfo[game]['minhall'] = str(hallnum);
+                    hallinfo[game]['md5info'] = "";
+                else:
+                    '''
+                    32bit 
+                    '''
+                    oldMd5Str32 = self.makeGameFileMd5ForHallName(hallName, game, False,False);
+
+                    if oldMd5Str32 != "":
+                        hallinfo32[game] = {};
+                        hallinfo32[game]['version'] = version;
+                        hallinfo32[game]['minhall'] = str(hallnum);
+                        hallinfo32[game]['md5info'] = oldMd5Str32;
+
+                    '''
+                    64bit
+                    '''
+                    oldMd5Str64 = self.makeGameFileMd5ForHallName(hallName, game, True,False);
+                    if oldMd5Str64 != "":
+                        hallinfo64[game] = {};
+                        hallinfo64[game]['version'] = version;
+                        hallinfo64[game]['minhall'] = str(hallnum);
+                        hallinfo64[game]['md5info'] = oldMd5Str64;
+
+                    '''
+                    asserts_gamesVesion.json
+                    '''
+                    singleGameConfigPath = os.path.join(baseDir, game, "%s_version.lua" % (hallName));
+                    singlestr = '''
+return {
+    version = "%s";
+    minhall = %s;
+    md532 = '%s';
+    md564 = '%s';
+}                    
+    '''             % (version, hallnum, oldMd5Str32, oldMd5Str64);
+
+                    with open(singleGameConfigPath, "wb") as file:
+
+                        content = convertToCRLF(bytearray(singlestr.encode('utf8')));
+                        file.write(bytearray(content));
+
+                        print("### 生成 Hall %s 游戏 %s 版本配置 ###" % (hallName, game));
+
+            '''
+            ====================================================================================
+            new game version 
+            ====================================================================================
+            '''
+
             if isMakeAssets == True:
                 hallinfo[game] = {};
                 hallinfo[game]['version'] = version;
@@ -664,28 +739,30 @@ class PackCommon:
                 '''
                 32bit 
                 '''
-                md5str32 = self.makeGameFileMd5ForHallName(hallName, game, False);
+                newMd5Str32 = self.makeGameFileMd5ForHallName(hallName, game, False,True);
 
-                if md5str32 != "":
+                if newMd5Str32 != "":
                     hallinfo32[game] = {};
                     hallinfo32[game]['version'] = version;
                     hallinfo32[game]['minhall'] = str(hallnum);
-                    hallinfo32[game]['md5info'] = md5str32;
+                    hallinfo32[game]['md5info'] = newMd5Str32;
+                    hallinfo32[game]['v1_md5info'] = oldMd5Str32;
 
                 '''
                 64bit
                 '''
-                md5str64 = self.makeGameFileMd5ForHallName(hallName, game, True);
-                if md5str64 != "":
+                newMd5Str64 = self.makeGameFileMd5ForHallName(hallName, game, True,True);
+                if newMd5Str64 != "":
                     hallinfo64[game] = {};
                     hallinfo64[game]['version'] = version;
                     hallinfo64[game]['minhall'] = str(hallnum);
-                    hallinfo64[game]['md5info'] = md5str64;
+                    hallinfo64[game]['md5info'] = newMd5Str64;
+                    hallinfo64[game]['v1_md5info'] = oldMd5Str64;
 
                 '''
                 asserts_gamesVesion.json
                 '''
-                singleGameConfigPath = os.path.join(baseDir, game, "%s_version.lua" % (hallName));
+                singleGameConfigPath = os.path.join(baseDir, game, "%s_version_V%s.lua" % (hallName,FILEMD5_VER));
                 singlestr = '''
 return {
     version = "%s";
@@ -693,7 +770,7 @@ return {
     md532 = '%s';
     md564 = '%s';
 }                    
-'''             % (version, hallnum, md5str32, md5str64);
+            ''' % (version, hallnum, newMd5Str32, newMd5Str64);
 
                 with open(singleGameConfigPath, "wb") as file:
 
@@ -701,6 +778,9 @@ return {
                     file.write(bytearray(content));
 
                     print("### 生成 Hall %s 游戏 %s 版本配置 ###" % (hallName, game));
+
+            pass
+
 
         if isMakeGamesConfig == True:
             if isMakeAssets == True:
@@ -712,10 +792,44 @@ return {
                     print("### 生成 Hall 游戏版本总配置 ###");
 
             else:
+
+                '''
+                ====================================================================================
+                old gamesConfig.json
+                ====================================================================================
+                '''
+
+                if COMPAT_WITH_NOCDN:
+                    '''
+                    32bit
+                    '''
+                    filePath = os.path.join(baseDir, "%s_32_gamesConfig.json" % (hallName));
+
+                    with open(filePath, "w+") as file:
+                        file.write(JsonEncodeWithOrder(hallinfo32));
+                        file.close();
+                        print("### 生成 Hall %s 游戏版本总配置 ###" % (hallName));
+
+                    '''
+                    64bit
+                    '''
+                    filePath = os.path.join(baseDir, "%s_64_gamesConfig.json" % (hallName));
+
+                    with open(filePath, "w+") as file:
+                        file.write(JsonEncodeWithOrder(hallinfo64));
+                        file.close();
+                        print("### 生成 Hall %s 游戏版本总配置 ###" % (hallName));
+
+                '''
+                ====================================================================================
+                new gamesConfig.json
+                ====================================================================================
+                '''
+
                 '''
                 32bit
                 '''
-                filePath = os.path.join(baseDir, "%s_32_gamesConfig.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_32_gamesConfig_V%s.json" % (hallName,FILEMD5_VER));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo32));
@@ -725,7 +839,7 @@ return {
                 '''
                 64bit
                 '''
-                filePath = os.path.join(baseDir, "%s_64_gamesConfig.json" % (hallName));
+                filePath = os.path.join(baseDir, "%s_64_gamesConfig_V%s.json" % (hallName,FILEMD5_VER));
 
                 with open(filePath, "w+") as file:
                     file.write(JsonEncodeWithOrder(hallinfo64));
@@ -987,6 +1101,9 @@ return {
 
         pass
 
+    '''
+    最终版1 
+    '''
     def doFinalThing1(self,update_version_trigger):
 
         try:
@@ -998,21 +1115,53 @@ return {
 
             hallList = gPMConfig.getHallList();
             for hallName in hallList:
-                path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
-                # print ("Hall version Path => %s" % path);
 
-                path = path.replace("\\", "/");
-                delaySumitFiles.append(path);
+                '''
+                old way
+                '''
+                if COMPAT_WITH_OLDFILEMD5:
+                    path = os.path.join(self.publish_dir,"hall","{}_version.lua".format(hallName));
+                    if os.path.exists(path):
+                        path = path.replace("\\", "/");
+                        delaySumitFiles.append(path);
+
+                '''
+                new way
+                '''
+                path = os.path.join(self.publish_dir,"hall","{}_version_V{}.lua".format(hallName,FILEMD5_VER));
+                if os.path.exists(path):
+                    path = path.replace("\\", "/");
+                    delaySumitFiles.append(path);
+
 
                 gamedir = os.path.join(self.publish_dir, "game");
 
-                gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
-                gamesConfig32 = gamesConfig32.replace("\\", "/");
-                delaySumitFiles.append(gamesConfig32);
+                '''
+                old way
+                '''
+                if COMPAT_WITH_OLDFILEMD5:
+                    gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "32"));
+                    if os.path.exists(gamesConfig32):
+                        gamesConfig32 = gamesConfig32.replace("\\", "/");
+                        delaySumitFiles.append(gamesConfig32);
 
-                gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
-                gamesConfig64 = gamesConfig64.replace("\\", "/");
-                delaySumitFiles.append(gamesConfig64);
+                    gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig.json".format(hallName, "64"));
+                    if os.path.exists(gamesConfig64):
+                        gamesConfig64 = gamesConfig64.replace("\\", "/");
+                        delaySumitFiles.append(gamesConfig64);
+
+                '''
+                new way
+                '''
+                new_gamesConfig32 = os.path.join(gamedir, "{}_{}_gamesConfig_V{}.json".format(hallName, "32",FILEMD5_VER));
+                if os.path.exists(new_gamesConfig32):
+                    new_gamesConfig32 = new_gamesConfig32.replace("\\", "/");
+                    delaySumitFiles.append(new_gamesConfig32);
+
+                new_gamesConfig64 = os.path.join(gamedir, "{}_{}_gamesConfig_V{}.json".format(hallName, "64",FILEMD5_VER));
+                if os.path.exists(new_gamesConfig64):
+                    new_gamesConfig64 = new_gamesConfig64.replace("\\", "/");
+                    delaySumitFiles.append(new_gamesConfig64);
 
                 '''
                 games
@@ -1021,10 +1170,22 @@ return {
                 for i in range(len(list)):
                     gname = list[i];
                     if self.isInGameList(gname):
-                        gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
-                        # print ("HallGame %s ,Game %s => %s" % (hallName,gname, gpath));
-                        gpath = gpath.replace("\\", "/");
-                        delaySumitFiles.append(gpath);
+                        '''
+                        old way
+                        '''
+                        if COMPAT_WITH_OLDFILEMD5:
+                            gpath = os.path.join(self.publish_dir,"game",gname,"{}_version.lua".format(hallName));
+                            if os.path.exists(gpath):
+                                gpath = gpath.replace("\\", "/");
+                                delaySumitFiles.append(gpath);
+
+                        '''
+                        new way
+                        '''
+                        new_gpath = os.path.join(self.publish_dir, "game", gname, "{}_version_V{}.lua".format(hallName,FILEMD5_VER));
+                        if os.path.exists(new_gpath):
+                            new_gpath = new_gpath.replace("\\", "/");
+                            delaySumitFiles.append(new_gpath);
                     pass
                 pass
             pass
@@ -1064,8 +1225,6 @@ return {
 
                     pass
 
-            remain_old_file = True;
-
             '''
             重新命名成后缀md5文件
             '''
@@ -1084,7 +1243,7 @@ return {
                 file_md5 = self._fileMd5(filepath);
                 new_native_filepath = filepath + "." + file_md5;
                 if os.path.exists(filepath) and not os.path.exists(new_native_filepath):
-                    if remain_old_file:
+                    if COMPAT_WITH_NOCDN:
                         shutil.copyfile(filepath,new_native_filepath)
                     else:
                         os.rename(filepath, new_native_filepath);
@@ -2111,8 +2270,17 @@ return {
         base_style      = luaHallConfig.style;
         cmm_style       = luaHallConfig.cmm_style;
 
+        '''
+        old list
+        '''
         list32  = {};
         list64  = {};
+
+        '''
+        new list
+        '''
+        new_list32 = {};
+        new_list64 = {};
 
         '''
         ===========================================================================================
@@ -2152,7 +2320,12 @@ return {
                     continue;
 
                 filepathMd5 = self._fileMd5(filepath);
+
                 list32[filepathGame] = filepathMd5;
+                new_list32 [filepathGame] = {
+                    "md5" : filepathMd5,
+                    "size" : os.path.getsize (filepath),
+                }
         '''
         src64
         '''
@@ -2179,6 +2352,10 @@ return {
 
                 filepathMd5 = self._fileMd5(filepath);
                 list64[filepathGame] = filepathMd5;
+                new_list64 [filepathGame] = {
+                    "md5" : filepathMd5,
+                    "size" : os.path.getsize (filepath),
+                }
 
         '''
         res
@@ -2198,6 +2375,16 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
                 '''
                 res style 
                 '''
@@ -2205,12 +2392,32 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
                 '''
                 res cmm 
                 '''
                 if "res/cmm" in filepathGame:
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
+
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
 
 
         '''
@@ -2246,6 +2453,11 @@ return {
 
                 filepathMd5 = self._fileMd5(filepath);
                 list32[filepathGame] = filepathMd5;
+
+                new_list32[filepathGame] = {
+                    "md5": filepathMd5,
+                    "size": os.path.getsize(filepath),
+                }
         '''
         src64
         '''
@@ -2269,6 +2481,11 @@ return {
                 filepathMd5 = self._fileMd5(filepath);
                 list64[filepathGame] = filepathMd5;
 
+                new_list64[filepathGame] = {
+                    "md5": filepathMd5,
+                    "size": os.path.getsize(filepath),
+                }
+
         '''
         res
         '''
@@ -2287,6 +2504,16 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
 
                 '''
                 res cmm 
@@ -2295,50 +2522,126 @@ return {
                     list32[filepathGame] = filepathMd5;
                     list64[filepathGame] = filepathMd5;
 
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
         '''
         ===========================================================================================
         == hall 
         ===========================================================================================
         '''
 
-        filelistJsonStr32   = JsonEncodeWithOrder(list32);
-        filelistJsonStr64   = JsonEncodeWithOrder(list64);
+        '''
+        ===========================================================================================
+        == old version filemd5.json
+        ===========================================================================================
+        '''
+
+        if COMPAT_WITH_OLDFILEMD5:
+            filelistJsonStr32   = JsonEncodeWithOrder(list32);
+            filelistJsonStr64   = JsonEncodeWithOrder(list64);
+
+            '''
+            32
+            '''
+            jsonFileName32 = "%s_32_filemd5.json" % (hallName)
+            jsonFilePath = os.path.join(self.publish_dir, "hall", jsonFileName32);
+            with open(jsonFilePath, "w+") as file:
+                file.write(filelistJsonStr32);
+
+            md532 = self._fileMd5(jsonFilePath);
+
+            '''
+            64
+            '''
+            jsonFileName64 = "%s_64_filemd5.json" % (hallName)
+            jsonFilePath = os.path.join(self.publish_dir, "hall", jsonFileName64);
+            with open(jsonFilePath, "w+") as file:
+                file.write(filelistJsonStr64);
+
+            md564 = self._fileMd5(jsonFilePath);
+
+            '''
+            make a version.file 
+            '''
+            version_file = os.path.join(self.publish_dir,"hall","%s_version.lua" % (hallName));
+            try:
+                filecontent = '''
+    return {
+        RELEASE_TIME = "%s";
+        version = "%s";
+        minhall = %s;
+        md532 = '%s';
+        md564 = '%s';
+        
+    }
+                ''' % (
+                    self.make_time,
+                    self.curChConfig.vname,
+                    self.curChConfig.hallnum,
+                    md532,
+                    md564
+                )
+
+                with open (version_file,"wb") as file:
+                    content = convertToCRLF(bytearray(filecontent.encode('utf8')));
+                    file.write(bytearray(content));
+
+                pass
+            except Exception as err:
+                errmsg(err);
+
+
+        '''
+        ===========================================================================================
+        == new version filemd5.json 
+        ===========================================================================================
+        '''
+        new_filelistJsonStr32   = JsonEncodeWithOrder(new_list32);
+        new_filelistJsonStr64   = JsonEncodeWithOrder(new_list64);
 
         '''
         32
         '''
-        jsonFileName32 = "%s_32_filemd5.json" % (hallName)
+        jsonFileName32 = "%s_32_filemd5_V%s.json" % (hallName,FILEMD5_VER)
         jsonFilePath = os.path.join(self.publish_dir, "hall", jsonFileName32);
         with open(jsonFilePath, "w+") as file:
-            file.write(filelistJsonStr32);
+            file.write(new_filelistJsonStr32);
 
         md532 = self._fileMd5(jsonFilePath);
 
         '''
         64
         '''
-        jsonFileName64 = "%s_64_filemd5.json" % (hallName)
+        jsonFileName64 = "%s_64_filemd5_V%s.json" % (hallName,FILEMD5_VER)
         jsonFilePath = os.path.join(self.publish_dir, "hall", jsonFileName64);
         with open(jsonFilePath, "w+") as file:
-            file.write(filelistJsonStr64);
+            file.write(new_filelistJsonStr64);
 
         md564 = self._fileMd5(jsonFilePath);
 
         '''
         make a version.file 
         '''
-        version_file = os.path.join(self.publish_dir,"hall","%s_version.lua" % (hallName));
+        version_file = os.path.join(self.publish_dir, "hall", "%s_version_V%s.lua" % (hallName,FILEMD5_VER));
         try:
             filecontent = '''
-return {
-    RELEASE_TIME = "%s";
-    version = "%s";
-    minhall = %s;
-    md532 = '%s';
-    md564 = '%s';
-    
-}
-            ''' % (
+    return {
+        RELEASE_TIME = "%s";
+        version = "%s";
+        minhall = %s;
+        md532 = '%s';
+        md564 = '%s';
+
+    }
+                ''' % (
                 self.make_time,
                 self.curChConfig.vname,
                 self.curChConfig.hallnum,
@@ -2346,14 +2649,13 @@ return {
                 md564
             )
 
-            with open (version_file,"wb") as file:
+            with open(version_file, "wb") as file:
                 content = convertToCRLF(bytearray(filecontent.encode('utf8')));
                 file.write(bytearray(content));
 
             pass
         except Exception as err:
             errmsg(err);
-
 
     def makeHallGameMd5(self,hallName,isMakeAssets = False):
         print ("Make Game Md5Files.json for Hall %s" % (hallName));
@@ -2382,8 +2684,17 @@ return {
             gameDir = os.path.join(self.publish_dir, "game");
             gameDirLen = len(gameDir) + 1;
 
-            list32  = {};
-            list64  = {};
+            '''
+            old list
+            '''
+            list32 = {};
+            list64 = {};
+
+            '''
+            new list
+            '''
+            new_list32 = {};
+            new_list64 = {};
 
             '''
             32src
@@ -2412,6 +2723,11 @@ return {
 
                     filepathMd5 = self._fileMd5(filepath);
                     list32[filepathGame] = filepathMd5;
+
+                    new_list32[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
             '''
             src64
             '''
@@ -2439,6 +2755,11 @@ return {
                     filepathMd5 = self._fileMd5(filepath);
                     list64[filepathGame] = filepathMd5;
 
+                    new_list64[filepathGame] = {
+                        "md5": filepathMd5,
+                        "size": os.path.getsize(filepath),
+                    }
+
             '''
             res
             '''
@@ -2457,6 +2778,16 @@ return {
                         list32[filepathGame] = filepathMd5;
                         list64[filepathGame] = filepathMd5;
 
+                        new_list32[filepathGame] = {
+                            "md5": filepathMd5,
+                            "size": os.path.getsize(filepath),
+                        }
+
+                        new_list64[filepathGame] = {
+                            "md5": filepathMd5,
+                            "size": os.path.getsize(filepath),
+                        }
+
                     '''
                     res style
                     '''
@@ -2464,25 +2795,66 @@ return {
                         list32[filepathGame] = filepathMd5;
                         list64[filepathGame] = filepathMd5;
 
+                        new_list32[filepathGame] = {
+                            "md5": filepathMd5,
+                            "size": os.path.getsize(filepath),
+                        }
 
-            filelistJsonStr32   = JsonEncodeWithOrder(list32);
-            filelistJsonStr64   = JsonEncodeWithOrder(list64);
+                        new_list64[filepathGame] = {
+                            "md5": filepathMd5,
+                            "size": os.path.getsize(filepath),
+                        }
+
+            '''
+            ===========================================================================================
+            == old version filemd5.json
+            ===========================================================================================
+            '''
+
+            if COMPAT_WITH_OLDFILEMD5:
+                filelistJsonStr32   = JsonEncodeWithOrder(list32);
+                filelistJsonStr64   = JsonEncodeWithOrder(list64);
+
+                '''
+                32
+                '''
+                jsonFileName32 = "%s_32_filemd5.json" % (hallName)
+                jsonFilePath = os.path.join(self.publish_dir, "game", gname, jsonFileName32);
+                with open(jsonFilePath, "w+") as file:
+                    file.write(filelistJsonStr32);
+
+                '''
+                64
+                '''
+                jsonFileName64 = "%s_64_filemd5.json" % (hallName)
+                jsonFilePath = os.path.join(self.publish_dir, "game", gname, jsonFileName64);
+                with open(jsonFilePath, "w+") as file:
+                    file.write(filelistJsonStr64);
+
+            '''
+            ===========================================================================================
+            == new version filemd5.json 
+            ===========================================================================================
+            '''
+            new_filelistJsonStr32   = JsonEncodeWithOrder(new_list32);
+            new_filelistJsonStr64   = JsonEncodeWithOrder(new_list64);
 
             '''
             32
             '''
-            jsonFileName32 = "%s_32_filemd5.json" % (hallName)
+            jsonFileName32 = "%s_32_filemd5_V%s.json" % (hallName,FILEMD5_VER)
             jsonFilePath = os.path.join(self.publish_dir, "game", gname, jsonFileName32);
             with open(jsonFilePath, "w+") as file:
-                file.write(filelistJsonStr32);
+                file.write(new_filelistJsonStr32);
 
             '''
             64
             '''
-            jsonFileName64 = "%s_64_filemd5.json" % (hallName)
+            jsonFileName64 = "%s_64_filemd5_V%s.json" % (hallName,FILEMD5_VER)
             jsonFilePath = os.path.join(self.publish_dir, "game", gname, jsonFileName64);
             with open(jsonFilePath, "w+") as file:
-                file.write(filelistJsonStr64);
+                file.write(new_filelistJsonStr64);
+
 
     def makeAllHallsGameMd5(self):
         try:
@@ -2694,7 +3066,7 @@ return {
 
             platconfig = self.getPlatSettings();
 
-            config_str = "-- NewPackMan V%d ;\n" % PackManVersion();
+            config_str = "-- NewPackMan V%d ;\n" % PACKMAN_VER;
             config_str += '''CONFIG_API                = 0x%08x;\n''' % luaChConfig.channel;
             config_str += '''ENCRYPT_CHAR              = "%s";\n''' % luaChConfig.encrypt_char;
             config_str += '''PACKAGENAME               = "%s";\n''' % luaChConfig.name;
@@ -2866,7 +3238,7 @@ get_SRV_CONFIG(USE_LOCAL and 2 or 3)
 
     def syncVersionFile(self,filepath,app_version):
         with open(filepath, "wb") as file:
-            config_str = '''--NewPackMan v%d \n''' % PackManVersion();
+            config_str = '''--NewPackMan v%d \n''' % PACKMAN_VER;
             config_str += '''return {\n''';
             config_str += '''   CONFIG_VERSION = "%s";\n''' % app_version;
             config_str += '''   CONFIG_HALLNUM = %s;\n''' % str(self.curChConfig.hallnum);
@@ -2910,7 +3282,7 @@ const char *BUGLY_ANDROID_APPID = "%s";
 const char *BUGLY_IOS_APPID     = "%s";
 
 #endif
-        ''' % (PackManVersion(), new_app_version, android_bugly, ios_bugly);
+        ''' % (PACKMAN_VER, new_app_version, android_bugly, ios_bugly);
 
         try:
             file = open(filepath, "w+", encoding='utf-8');
